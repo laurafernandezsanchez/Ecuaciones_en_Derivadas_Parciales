@@ -1,0 +1,1682 @@
+
+
+\section{Introducción. Modelo de advección. Familias biparamétricas}
+
+\subsection{Recordatorio Preliminar: Regla de Leibniz}
+
+Antes de abordar las EDPs, recordemos un resultado fundamental del cálculo integral paramétrico que utilizaremos para deducir leyes de conservación.
+
+\begin{observacion}{Derivación bajo el signo integral (Regla de Leibniz)}
+    Sea $f(\lambda, t)$ una función continua con derivada parcial $\frac{\partial f}{\partial \lambda}$ continua en un dominio $L \times [a,b]$.
+    \begin{itemize}
+        \item Si los límites son constantes:
+        \[ F(\lambda) = \int_a^b f(\lambda, t) \, dt \implies F'(\lambda) = \int_a^b \frac{\partial f}{\partial \lambda}(\lambda, t) \, dt. \]
+        \item \textbf{Caso General (Límites variables):} Si los límites de integración dependen del parámetro, $\Psi(\lambda)$ y $\varphi(\lambda)$, definimos $G(\lambda) = \int_{\varphi(\lambda)}^{\Psi(\lambda)} f(\lambda, t) \, dt$. Entonces:
+        \[
+        \frac{dG}{d\lambda} = \int_{\varphi(\lambda)}^{\Psi(\lambda)} \frac{\partial f}{\partial \lambda}(\lambda, t) \, dt + f(\lambda, \Psi(\lambda))\Psi'(\lambda) - f(\lambda, \varphi(\lambda))\varphi'(\lambda).
+        \]
+    \end{itemize}
+\end{observacion}
+
+\subsection{Aplicación: El Modelo de Advección}
+
+Consideremos un problema físico de transporte en una dimensión.
+\begin{itemize}
+    \item $u(x,t)$: Concentración de una sustancia (contaminante) en la posición $x$ y tiempo $t$.
+    \item $c$: Velocidad constante del fluido (arrastre).
+    \item \textbf{Hipótesis:} No hay difusión (el contaminante no se crea, ni se destruye, ni se dispersa; solo se traslada).
+\end{itemize}
+
+\begin{observacion}{Deducción de la Ecuación de Advección}
+    Consideremos un tramo arbitrario $[0, b]$. La cantidad total de sustancia en el instante $t$ es $\int_0^b u(x,t) \, dx$.
+    Tras un intervalo de tiempo $h$, el fluido se ha desplazado una distancia $ch$. Por la ley de conservación de la masa:
+    \[
+        \underbrace{\int_0^b u(x,t) \, dx}_{\text{Masa en } t} = \underbrace{\int_{ch}^{b+ch} u(x, t+h) \, dx}_{\text{Masa desplazada en } t+h}
+    \]
+    Definimos la función auxiliar $E(h) = \int_{ch}^{b+ch} u(x, t+h) \, dx - \int_0^b u(x,t) \, dx \equiv 0$. Derivamos respecto a $h$ en $h=0$ usando la regla de Leibniz:
+    \[
+        \frac{d}{dh}\left( \int_{ch}^{b+ch} u(x, t+h) \, dx \right)\Bigg|_{h=0} = \int_0^b \frac{\partial u}{\partial t}(x,t) \, dx + c \cdot u(b,t) - c \cdot u(0,t) = 0.
+    \]
+    Usando el Teorema Fundamental del Cálculo ($u(b,t) - u(0,t) = \int_0^b u_x(x,t) dx$):
+    \[
+        \int_0^b \left( \frac{\partial u}{\partial t} + c \frac{\partial u}{\partial x} \right) \, dx = 0.
+    \]
+    Como el intervalo $[0,b]$ es arbitrario, el integrando debe ser nulo, obteniendo la \textbf{Ecuación del Transporte o Advección}:
+    \begin{equation}
+        \frac{\partial u}{\partial t} + c \frac{\partial u}{\partial x} = 0
+    \end{equation}
+\end{observacion}
+
+\begin{observacion}{Solución General}
+    Sabemos que la solución general es de la forma $u(x,t) = f(x-ct)$. Si imponemos una condición inicial $u(x,0) = u_0(x)$, la solución única es $u(x,t) = u_0(x-ct)$.
+\end{observacion}
+
+\section{Familias Biparamétricas de Curvas}
+
+Consideremos un sistema que define una familia de curvas en el espacio, dependiente de dos parámetros $C_1$ y $C_2$:
+
+\[
+\begin{cases}
+    F(x,y,z, C_1, C_2) = 0 \\
+    G(x,y,z, C_1, C_2) = 0
+\end{cases}
+\]
+donde:
+\begin{itemize}
+    \item $(x,y,z) \in \Omega$, siendo $\Omega \subseteq \mathbb{R}^3$ un conjunto abierto.
+    \item $C_1, C_2$ son constantes arbitrarias.
+    \item $F, G \in \mathcal{C}^1(\Omega \times \mathcal{A})$, con $\mathcal{A} \subseteq \mathbb{R}^2$ el dominio de los parámetros.
+\end{itemize}
+Supongamos que un punto $P(x_0, y_0, z_0)$ satisface ambas ecuaciones.
+
+\begin{itemize}
+    \item \textbf{Definición de curva:} Podemos definir una curva localmente (por ejemplo, en forma paramétrica con parámetro $x$) si el Jacobiano respecto a $y,z$ es no nulo:
+    \[
+    \begin{vmatrix}
+        \frac{\partial F}{\partial y} & \frac{\partial F}{\partial z} \\
+        \frac{\partial G}{\partial y} & \frac{\partial G}{\partial z}
+    \end{vmatrix} \neq 0
+    \implies
+    \begin{cases}
+        x = x \\
+        y = \psi_1(x, C_1, C_2) \\
+        z = \psi_2(x, C_1, C_2)
+    \end{cases}
+    \quad \text{(en un entorno de } x_0 \text{)}
+    \]
+
+    \item \textbf{Inversión de parámetros:} Se pueden despejar las constantes $C_1$ y $C_2$ en función de las coordenadas si el Jacobiano respecto a los parámetros es no nulo:
+    \[
+    \begin{vmatrix}
+        \frac{\partial F}{\partial C_1} & \frac{\partial F}{\partial C_2} \\
+        \frac{\partial G}{\partial C_1} & \frac{\partial G}{\partial C_2}
+    \end{vmatrix} \neq 0
+    \implies
+    \begin{cases}
+        C_1 = f(x,y,z) \\
+        C_2 = g(x,y,z)
+    \end{cases}
+    \quad \text{(en un entorno de } P \text{)}
+    \]
+\end{itemize}
+
+\subsection*{Generación de Superficies}
+
+En la familia biparamétrica, seleccionamos una subfamilia imponiendo una relación funcional (familia monoparamétrica):
+\[ \Phi(C_1, C_2) = 0 \quad \text{o bien} \quad C_2 = \Psi(C_1). \]
+Estas curvas, al moverse en el espacio, generan una superficie. Sustituyendo las expresiones obtenidas para los parámetros:
+
+\[
+\left.
+\begin{aligned}
+    C_1 &= f(x,y,z) \\
+    C_2 &= g(x,y,z) \\
+    \Phi(C_1, C_2) &= 0
+\end{aligned}
+\right\} \implies \boxed{\Phi(f(x,y,z), g(x,y,z)) = 0}
+\]
+
+\begin{observacion}{Interpretación Geométrica}
+    La ecuación obtenida $\Phi(f,g)=0$ representa el conjunto de superficies generadas por las curvas de la familia monoparamétrica $\Phi(C_1, C_2) = 0$.
+\end{observacion}
+
+\begin{definicion}{Terminología}
+    \begin{itemize}
+        \item Las curvas de la familia monoparamétrica que forman la superficie se llaman \textbf{curvas generatrices} o \textbf{características}.
+        \item En contraposición, una curva se denomina \textbf{directriz} si no es una generatriz, pero tiene la propiedad de que \textbf{todas las generatrices pasan por ella} (intersecan a la directriz).
+    \end{itemize}
+\end{definicion}
+
+Si seleccionamos una subfamilia imponiendo una relación funcional entre los parámetros, digamos $\Phi(C_1, C_2) = 0$ (o $C_2 = \Psi(C_1)$), generamos una superficie.
+
+
+\subsubsection{Ejemplos de construcción de superficies}
+
+\begin{ejemplo}{Conos (Haces de rectas)}
+    Consideramos la familia de rectas que pasan por el origen:
+    \[ \begin{cases} C_2 x - C_1 y = 0 \implies C_2 = C_1 \frac{y}{x} \\ x - C_1 z = 0 \implies C_1 = \frac{x}{z} \end{cases} \]
+    Despejando los parámetros: $C_1 = \frac{x}{z}$ y $C_2 = \frac{y}{z}$.
+    Cualquier relación $\Phi(C_1, C_2) = 0$ genera una superficie cónica de la forma $\Phi\left(\frac{x}{z}, \frac{y}{z}\right) = 0$.
+\end{ejemplo}
+
+\begin{ejemplo}{Hiperboloide (Superficie de Revolución)}
+    Sea la familia:
+    \[ \begin{cases} x^2 + y^2 - C_1 = 0 \implies C_1 = x^2 + y^2 \\ z - C_2 = 0 \implies C_2 = z \end{cases} \]
+    Queremos hallar la superficie integral que tiene como \textbf{directriz} la curva $\gamma: \{x=z, y=1\}$.
+    \begin{enumerate}
+        \item Evaluamos los parámetros sobre la directriz $\gamma$:
+        \[ C_1 = x^2 + 1 = z^2 + 1, \quad C_2 = z. \]
+        \item Buscamos la relación entre $C_1$ y $C_2$:
+        \[ C_1 = C_2^2 + 1 \implies \Phi(C_1, C_2) = C_1 - C_2^2 - 1 = 0. \]
+        \item Sustituimos $C_1, C_2$ por sus funciones originales $f(x,y,z)$ y $g(x,y,z)$:
+        \[ (x^2 + y^2) - z^2 - 1 = 0 \implies x^2 + y^2 - z^2 = 1. \]
+    \end{enumerate}
+    El resultado es un hiperboloide de una hoja.
+\end{ejemplo}
+
+
+\subsection{Relación con Ecuaciones en Derivadas Parciales de Primer Orden}
+
+A continuación, pondremos en relación estas familias biparamétricas de curvas con ciertas EDPs.
+
+Dada $\Phi(f(x,y,z), g(x,y,z)) = 0$ una superficie engendrada por el haz, supongamos que $f,g \in \mathcal{C}^1(\Omega)$. Aplicando el Teorema de la Función Implícita obtenemos $z=u(x,y)$. Derivamos respecto a $x$ e $y$:
+
+\[
+\begin{cases}
+\frac{\partial \Phi}{\partial f} \left( \frac{\partial f}{\partial x} + \frac{\partial f}{\partial z} \cdot \frac{\partial z}{\partial x} \right) + \frac{\partial \Phi}{\partial g} \left( \frac{\partial g}{\partial x} + \frac{\partial g}{\partial z} \cdot \frac{\partial z}{\partial x} \right) = 0 \\[3mm]
+\frac{\partial \Phi}{\partial f} \left( \frac{\partial f}{\partial y} + \frac{\partial f}{\partial z} \cdot \frac{\partial z}{\partial y} \right) + \frac{\partial \Phi}{\partial g} \left( \frac{\partial g}{\partial y} + \frac{\partial g}{\partial z} \cdot \frac{\partial z}{\partial y} \right) = 0
+\end{cases}
+\]
+
+Si queremos que haya soluciones no triviales para $(\Phi_f, \Phi_g)$, imponemos que el determinante del sistema sea cero:
+\[
+\begin{vmatrix}
+\frac{\partial f}{\partial x} + \frac{\partial f}{\partial z} \frac{\partial z}{\partial x} & \frac{\partial g}{\partial x} + \frac{\partial g}{\partial z} \frac{\partial z}{\partial x} \\[2mm]
+\frac{\partial f}{\partial y} + \frac{\partial f}{\partial z} \frac{\partial z}{\partial y} & \frac{\partial g}{\partial y} + \frac{\partial g}{\partial z} \frac{\partial z}{\partial y}
+\end{vmatrix} = 0
+\]
+
+Desarrollando el determinante y agrupando términos mediante los Jacobianos $\frac{D(f,g)}{D(\cdot, \cdot)}$, obtenemos:
+
+\[
+\frac{D(f,g)}{D(y,z)} \cdot \frac{\partial z}{\partial x} + \frac{D(f,g)}{D(z,x)} \cdot \frac{\partial z}{\partial y} = \frac{D(f,g)}{D(x,y)}
+\]
+
+\begin{observacion}{Interpretación Vectorial}
+    Esta es la \textbf{EDP asociada} a la familia $\Phi(f,g)=0$. Se puede reescribir como producto escalar:
+    \[ \vec{V} \cdot \vec{N} = 0 \]
+    donde:
+    \begin{itemize}
+        \item $\vec{N} = (\frac{\partial z}{\partial x}, \frac{\partial z}{\partial y}, -1)$ es el vector normal a la superficie $z=u(x,y)$.
+        \item $\vec{V} = (a, b, c) = \left( \frac{D(f,g)}{D(y,z)}, \frac{D(f,g)}{D(z,x)}, \frac{D(f,g)}{D(x,y)} \right)$ es el vector tangente.
+    \end{itemize}
+    Esto expresa la condición común que deben satisfacer los planos tangentes: el vector $\vec{V}$ es tangente a las superficies generadas por el haz.
+\end{observacion}
+\begin{proposicion}{La EDP Lineal/Cuasilineal}
+    Desarrollando el determinante anterior, obtenemos una ecuación de la forma:
+    \begin{equation}
+        a(x,y,z) \frac{\partial z}{\partial x} + b(x,y,z) \frac{\partial z}{\partial y} = c(x,y,z)
+    \end{equation}
+    donde los coeficientes $a, b, c$ vienen dados por los Jacobianos de la transformación:
+    \[ a = \frac{\partial(f,g)}{\partial(y,z)}, \quad b = \frac{\partial(f,g)}{\partial(z,x)}, \quad c = \frac{\partial(f,g)}{\partial(x,y)}. \]
+\end{proposicion}
+
+\begin{observacion}{Interpretación Geométrica}
+    La ecuación anterior se puede escribir como producto escalar:
+    \[ (a, b, c) \cdot (p, q, -1) = 0 \iff \vec{V} \cdot \vec{N} = 0. \]
+    Esto significa que el campo vectorial $\vec{V}=(a,b,c)$ es \textbf{tangente} a la superficie integral en todo punto. Las curvas integrales de este campo $\vec{V}$ son precisamente las características.
+\end{observacion}
+
+
+\section{Ecuaciones Cuasi-Lineales de Primer Orden (EQL)}
+
+\subsection{Definición y Estructura}
+
+Como vimos anteriormente, al desarrollar el determinante de la familia biparamétrica, obtenemos una estructura común para las ecuaciones de primer orden.
+
+\begin{definicion}{Ecuación Cuasi-Lineal (EQL)}
+    Una ecuación en derivadas parciales de primer orden se dice \textbf{cuasi-lineal} si es lineal respecto a las derivadas parciales de la función incógnita $z(x,y)$. Su forma general es:
+    \begin{equation}
+        a(x,y,z) \frac{\partial z}{\partial x} + b(x,y,z) \frac{\partial z}{\partial y} = c(x,y,z)
+    \end{equation}
+    donde los coeficientes $a, b, c \in \mathcal{C}^1(\Omega)$ están definidos en un abierto $\Omega \subseteq \mathbb{R}^3$. Se asume la condición de no degeneración $|a| + |b| \neq 0$ en $\Omega$.
+\end{definicion}
+
+Buscamos una solución $z = \phi(x,y)$ definida en un abierto $D \subseteq \mathbb{R}^2$, tal que su gráfico $\mathcal{S} = \{(x,y,\phi(x,y)) : (x,y) \in D\}$ esté contenido en $\Omega$ y satisfaga la ecuación idénticamente.
+
+\begin{observacion}{Carácter Local de la solución}
+Dos soluciones $(\phi_1,\Omega_1)$ y $(\phi_2,\Omega_2)$, diremos que son iguales si se cumple que $\phi_1|_{\Omega_1 \cap \Omega_2} = \phi_2|_{\Omega_1 \cap \Omega_2} $
+
+La función incógnita se podrá poner en forma de superficie poniendo $z = \phi(x,y)$. 
+\end{observacion}
+\begin{definicion}{Superficie Integral}
+    A la solución de (2.3) le llamaremos \textbf{superficie integral de la EQL}
+\end{definicion}
+
+\subsection{Interpretación Geométrica}
+
+Los coeficientes de la EQL definen un campo vectorial en $\Omega$:
+\[ \vec{V}(x,y,z) = (a(x,y,z), b(x,y,z), c(x,y,z)). \]
+Sabemos que un vector normal a la superficie integral $z = \phi(x,y)$ es:
+\[ \vec{N} = \left( \frac{\partial \phi}{\partial x}, \frac{\partial \phi}{\partial y}, -1 \right). \]
+La ecuación diferencial se puede reescribir como un producto escalar:
+\[
+a \frac{\partial \phi}{\partial x} + b \frac{\partial \phi}{\partial y} - c = 0 \iff (a,b,c) \cdot \left( \frac{\partial \phi}{\partial x}, \frac{\partial \phi}{\partial y}, -1 \right) = 0 \iff \vec{V} \cdot \vec{N} = 0.
+\]
+\begin{observacion}{Condición de Tangencia}
+    La condición $\vec{V} \cdot \vec{N} = 0$ implica que el vector normal $\vec{N}$ en cualquier punto $P$ de la superficie integral es perpendicular al vector $\vec{V}$.
+    Por tanto, $\vec{V} = (a,b,c)$ es un vector \textbf{tangente} a la superficie integral en todo punto.
+    Esto sugiere que las superficies integrales están "tejidas" por curvas que son tangentes al campo $\vec{V}$. Este campo de vectores tangentes a la superficie integral son las \textbf{direcciones características} que dan lugar a las \textbf{curvas características.}
+\end{observacion}
+
+\subsection{Construcción de las Curvas Características}
+
+Nos preguntamos: \textbf{¿Cómo construimos analíticamente estas curvas?}
+
+Sea $\gamma$ una curva integral parametrizada por $t \in I \subseteq \mathbb{R}$:
+\[
+\gamma: I \to \mathbb{R}^3, \quad t \mapsto \gamma(t) = (x(t), y(t), z(t))
+\]
+cuyo vector tangente en cada punto es $\gamma'(t) = (x'(t), y'(t), z'(t))$.
+
+\subsubsection*{Condición de Paralelismo}
+
+Para que $\gamma$ sea una curva característica, su vector tangente debe ser paralelo al campo vectorial de coeficientes $\vec{V} = (a, b, c)$ en todo punto.
+\[
+\gamma'(t) \parallel \vec{V}(\gamma(t)) \implies (x', y', z') = \lambda(t) \cdot (a, b, c)
+\]
+Esto se expresa tradicionalmente mediante la igualdad de razones:
+\[
+\frac{x'}{a(x,y,z)} = \frac{y'}{b(x,y,z)} = \frac{z'}{c(x,y,z)} = \lambda(t)
+\]
+
+\begin{observacion}{Reparametrización y el Sistema (SC)}
+    En la ecuación anterior aparece un factor de proporcionalidad $\lambda(t)$.
+    Sin embargo, mediante una \textbf{reparametrización conveniente} del parámetro $t$, podemos conseguir que el parámetro de proporcionalidad sea $\lambda(t) = 1$.
+    De este modo, buscamos una curva cuyo vector tangente sea \textbf{justamente} $(a,b,c)$.
+\end{observacion}
+
+Esto nos lleva directamente al \textbf{Sistema Característico (SC)} de Ecuaciones Diferenciales Ordinarias:
+
+\begin{equation}
+    (SC) \quad
+    \begin{cases}
+        \dfrac{dx}{dt} = a(x,y,z) \\[2mm]
+        \dfrac{dy}{dt} = b(x,y,z) \\[2mm]
+        \dfrac{dz}{dt} = c(x,y,z)
+    \end{cases}
+\end{equation}
+
+\begin{teorema}{Existencia y Unicidad de la Curva}
+    Si los coeficientes $a, b, c \in \mathcal{C}^1(\Omega)$, podemos aplicar la teoría general de EDOs (Teorema de Picard-Lindelöf).
+    
+    Dado un punto inicial $P_0 = (x_0, y_0, z_0) \in \Sigma$, si imponemos las condiciones iniciales:
+    \[ x(t_0) = x_0, \quad y(t_0) = y_0, \quad z(t_0) = z_0 \]
+    entonces el sistema tiene \textbf{solución única}.
+    
+    \textbf{Conclusión:} Por cada punto $P \in \Omega$ pasa una \textbf{única} curva característica (salvo reparametrización).
+\end{teorema}
+
+
+\begin{definicion}{Sistema Característico}
+    Sea $\gamma(t) = (x(t), y(t), z(t))$ una curva en el espacio. Diremos que es una \textbf{curva característica} de la EQL si su vector tangente es paralelo al campo de coeficientes $(a,b,c)$.
+    Esto nos lleva al sistema de EDOs autónomo:
+    \begin{equation}
+        \begin{cases}
+            x'(t) = a(x,y,z) \\
+            y'(t) = b(x,y,z) \\
+            z'(t) = c(x,y,z)
+        \end{cases}
+    \end{equation}
+    En notación de diferenciales, esto equivale a la condición de paralelismo:
+    \[ \frac{dx}{a} = \frac{dy}{b} = \frac{dz}{c}. \]
+\end{definicion}
+
+
+\subsubsection{Construcción de la Solución General}
+Para resolver el sistema característico, buscamos dos integrales primeras independientes funcionales, $K_1(x,y,z) = C_1$ y $K_2(x,y,z) = C_2$, constantes sobre las curvas características.
+La solución general de la EQL se expresa como una relación arbitraria entre estas constantes:
+\[ \Phi(K_1, K_2) = 0 \quad \text{o bien} \quad K_2 = \Psi(K_1). \]
+
+
+\begin{proposicion}{Esquema Resumen: Resolución de EQL}
+    El procedimiento general para resolver una ecuación cuasi-lineal $a u_x + b u_y = c$ mediante el método de las características se resume en el siguiente flujo:
+
+    \begin{center}
+    \renewcommand{\arraystretch}{1.6} % Espacio entre filas
+    \setlength{\tabcolsep}{4pt}       % Reduzco un poco el espacio entre columnas para que quepa mejor
+    
+    % Usamos tabularx con ancho \linewidth para que ocupe todo el ancho de la caja sin salirse
+    % c = centrado, c = centrado, X = columna flexible (ocupa el resto del espacio)
+    \begin{tabularx}{\linewidth}{c c >{\raggedright\arraybackslash}X} 
+        \textbf{1. Ecuación Original} & $\xrightarrow{\text{Asociar}}$ & \textbf{Sistema Característico (EDOs)} \\
+        \small{(EQL)} & & $\begin{cases} \frac{dx}{dt} = a(x,y,z) \\[1mm] \frac{dy}{dt} = b(x,y,z) \\[1mm] \frac{dz}{dt} = c(x,y,z) \end{cases}$ \\
+        \hline
+        \textbf{2. Integración} & $\xrightarrow{\text{Resolver}}$ & \textbf{Solución Paramétrica General} \\
+        \small{(Sin cond. iniciales)} & & $\begin{cases} x = X(t, c_1, c_2, c_3) \\ y = Y(t, c_1, c_2, c_3) \\ z = Z(t, c_1, c_2, c_3) \end{cases}$ \\
+        \hline
+        \textbf{3. Obtención de Invariantes} & $\xrightarrow[\text{el parámetro } t]{\text{Eliminar}}$ & \textbf{Integrales Primeras (Haz)} \\
+        \small{(Eliminar cte. arbitraria)} & & $\begin{cases} K_1(x,y,z) = C_1 \\ K_2(x,y,z) = C_2 \end{cases}$ \\
+        \hline
+        \textbf{4. Solución General} & $\xrightarrow[\text{Implícita}]{\text{Relación}}$ & \textbf{Superficie Integral} \\
+        \small{(Familia monoparamétrica)} & & $\boxed{\Phi(K_1, K_2) = 0}$ \quad o \quad $K_2 = \Psi(K_1)$ \\
+    \end{tabularx}
+    \end{center}
+
+    \textbf{Interpretación:} Lo que ocurre geométricamente es que la unión de estas curvas características "genera" la superficie solución $\Sigma$.
+\end{proposicion}
+\begin{observacion}{¿Por qué tenemos que eliminar el parámetro t?}
+
+Cuando resolvemos el sistema, obtenemos una curva característica parametrizada por $t$:
+\[
+\Gamma(t) = (x(t), y(t), u(t))
+\]
+Esta es una línea unidimensional en $\mathbb{R}^3$. Sin embargo, la solución de una Ecuación en Derivadas Parciales (EDP) de dos variables, $u(x, y)$, representa una \textbf{superficie} (una variedad de dimensión 2).
+
+El parámetro $t$ te dice en qué punto de la curva estás. Pero para definir una superficie, no te interesa saber "cuándo" pasaste por un punto, sino \textbf{qué puntos pertenecen a la forma geométrica}.
+
+Eliminar $t$ es, esencialmente, proyectar o colapsar la información temporal para quedarte solo con la traza geométrica de las características en el espacio $(x, y, u)$.
+
+Veámoslo de la siguiente manera:
+los invariantes 
+\[
+K_1(x, y, u) = C_1 \quad \text{y} \quad K_2(x, y, u) = C_2
+\]
+son funciones que permanecen constantes a lo largo de cada trayectoria característica.
+
+Si te mueves sobre una característica, $t$ cambia, pero $K_1$ y $K_2$ no. Por lo tanto, $K_1$ y $K_2$ actúan como etiquetas o  nombres para cada curva.
+
+\begin{itemize}
+    \item Si dejas $t$, estás describiendo el movimiento \textbf{dentro} de una curva.
+    \item Si eliminas $t$ y buscas una relación $\Phi(K_1, K_2) = 0$, estás seleccionando un \textbf{haz de curvas} que, juntas, tejen la superficie integral $\Sigma$.
+\end{itemize}
+
+
+
+Para definir un punto en una superficie en $\mathbb{R}^3$, necesitas 2 grados de libertad. En el método de las características, estos suelen ser:
+
+\begin{itemize}
+    \item \textbf{$t$:} El parámetro que te mueve a lo largo de la curva.
+    \item \textbf{$s$:} Un parámetro que te mueve de una curva a otra (normalmente introducido por la curva directriz $\gamma$).
+\end{itemize}
+
+La solución final $u(x, y)$ debe ser una función que dependa únicamente de las coordenadas espaciales $x$ e $y$. Si $t$ permaneciera en la ecuación, $u$ sería una función de $(x, y, t)$, lo cual carece de sentido para el problema original, ya que $t$ es una variable auxiliar que nosotros inventamos para convertir la EDP en un sistema de EDOs.
+\end{observacion}
+
+
+\subsection{Relación entre Características y Superficies Integrales}
+\begin{teorema}{Propiedad Fundamental de las Superficies Integrales}
+    Toda superficie integral $S$, dada por $z = \phi(x,y)$, de la ecuación cuasi-lineal (EQL) está generada por curvas características. Es decir, si un punto $P_0 \in S$, la curva característica que pasa por $P_0$ está contenida enteramente en la superficie $S$.
+\end{teorema}
+
+\begin{proof}[\textbf{Demostración}]
+    Sea $z = \phi(x,y)$ una solución de la ecuación cuasi-lineal definida en un abierto $\Omega \subseteq \mathbb{R}^2$. Sea $P_0 = (x_0, y_0, z_0)$ un punto de la superficie $S$, de modo que $z_0 = \phi(x_0, y_0)$.
+
+    Consideramos la \textbf{curva característica} $\gamma(t) = (x(t), y(t), z(t))$ definida por el sistema característico:
+    \[
+    (SC) \quad
+    \begin{cases}
+        x'(t) = a(x, y, z) \\
+        y'(t) = b(x, y, z) \\
+        z'(t) = c(x, y, z)
+    \end{cases}
+    \]
+    con las condiciones iniciales $x(t_0) = x_0$, $y(t_0) = y_0$, $z(t_0) = z_0$. Sabemos que esta solución es \textbf{única} en un intervalo $(t_0 - \delta, t_0 + \delta)$.
+
+    Definimos la \textbf{función desviación} $U(t)$ como la diferencia entre la coordenada $z$ de la curva y el valor de la superficie en ese punto $(x(t), y(t))$:
+    \[
+        U(t) := z(t) - \phi(x(t), y(t)), \quad t \in (t_0 - \delta, t_0 + \delta).
+    \]
+    \textbf{Paso 1: Condición Inicial.}
+    Evaluamos en $t_0$:
+    \[
+        U(t_0) = z(t_0) - \phi(x(t_0), y(t_0)) = z_0 - \phi(x_0, y_0) = 0,
+    \]
+    ya que el punto $P_0$ pertenece a la superficie por hipótesis.
+
+    \textbf{Paso 2: Derivada Temporal.}
+    Derivamos $U(t)$ respecto a $t$ aplicando la regla de la cadena:
+    \[
+        \frac{dU}{dt} = z'(t) - \left[ \frac{\partial \phi}{\partial x}(x(t), y(t)) \cdot x'(t) + \frac{\partial \phi}{\partial y}(x(t), y(t)) \cdot y'(t) \right].
+    \]
+    Sustituimos las expresiones del sistema característico ($x'=a, y'=b, z'=c$):
+    \[
+        \frac{dU}{dt} = c(x, y, z) - \frac{\partial \phi}{\partial x} \cdot a(x, y, z) - \frac{\partial \phi}{\partial y} \cdot b(x, y, z).
+    \]
+    Como $z(t) = U(t) + \phi(x(t), y(t))$, sustituimos $z$ para convertirla en una ecuación autónoma en $U$:
+    \begin{equation} \label{eq:P}
+        \frac{dU}{dt} = c(x, y, U+\phi) - a(x, y, U+\phi)\phi_x - b(x, y, U+\phi)\phi_y = F(t, U).
+    \end{equation}
+    Como los coeficientes $a,b,c \in \mathcal{C}^1$, la función $F(t,U)$ es Lipschitziana respecto a $U$.
+
+    \textbf{Paso 3: Aplicación del Teorema de Unicidad.}
+    Consideramos el Problema de Valor Inicial para $U$:
+    \[ (\tilde{P}) \quad \begin{cases} \frac{dU}{dt} = F(t, U) \\ U(t_0) = 0 \end{cases} \]
+    Nos preguntamos: \textbf{¿Es $V(t) \equiv 0$ una solución?}
+    Sustituimos $V=0$ en la ecuación diferencial (\ref{eq:P}):
+    \[
+        \frac{dV}{dt} \overset{?}{=} c(x, y, \phi) - a(x, y, \phi)\phi_x - b(x, y, \phi)\phi_y.
+    \]
+    El lado derecho es \textbf{exactamente cero} porque $z = \phi(x,y)$ es solución de la EQL ($a\phi_x + b\phi_y = c$).
+    
+    Por tanto, $V(t) = 0$ es solución. Por el \textbf{Teorema de Picard-Lindelöf} (Existencia y Unicidad de EDOs), es la \textbf{única} solución.
+
+    \textbf{Conclusión:}
+    \[
+        U(t) \equiv 0 \implies z(t) - \phi(x(t), y(t)) = 0 \implies z(t) = \phi(x(t), y(t)).
+    \]
+    Esto significa que la curva característica $\gamma(t)$ permanece siempre sobre la superficie integral $S$.
+\end{proof}
+\begin{teorema}{Generación de Superficies}
+    \begin{enumerate}
+        \item Si una superficie $\mathcal{S}$ está generada por una familia uniparamétrica de curvas características, entonces $\mathcal{S}$ es una superficie integral de la EQL.
+        \item Recíprocamente, toda superficie integral $\mathcal{S}$ de la EQL está generada por curvas características. (Si un punto está en la superficie, toda la curva característica que pasa por él está contenida en la superficie).
+    \end{enumerate}
+\end{teorema}
+
+\begin{proposicion}{Intersección de Soluciones}
+    Si dos superficies integrales $\mathcal{S}_1$ y $\mathcal{S}_2$ tienen un punto $P$ en común, entonces comparten la curva característica entera que pasa por $P$.
+    Recíprocamente, si dos superficies integrales se cortan transversalmente a lo largo de una curva $\Gamma$, entonces $\Gamma$ es necesariamente una curva característica.
+\end{proposicion}
+
+\section{El Problema de Cauchy para Ecuaciones Cuasi-Lineales}
+
+Del conjunto infinito de soluciones de la Ecuación Cuasi-Lineal (EQL), queremos seleccionar una específica. Para ello, imponemos una condición geométrica adicional.
+
+\subsection{Planteamiento del Problema}
+
+Consideramos una curva $\Gamma$ en el espacio, denominada \textbf{curva directriz} o curva de datos iniciales. Parametrizamos esta curva en función de $s \in I \subseteq \mathbb{R}$:
+\[
+\Gamma: \begin{cases}
+    x = f(s) \\
+    y = g(s) \\
+    z = h(s)
+\end{cases}
+\]
+donde $f, g, h$ son funciones de clase $\mathcal{C}^1$ en un entorno de $s_0$.
+
+\begin{definicion}{Problema de Cauchy (PC)}
+    El problema consiste en encontrar una superficie integral $z = u(x,y)$ de la ecuación:
+    \[ a(x,y,u) u_x + b(x,y,u) u_y = c(x,y,u) \]
+    tal que contenga a la curva $\Gamma$. Es decir, que se cumpla la condición de compatibilidad:
+    \[ h(s) = u(f(s), g(s)), \quad \forall s \in I. \]
+\end{definicion}
+
+\begin{ejemplo}{Caso Particular (Condición Inicial Clásica)}
+    Si la curva directriz está sobre el plano $y=0$ (o $x=0$), el problema suele presentarse como:
+    \[
+    \begin{cases}
+        \text{(EQL)} \\
+        u(x,0) = \rho(x)
+    \end{cases}
+    \implies
+    \Gamma: \begin{cases} x=s \\ y=0 \\ z=\rho(s) \end{cases}
+    \]
+\end{ejemplo}
+
+\subsection{Teorema de Existencia y Unicidad}
+
+El siguiente resultado nos da las condiciones para asegurar que el problema tiene solución y que esta es única en un entorno local.
+
+\begin{teorema}{Existencia y Unicidad Local}
+    Sea $\Omega \subseteq \mathbb{R}^3$ un conjunto abierto y sea $P_0 = (x_0, y_0, z_0) \in \Omega$.
+    Consideramos el problema de Cauchy (PC) bajo las siguientes hipótesis:
+
+    \begin{enumerate}
+        \item \textbf{Regularidad de la Ecuación:} Los coeficientes $a, b, c \in \mathcal{C}^1(\Omega)$.
+        \item \textbf{Regularidad de la Curva:} Las funciones $f, g, h \in \mathcal{C}^1(s_0 - \delta, s_0 + \delta)$ con $\delta > 0$, tales que:
+        \[ f(s_0) = x_0, \quad g(s_0) = y_0, \quad h(s_0) = z_0. \]
+        \item \textbf{Condición de Transversalidad:} En el punto $P_0$ (correspondiente a $s_0$), el vector tangente a la proyección de la curva directriz $(f', g')$ \textbf{no es paralelo} al vector característico base $(a,b)$. Esto se expresa mediante el determinante:
+        \begin{equation}
+            \Delta(s_0) = \begin{vmatrix}
+                a(x_0, y_0, z_0) & b(x_0, y_0, z_0) \\
+                f'(s_0) & g'(s_0)
+            \end{vmatrix} \neq 0.
+        \end{equation}
+    \end{enumerate}
+
+    \textbf{Conclusión:} Entonces, el Problema de Cauchy tiene \textbf{solución única} $z = u(x,y)$ definida en un entorno $U$ del punto $(x_0, y_0)$.
+\end{teorema}
+
+\begin{observacion}{Interpretación Geométrica de la Transversalidad}
+    La condición $\Delta \neq 0$ implica que la proyección de la curva inicial $\Gamma$ sobre el plano $XY$ \textbf{no es tangente} a las curvas características proyectadas (curvas base).
+    \begin{itemize}
+        \item Si $\Delta \neq 0$: Las características "atraviesan" la curva inicial, generando una superficie bien definida.
+        \item Si $\Delta = 0$ en un punto: La curva inicial es tangente a una característica. El Teorema de la Función Inversa falla y no podemos despejar los parámetros.
+        \item Si $\Gamma$ es ella misma una curva característica: El problema puede tener infinitas soluciones o ninguna (dependiendo de la compatibilidad).
+    \end{itemize}
+\end{observacion}
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection*{(Demostración Constructiva)}
+
+
+Consideramos la parametrización obtenida al resolver el sistema característico:
+\[
+\begin{cases}
+    X = X(t,s) \\
+    Y = Y(t,s) \\
+    Z = Z(t,s)
+\end{cases}
+\]
+con las condiciones iniciales en $t=0$: $X(0,s)=f(s)$, $Y(0,s)=g(s)$, $Z(0,s)=h(s)$.
+
+Sabemos que $X, Y, Z$ satisfacen las ecuaciones características:
+\[
+\frac{\partial X}{\partial t} = a(X,Y,Z), \quad \frac{\partial Y}{\partial t} = b(X,Y,Z), \quad \frac{\partial Z}{\partial t} = c(X,Y,Z).
+\]
+Gracias a la condición de transversalidad, en un entorno de la curva inicial existe la transformación inversa:
+\[ t = T(x,y), \quad s = S(x,y). \]
+Definimos $u(x,y) = Z(T(x,y), S(x,y))$.
+
+\begin{proof}[Verificación de la EDP]
+Queremos comprobar que $a u_x + b u_y = c$.
+Derivamos $u$ respecto a $x$ e $y$ usando la regla de la cadena:
+\[ u_x = \frac{\partial Z}{\partial T} \frac{\partial T}{\partial x} + \frac{\partial Z}{\partial S} \frac{\partial S}{\partial x}, \quad u_y = \frac{\partial Z}{\partial T} \frac{\partial T}{\partial y} + \frac{\partial Z}{\partial S} \frac{\partial S}{\partial y}. \]
+Para hallar las parciales de $T$ y $S$, diferenciamos las identidades $x = X(T(x,y), S(x,y))$ e $y = Y(T(x,y), S(x,y))$ respecto a $x$:
+\[
+\begin{cases}
+    1 = X_t T_x + X_s S_x \\
+    0 = Y_t T_x + Y_s S_x
+\end{cases}
+\]
+Resolvemos este sistema lineal para $T_x$ y $S_x$ usando la Regla de Cramer. El determinante del sistema es el Jacobiano $J = X_t Y_s - X_s Y_t$ (que es no nulo por transversalidad).
+\[ T_x = \frac{Y_s}{J}, \quad S_x = \frac{-Y_t}{J}. \]
+Análogamente, derivando respecto a $y$:
+\[ T_y = \frac{-X_s}{J}, \quad S_y = \frac{X_t}{J}. \]
+Sustituimos estas expresiones en la ecuación original $a u_x + b u_y$:
+\begin{align*}
+    a u_x + b u_y &= X_t \left( Z_t \frac{Y_s}{J} + Z_s \frac{-Y_t}{J} \right) + Y_t \left( Z_t \frac{-X_s}{J} + Z_s \frac{X_t}{J} \right) \\
+    &= \frac{1}{J} \left[ X_t Z_t Y_s - X_t Z_s Y_t - Y_t Z_t X_s + Y_t Z_s X_t \right] \\
+    &= \frac{1}{J} \left[ Z_t (X_t Y_s - Y_t X_s) + Z_s (Y_t X_t - X_t Y_t) \right] \\
+    &= \frac{1}{J} \left[ Z_t \cdot J + 0 \right] = Z_t.
+\end{align*}
+Como $Z_t(t,s) = c(X,Y,Z)$, concluimos que $a u_x + b u_y = c$.
+\end{proof}
+
+\subsection{Ejemplos Prácticos Resueltos}
+
+\begin{ejemplo}{Resolución de un Problema de Cauchy (Tres Enfoques)}
+    Resolver el siguiente problema:
+    \[
+    \begin{cases}
+        u_x + y u_y = 0 \\
+        u(0,y) = f(y), \quad \text{donde } f \in \mathcal{C}^1(\mathbb{R})
+    \end{cases}
+    \]
+
+    \textbf{1. Método del Sistema Característico (Directo)}
+    
+    Planteamos el sistema de EDOs asociado a los coeficientes $(1, y, 0)$:
+    \[
+    \begin{cases}
+        x'(t) = 1 \implies x(t) = t + c_1 \\
+        y'(t) = y \implies y(t) = c_2 e^t \\
+        z'(t) = 0 \implies z(t) = c_3
+    \end{cases}
+    \]
+    Queremos que la curva pase por un punto genérico de la curva inicial $(0, y_0, f(y_0))$ en $t=0$:
+    \begin{itemize}
+        \item $x(0) = 0 \implies c_1 = 0 \implies x = t$.
+        \item $y(0) = y_0 \implies c_2 = y_0 \implies y = y_0 e^t$.
+        \item $z(0) = f(y_0) \implies c_3 = f(y_0) \implies z = f(y_0)$.
+    \end{itemize}
+    Eliminamos el parámetro $t$ y la constante $y_0$:
+    \[ t = x \implies y = y_0 e^x \implies y_0 = y e^{-x}. \]
+    Sustituyendo en la ecuación de $z$:
+    \[ z = f(y_0) \implies \boxed{u(x,y) = f(y e^{-x})}. \]
+
+    \textbf{Estudio de la Unicidad (Transversalidad):}
+    Comprobamos la condición sobre la curva inicial parametrizada como $x=0, y=s$:
+    \[
+    \Delta = \begin{vmatrix} a & b \\ f'(s) & g'(s) \end{vmatrix} = \begin{vmatrix} 1 & y_0 \\ 0 & 1 \end{vmatrix} = 1 \neq 0.
+    \]
+    Como el determinante es distinto de cero, tenemos todas las hipótesis para asegurar **Existencia y Unicidad**.
+
+    \hrulefill
+
+    \textbf{2. Método de los Invariantes (Solución General)}
+    
+    Buscamos la relación entre $y$ y $x$ eliminando $dt$:
+    \[ \frac{dx}{1} = \frac{dy}{y} \implies \int dy/y = \int dx \implies \ln|y| = x + C \implies y e^{-x} = C_1. \]
+    Para $z$, tenemos $dz=0 \implies z = C_2$.
+    
+    La solución general es de la forma $z = \phi(C_1)$, es decir:
+    \[ u(x,y) = \phi(y e^{-x}). \]
+    Aplicamos la condición inicial $u(0,y) = f(y)$:
+    \[ f(y) = \phi(y \cdot e^0) \implies \phi(y) = f(y). \]
+    Por tanto, la solución es $u(x,y) = f(y e^{-x})$.
+
+    \hrulefill
+
+    \textbf{3. Método Constructivo (Parametrización Completa)}
+    
+    Usando la demostración del Teorema de Cauchy. Parametrizamos la curva inicial como $\Gamma(s): (0, s, f(s))$.
+    Resolvemos el sistema característico con condiciones $x(0)=0, y(0)=s, z(0)=f(s)$:
+    \[
+    \begin{cases}
+        x(t,s) = t \\
+        y(t,s) = s e^t \\
+        z(t,s) = f(s)
+    \end{cases}
+    \]
+    Invertimos el cambio de variables (despejamos $s$ y $t$ en función de $x,y$):
+    \begin{itemize}
+        \item De la primera ec.: $t = x$.
+        \item De la segunda ec.: $y = s e^x \implies s = y e^{-x}$.
+    \end{itemize}
+    Sustituimos en $z(t,s)$:
+    \[ z = f(s) \implies \boxed{u(x,y) = f(y e^{-x})}. \]
+\end{ejemplo}
+
+\begin{ejemplo}{Coeficientes Variables}
+    \[ \begin{cases} y u_x + x u_y = xy \\ u(x,0) = x^2 \end{cases} \]
+    \textbf{Nota:} Asumimos $y u_x + x u_y = xy$ basándonos en las características $x'=y, y'=x, z'=xy$.
+    \begin{enumerate}
+        \item \textbf{Curvas características:}
+        \[ \frac{dx}{y} = \frac{dy}{x} = \frac{dz}{xy} \]
+        De la primera igualdad: $x dx = y dy \implies x^2 - y^2 = C_1$.
+        De $\frac{dz}{xy} = \frac{dy}{x} \implies dz = y dy \implies z = \frac{y^2}{2} + C_2 \implies C_2 = z - \frac{y^2}{2}$.
+        \item \textbf{Solución General:} $z - \frac{y^2}{2} = \phi(x^2 - y^2) \implies z = \frac{y^2}{2} + \phi(x^2 - y^2)$.
+        \item \textbf{Condición Inicial:} $u(x,0) = x^2$. Sustituimos $y=0, z=x^2$:
+        \[ x^2 = 0 + \phi(x^2) \implies \phi(\mu) = \mu. \]
+        \item \textbf{Solución Particular:}
+        \[ z = \frac{y^2}{2} + (x^2 - y^2) = x^2 - \frac{y^2}{2}. \]
+    \end{enumerate}
+\end{ejemplo}
+
+\begin{ejemplo}{Rotación (Círculos característicos)}
+    Hallar la superficie integral de $x u_y - y u_x = 0$ que pasa por la curva $x=0, z=y^2$.
+    \textbf{Resolución:}
+    \begin{itemize}
+        \item Características: $x' = -y, \, y' = x \implies x(t) = A \cos t + B \sen t$.
+        Invariante geométrico: $x x' + y y' = -xy + yx = 0 \implies x^2 + y^2 = C_1$.
+        \item Ecuación para $z$: $z' = 0 \implies z = C_2$.
+        \item Solución General: $z = \phi(x^2 + y^2)$.
+        \item Aplicando $x=0, z=y^2$: $y^2 = \phi(y^2) \implies \phi(r)=r$.
+        \item Solución: $u(x,y) = x^2 + y^2$ (Paraboloide de revolución).
+    \end{itemize}
+\end{ejemplo}
+\begin{ejemplo}{Resolución Constructiva: Ecuación No Homogénea}
+    Resolver el problema de Cauchy:
+    \[
+    \begin{cases}
+        x u_x + 2y u_y = u + x^2 \\
+        u(x,x) = 0 \quad (\text{Sobre la recta } y=x)
+    \end{cases}
+    \]
+
+    \textbf{1. Identificación y Parametrización}
+    \begin{itemize}
+        \item Coeficientes: $a(x,y,u)=x$, $b(x,y,u)=2y$, $c(x,y,u)=u+x^2$.
+        \item Curva inicial $\Gamma$: $x=s$, $y=s$, $z=0$ (pues $u(s,s)=0$).
+    \end{itemize}
+
+    \textbf{2. Condición de Transversalidad}
+    Evaluamos el determinante Jacobiano de la proyección en $t=0$:
+    \[
+    \Delta = \begin{vmatrix} a(x_0, y_0) & b(x_0, y_0) \\ f'(s_0) & g'(s_0) \end{vmatrix}
+    = \begin{vmatrix} x_0 & 2y_0 \\ 1 & 1 \end{vmatrix}
+    = x_0 - 2y_0.
+    \]
+    Como estamos sobre la recta $y=x$, tenemos $\Delta = x_0 - 2x_0 = -x_0$.
+    \begin{observacion}{OJO}
+        El determinante es distinto de cero si $x_0 \neq 0$. Por tanto, existe solución única en un entorno de cualquier punto de la recta inicial, excepto en el origen $(0,0)$.
+    \end{observacion}
+
+    \textbf{3. Sistema Característico}
+    \[
+    \begin{cases}
+        x' = x \implies x(t) = c_1 e^t \\
+        y' = 2y \implies y(t) = c_2 e^{2t} \\
+        z' = z + x^2 \implies z' - z = (c_1 e^t)^2 = c_1^2 e^{2t}
+    \end{cases}
+    \]
+    Para la ecuación de $z$, resolvemos la EDO lineal:
+    \begin{itemize}
+        \item Solución homogénea ($z' - z = 0$): $z_h = c_3 e^t$.
+        \item Solución particular ($z_p = A e^{2t}$): $2A e^{2t} - A e^{2t} = c_1^2 e^{2t} \implies A = c_1^2$.
+        \item Solución general: $z(t) = c_3 e^t + c_1^2 e^{2t}$.
+    \end{itemize}
+
+    \textbf{4. Aplicación de Condiciones Iniciales ($t=0$)}
+    Imponemos que la curva pase por $\Gamma(s)$ en $t=0$:
+    \[
+    \begin{cases}
+        x(0) = c_1 = s \\
+        y(0) = c_2 = s \\
+        z(0) = c_3 + c_1^2 = 0 \implies c_3 + s^2 = 0 \implies c_3 = -s^2
+    \end{cases}
+    \]
+    Sustituyendo las constantes, obtenemos la superficie paramétrica:
+    \[
+    \begin{cases}
+        x(t,s) = s e^t \\
+        y(t,s) = s e^{2t} \\
+        z(t,s) = -s^2 e^t + s^2 e^{2t}
+    \end{cases}
+    \]
+
+    \textbf{5. Inversión y Solución Final}
+    Necesitamos despejar $s$ y $t$ (o $e^t$) en función de $x, y$.
+    Observamos las ecuaciones de $x$ e $y$:
+    \[ \frac{y}{x} = \frac{s e^{2t}}{s e^t} = e^t \implies \boxed{e^t = \frac{y}{x}} \]
+    Sustituyendo $e^t$ en la ecuación de $x$:
+    \[ x = s \left(\frac{y}{x}\right) \implies \boxed{s = \frac{x^2}{y}} \]
+    
+    Finalmente, sustituimos $s$ y $e^t$ en la expresión de $z$:
+    \begin{align*}
+        z &= -s^2 e^t + s^2 e^{2t} \\
+          &= -\left(\frac{x^2}{y}\right)^2 \left(\frac{y}{x}\right) + \left(\frac{x^2}{y}\right)^2 \left(\frac{y}{x}\right)^2 \\
+          &= -\frac{x^4}{y^2} \cdot \frac{y}{x} + \frac{x^4}{y^2} \cdot \frac{y^2}{x^2} \\
+          &= -\frac{x^3}{y} + x^2
+    \end{align*}
+    
+    \textbf{Solución:} $\boxed{u(x,y) = x^2 - \frac{x^3}{y}}$.
+\end{ejemplo}
+
+%%% Más ejemplos, Ejercicio 5 del Tema 2 %%%
+
+\begin{ejemplo}{Resolución del Ejercicio 5 del Tema 2}
+    Resolver la ecuación en derivadas parciales:
+    \[ \frac{1}{y} u_x + u_y = \frac{e^{-x}}{x} u \]
+    con la condición inicial $u = h(x)$ sobre la recta $y = 1$ para $x > 0$.
+
+    \textbf{1. Identificación y Parametrización de la Curva Inicial}
+    Identificamos los coeficientes de la ecuación cuasi-lineal $a u_x + b u_y = c$:
+    \[ a(x,y,u) = \frac{1}{y}, \quad b(x,y,u) = 1, \quad c(x,y,u) = \frac{e^{-x}}{x} u \]
+    Parametrizamos la curva inicial $\Gamma(s)$ usando $x=s$ como parámetro ($s>0$):
+    \[
+    \begin{cases}
+        f(s) = s \\
+        g(s) = 1 \\
+        z_0(s) = h(s)
+    \end{cases}
+    \]
+
+    \begin{observacion}{Verificación del Teorema 2.4.1: Existencia y Unicidad Local}
+        Comprobamos las hipótesis del teorema sobre nuestra curva:
+        \begin{enumerate}
+            \item \textbf{Regularidad:} Los coeficientes $a, b, c$ y los datos $f, g, h$ son de clase $\mathcal{C}^1$ en el dominio $y > 0, x > 0$.
+            \item \textbf{Condición de Transversalidad:} Evaluamos el determinante en un punto genérico de la curva $P_0 = (s, 1, h(s))$:
+            \[
+            \Delta(s) = \begin{vmatrix} a(P_0) & b(P_0) \\ f'(s) & g'(s) \end{vmatrix} = \begin{vmatrix} \frac{1}{1} & 1 \\ 1 & 0 \end{vmatrix} = (1)(0) - (1)(1) = -1 \neq 0.
+            \]
+        \end{enumerate}
+        Como $\Delta(s) \neq 0$, el Teorema nos garantiza que \textbf{existe una única solución local} en un entorno de la curva inicial.
+    \end{observacion}
+
+    \textbf{2. Sistema Característico}
+    Planteamos el sistema de EDOs parametrizado por $t$:
+    \[
+    \begin{cases}
+        \frac{dx}{dt} = \frac{1}{y} \\[2mm]
+        \frac{dy}{dt} = 1 \\[2mm]
+        \frac{du}{dt} = \frac{e^{-x}}{x} u
+    \end{cases}
+    \]
+
+    \textbf{3. Integración y Aplicación de Condiciones Iniciales ($t=0$)}
+    \begin{itemize}
+        \item De la segunda ecuación: $\frac{dy}{dt} = 1 \implies y(t) = t + C_1$.
+        En $t=0$, $y(0) = 1 \implies C_1 = 1 \implies \boxed{y(t) = t + 1}$.
+
+        \item Sustituimos $y(t)$ en la primera ecuación: $\frac{dx}{dt} = \frac{1}{t+1} \implies x(t) = \ln(t+1) + C_2$.
+        En $t=0$, $x(0) = s \implies C_2 = s \implies \boxed{x(t) = \ln(t+1) + s}$.
+
+        \item Para la ecuación de $u$, notamos que $e^{-x(t)} = e^{-(\ln(t+1)+s)} = \frac{e^{-s}}{t+1}$.
+        Sustituyendo:
+        \[ \frac{du}{dt} = \frac{\frac{e^{-s}}{t+1}}{\ln(t+1)+s} u \implies \frac{du}{u} = \frac{e^{-s}}{(t+1)(\ln(t+1)+s)} dt \]
+        Hacemos el cambio de variable $w = \ln(t+1)+s \implies dw = \frac{1}{t+1} dt$:
+        \[ \int \frac{du}{u} = \int \frac{e^{-s}}{w} dw \implies \ln|u| = e^{-s} \ln|w| + C_3 \implies u(t,s) = K \cdot (\ln(t+1)+s)^{e^{-s}} \]
+        En $t=0$, $u(0,s) = h(s)$:
+        \[ h(s) = K \cdot (\ln(1)+s)^{e^{-s}} = K \cdot s^{e^{-s}} \implies K = h(s) s^{-e^{-s}} \]
+        Por tanto, la expresión paramétrica para $u$ es:
+        \[ \boxed{u(t,s) = h(s) \left( \frac{\ln(t+1) + s}{s} \right)^{e^{-s}}} \]
+    \end{itemize}
+
+    \textbf{4. Inversión y Solución Final}
+    Despejamos $t$ y $s$ en función de $x, y$:
+    \begin{itemize}
+        \item $t + 1 = y$.
+        \item $s = x - \ln(t+1) \implies \boxed{s = x - \ln y}$.
+    \end{itemize}
+    Sustituimos en la ecuación de $u(t,s)$:
+    \[ u(x,y) = h(x - \ln y) \left( \frac{\ln y + (x - \ln y)}{x - \ln y} \right)^{e^{-(x - \ln y)}} \]
+    Simplificamos el exponente: $e^{-(x - \ln y)} = e^{\ln y - x} = y e^{-x}$.
+    
+    \textbf{Solución analítica:}
+    \[ \boxed{u(x,y) = h(x - \ln y) \left( \frac{x}{x - \ln y} \right)^{y e^{-x}}} \]
+\end{ejemplo}
+
+
+
+
+
+%%%%%% NUEVA SECCIÓN %%%%%%% LA ENVOLVENTE %%%%%%%
+
+
+
+
+
+\section{Envolventes y Soluciones Singulares}
+En la teoría de familias de curvas y superficies, a veces aparece una solución que no se obtiene simplemente fijando las constantes arbitrarias de la solución general. Esta es la \textbf{envolvente}.
+\subsection{¿Qué es una Envolvente? (Intuición Geométrica)}
+
+Para entender la envolvente, imagina el proceso de dibujar arte con hilos (hilorama) o trazar infinitas líneas rectas sobre un papel con una regla, variando ligeramente el ángulo y la posición según una ley específica. Aunque solo has trazado líneas rectas (elementos simples), al observar el conjunto completo notarás que la intersección y acumulación de todas esas rectas recorta y hace emerger visualmente una curva suave y continua. Esa curva emergente es la \textbf{envolvente}. 
+
+Geométricamente, la envolvente de una familia uniparamétrica de curvas (o superficies) es una nueva variedad geométrica que cumple una propiedad definitoria: \textbf{en cada uno de sus puntos, es tangente a al menos un miembro de la familia original}. Es la frontera o el perfil geométrico que abraza a toda la familia.
+\subsection{Cálculo de Envolventes}
+\subsubsection{Deducción de la Ecuación de la Envolvente}
+
+Para calcular la envolvente de una familia uniparamétrica de curvas planas definida implícitamente por $\Phi(x,y,c) = 0$ (o explícitamente $y=y(x,c)$), buscamos el lugar geométrico de los puntos de tangencia.
+
+El sistema que define la envolvente (eliminando el parámetro $c$) es:
+\begin{equation}
+    \begin{cases}
+        \Phi(x,y,c) = 0 \\
+        \frac{\partial \Phi}{\partial c}(x,y,c) = 0
+    \end{cases}
+\end{equation}
+
+\begin{proof}[\textbf{Justificación (Derivación)}]
+    Supongamos que la envolvente se puede parametrizar suavemente por el propio parámetro $c$ como una curva $\gamma(c) = (x(c), y(c))$.
+    
+    1. Como la curva envolvente está contenida en la familia (es decir, para cada $c$, el punto $(x(c), y(c))$ satisface la ecuación de la curva correspondiente), tenemos la identidad:
+    \[ \Phi(x(c), y(c), c) = 0 \quad (1). \]
+    
+    2. Derivamos totalmente respecto a $c$ usando la Regla de la Cadena:
+    \begin{equation}
+        \frac{\partial \Phi}{\partial x} \frac{dx}{dc} + \frac{\partial \Phi}{\partial y} \frac{dy}{dc} + \frac{\partial \Phi}{\partial c} = 0 \quad (2).
+    \end{equation}
+    
+    3. \textbf{Condición de Tangencia:} La envolvente debe ser tangente a la curva de la familia en cada punto de contacto.
+    \begin{itemize}
+        \item La pendiente de la curva de la familia (para $c$ fijo) viene dada por el Teorema de la Función Implícita (asumiendo $\Phi_y \neq 0$):
+        \[ y'(x)_{\text{fam}} = - \frac{\partial \Phi / \partial x}{\partial \Phi / \partial y}. \]
+        \item La pendiente de la curva envolvente (parametrizada) es:
+        \[ y'(x)_{\text{env}} = \frac{dy/dc}{dx/dc}. \]
+    \end{itemize}
+    Igualando las pendientes (tangencia):
+    \[
+        \frac{dy/dc}{dx/dc} = - \frac{\Phi_x}{\Phi_y} \implies \Phi_y \frac{dy}{dc} = -\Phi_x \frac{dx}{dc} \implies \Phi_x \frac{dx}{dc} + \Phi_y \frac{dy}{dc} = 0.
+    \]
+    
+    4. Sustituyendo esta relación en la ecuación (2):
+    \[
+        \underbrace{\left( \frac{\partial \Phi}{\partial x} \frac{dx}{dc} + \frac{\partial \Phi}{\partial y} \frac{dy}{dc} \right)}_{=0} + \frac{\partial \Phi}{\partial c} = 0.
+    \]
+    Por tanto, llegamos a la condición necesaria:
+    \[ \frac{\partial \Phi}{\partial c} = 0. \]
+\end{proof}
+
+Generalizamos el concepto de envolvente para familias de superficies.
+
+
+\begin{definicion}{Envolvente de una Familia de Superficies}
+    Dada una familia uniparamétrica de superficies definida implícitamente por $\Phi(x,y,z,\lambda) = 0$, su envolvente es una superficie que es tangente a cada miembro de la familia a lo largo de una curva.
+    
+    Para hallar la ecuación de la envolvente, se debe eliminar el parámetro $\lambda$ del sistema:
+    \begin{equation}
+        \begin{cases}
+            \Phi(x,y,z,\lambda) = 0 \\
+            \frac{\partial \Phi}{\partial \lambda}(x,y,z,\lambda) = 0
+        \end{cases}
+    \end{equation}
+    Si la familia viene dada explícitamente por $z = g(x,y,\lambda)$, el sistema es $z = g$ y $\frac{\partial g}{\partial \lambda} = 0$.
+\end{definicion}
+
+\begin{proposicion}{Propiedades de la Envolvente}
+    \begin{enumerate}
+        \item Si $\Phi(x,y,z,\lambda)=0$ es una familia de soluciones de una EDP $F(x,y,z,p,q)=0$, entonces su envolvente también es solución de la EDP (solución singular).
+        \item Si una curva $\gamma(s)$ es tangente en cada punto a una superficie de la familia $\Phi(\cdot, \lambda(s))=0$, y la dependencia es suave, entonces $\gamma(s)$ está contenida en la envolvente.
+    \end{enumerate}
+\end{proposicion}
+
+\subsection{Ejemplos de Envolventes en EDOs y EDPs}
+Un ejemplo clásico en EDOs (extrapolable a EDPs) es la ecuación de Clairaut:
+\[ y = x y' + \psi(y'). \]
+Su solución general es la familia de rectas $y = Cx + \psi(C)$.
+Sin embargo, existe una \textbf{solución singular} que es la envolvente de esta familia de rectas. Se obtiene eliminando el parámetro $C$ del sistema:
+\[
+\begin{cases}
+    y = Cx + \psi(C) \\
+    0 = x + \psi'(C) \quad (\text{derivada respecto a } C)
+\end{cases}
+\]
+
+\begin{ejemplo}{Envolvente Parabólica}
+    Sea la familia de soluciones generales $y = Cx + C - C^2$.
+    Para hallar la envolvente, derivamos respecto a $C$:
+    \[ 0 = x + 1 - 2C \implies C = \frac{x+1}{2}. \]
+    Sustituimos este valor de $C$ en la ecuación original:
+    \[ y = \left(\frac{x+1}{2}\right)x + \left(\frac{x+1}{2}\right) - \left(\frac{x+1}{2}\right)^2 = \frac{(x+1)^2}{2} - \frac{(x+1)^2}{4} = \frac{(x+1)^2}{4}. \]
+    Esta parábola es solución de la ecuación diferencial, pero no es una recta (no pertenece a la familia general). Es la solución singular.
+\end{ejemplo}
+
+
+\begin{ejemplo}{Construcción de una Solución Singular}
+    Consideremos la familia de superficies:
+    \[ z = (x-\lambda)^2 + (y-\lambda)^2 \]
+    (Nota: En los apuntes hay una corrección, inicialmente parece $(y-1)^2$ pero el cálculo desarrollado corresponde a $(y-\lambda)^2$).
+    
+    \textbf{1. Ecuación Diferencial asociada:}
+    Derivamos respecto a $x$ e $y$:
+    \[ p = 2(x-\lambda), \quad q = 2(y-\lambda). \]
+    Sustituyendo en la ecuación original:
+    \[ z = \left(\frac{p}{2}\right)^2 + \left(\frac{q}{2}\right)^2 \implies 4z = p^2 + q^2. \]
+    Esta es una EDP no lineal. La familia dada es su solución completa.
+    
+    \textbf{2. Cálculo de la Envolvente:}
+    Derivamos la ecuación de la familia respecto a $\lambda$:
+    \[ \frac{\partial z}{\partial \lambda} = 2(x-\lambda)(-1) + 2(y-\lambda)(-1) = 0 \]
+    \[ -(x-\lambda) - (y-\lambda) = 0 \implies x+y - 2\lambda = 0 \implies \lambda = \frac{x+y}{2}. \]
+    Sustituimos este $\lambda$ en la ecuación original:
+    \begin{align*}
+        z &= \left( x - \frac{x+y}{2} \right)^2 + \left( y - \frac{x+y}{2} \right)^2 \\
+          &= \left( \frac{x-y}{2} \right)^2 + \left( \frac{y-x}{2} \right)^2 = 2 \cdot \frac{(x-y)^2}{4} = \frac{1}{2}(x-y)^2.
+    \end{align*}
+    La superficie $z = \frac{1}{2}(x-y)^2$ es la \textbf{solución singular} (la envolvente).
+\end{ejemplo}
+
+
+
+\begin{ejemplo}{Envolvente de una familia de planos}
+    Consideremos la familia de planos (Clairaut generalizado):
+    \[ z = \alpha x + \alpha^2 y \]
+    Aquí el parámetro es $\lambda = \alpha$.
+    \begin{enumerate}
+        \item Derivamos respecto al parámetro $\alpha$:
+        \[ 0 = x + 2\alpha y \implies \alpha = \frac{-x}{2y}. \]
+        \item Sustituimos en la ecuación de la familia:
+        \[ z = \left(\frac{-x}{2y}\right)x + \left(\frac{-x}{2y}\right)^2 y = \frac{-x^2}{2y} + \frac{x^2}{4y}. \]
+        \item Simplificamos:
+        \[ z = \frac{-2x^2 + x^2}{4y} = \frac{-x^2}{4y} \implies 4yz + x^2 = 0. \]
+    \end{enumerate}
+    La envolvente es la superficie $x^2 + 4yz = 0$.
+\end{ejemplo}
+
+\section{Ecuación General de Primer Orden}
+
+\subsection{Planteamiento del Problema}
+
+Estudiamos ahora la ecuación general en derivadas parciales de primer orden para una función incógnita $z(x,y)$, que puede ser no lineal.
+
+\begin{definicion}{Forma General}
+    La ecuación se presenta como:
+    \begin{equation}
+        F(x,y,z,p,q) = 0
+    \end{equation}
+    donde $p = \frac{\partial z}{\partial x}$ y $q = \frac{\partial z}{\partial y}$.
+    Suponemos que $F \in \mathcal{C}^2(\Omega)$ con $\Omega \subseteq \mathbb{R}^5$ y que se cumple la condición de no degeneración:
+    \[ |F_p| + |F_q| \neq 0 \]
+    (es decir, la ecuación depende realmente de al menos una derivada parcial).
+\end{definicion}
+\begin{observacion}{}
+    Esta condición de que  \[ |F_p| + |F_q| \neq 0 \] se pone para poder aplicar el \textit{Teorema de la Función Implícita } respecto p o respecto q (a alguna de las dos). Por ejemplo, si $F_q\neq0$, tendremos $q=\varphi(p).$
+\end{observacion}
+El \textbf{Problema de Cauchy} consiste en hallar una superficie integral $z=u(x,y)$ que pase por una curva dada $\Gamma(s) = (f(s), g(s), h(s))$.
+
+
+
+\subsection{Conos de Monge}
+Aquí radica la diferencia fundamental con el caso cuasi-lineal.
+Recordemos la ecuación del plano tangente a una superficie integral en un punto $P_0(x_0, y_0, z_0)$:
+\[ \pi: \quad z - z_0 = p(x - x_0) + q(y - y_0). \]
+
+\begin{itemize}
+    \item \textbf{Caso Cuasi-Lineal ($a p + b q = c$):}
+    En un punto fijo $P_0$, la ecuación impone una relación lineal entre $p$ y $q$. Esto significa que todos los posibles planos tangentes solución deben contener una recta fija (la dirección característica $(a,b,c)$). El "haz" de planos tangentes gira en torno a esta recta.
+    
+    \item \textbf{Caso General No Lineal ($F(x_0, y_0, z_0, p, q) = 0$):}
+    En un punto fijo $P_0$, la relación entre $p$ y $q$ ya no es lineal. Los posibles vectores normales $\vec{N}=(p,q,-1)$ no son coplanarios ni perpendiculares a una única dirección.
+    
+    El conjunto de planos tangentes admisibles en $P_0$ forma una familia uniparamétrica (podemos despejar $q = \Psi(p)$ localmente por el T.F.I.).
+    \[ z - z_0 = p(x - x_0) + \Psi(p)(y - y_0). \]
+    La \textbf{envolvente} de esta familia de planos tangentes en el punto fijo $P_0$ es una superficie cónica con vértice en $P_0$.
+\end{itemize}
+
+
+\begin{definicion}{Cono de Monge}
+    El \textbf{Cono de Monge} en $P_0$ se define como la \textbf{envolvente} de esta familia de planos tangentes admisibles. Geométricamente, representa las direcciones permitidas para las superficies integrales en ese punto.
+\end{definicion}
+
+
+\begin{observacion}{Relación con la Superficie Integral}
+    Una superficie $z = u(x,y)$ es \textbf{integral} si, en cada uno de sus puntos $P_0$, toca de forma tangencial al Cono de Monge de $P_0$.
+    
+    En ese caso, la generatriz del cono a través de la cual se produce el contacto con la superficie define una dirección sobre la misma, llamada \textbf{dirección característica}.
+\end{observacion}
+
+\begin{observacion}{Generatrices del Cono de Monge}
+    Para calcular sus generatrices, derivamos la ecuación del plano respecto al parámetro $p$:
+    \[
+    \begin{cases}
+        z - z_0 = p(x-x_0) + q(y-y_0) \quad (\text{Plano}) \\
+        0 = (x-x_0) + \frac{dq}{dp}(y-y_0) \quad (\text{Derivada})
+    \end{cases}
+    \]
+    Diferenciando implícitamente $F(P_0, p, q)=0$, tenemos $F_p + F_q \frac{dq}{dp} = 0 \implies \frac{dq}{dp} = -\frac{F_p}{F_q}$.
+    Sustituyendo en la segunda ecuación:
+    \[ 0 = (x-x_0) - \frac{F_p}{F_q}(y-y_0) \implies \frac{x-x_0}{F_p} = \frac{y-y_0}{F_q}. \]
+    Sustituyendo esto en la ecuación del plano, obtenemos la relación para $z$:
+    \[ \frac{x-x_0}{F_p} = \frac{y-y_0}{F_q} = \frac{z-z_0}{p F_p + q F_q}. \]
+    Las rectas generatrices del Cono de Monge tienen la dirección del vector:
+    \[ \vec{v} = (F_p, F_q, p F_p + q F_q). \]
+\end{observacion}
+
+\subsection{Curvas Características (Franjas de Monge)}
+
+Buscamos curvas $\gamma(t) = (x(t), y(t), z(t))$ sobre la superficie solución que sean tangentes en cada punto a una generatriz del Cono de Monge.
+Esto nos da las primeras tres ecuaciones del sistema:
+\[
+\begin{cases}
+    x'(t) = F_p(x,y,z,p,q) \\
+    y'(t) = F_q(x,y,z,p,q) \\
+    z'(t) = p F_p + q F_q
+\end{cases}
+\]
+Sin embargo, este sistema está incompleto porque depende de $p(t)$ y $q(t)$ (las derivadas de la solución a lo largo de la curva), que son desconocidas a priori. Necesitamos ecuaciones para $p'(t)$ y $q'(t)$.
+
+\textbf{Deducción de las ecuaciones para $p$ y $q$:}
+Derivamos la identidad $F(x,y,u(x,y), u_x, u_y) = 0$ respecto a $x$:
+\[ \frac{\partial F}{\partial x} + \frac{\partial F}{\partial z} p + \frac{\partial F}{\partial p} p_x + \frac{\partial F}{\partial q} q_x = 0. \]
+Usando que $q_x = u_{yx} = u_{xy} = p_y$ (Teorema de Schwarz) y las ecuaciones de $x'$ e $y'$:
+\[ F_x + p F_z + x' p_x + y' p_y = 0 \implies F_x + p F_z + \frac{dp}{dt} = 0. \]
+Despejando $p'$ (y análogamente para $q'$ derivando respecto a $y$), obtenemos el sistema completo.
+
+\begin{teorema}{Sistema Característico (Caso General)}
+    El sistema característico asociado a $F(x,y,z,p,q)=0$ consta de 5 EDOs:
+    \begin{equation}
+        \begin{cases}
+            x'(t) = F_p \\
+            y'(t) = F_q \\
+            z'(t) = p F_p + q F_q \\
+            p'(t) = -(F_x + p F_z) \\
+            q'(t) = -(F_y + q F_z)
+        \end{cases}
+    \end{equation}
+    Junto con la condición algebraica $F(x(t), y(t), z(t), p(t), q(t)) = 0$.
+    Una solución $\mathcal{B}(t) = (x(t), y(t), z(t), p(t), q(t))$ se denomina \textbf{Franja o Banda Característica}.
+\end{teorema}
+\subsection{Construcción de Superficies Integrales a través de Curvas Características}
+
+Se demuestra que toda solución (superficie integral) se obtiene mediante esas \textbf{bandas características}. Esta es la proposición análoga a la propiedad fundamental del caso cuasi-lineal.
+
+\begin{proposicion}{Unicidad de la Banda en la Superficie}
+    Sea $\mathcal{B}(t) = (x(t), y(t), z(t), p(t), q(t))$ una \textbf{banda característica} definida en un intervalo $I$ de valores del parámetro $t$.
+    
+    Sea $z = u(x,y)$ una solución (superficie integral) de la ecuación $F(x,y,z,p,q)=0$.
+    
+    Si para algún instante $t_0 \in I$ se cumple que la banda toca a la superficie (coinciden el punto y el plano tangente):
+    \[
+    \begin{cases}
+        z(t_0) = u(x(t_0), y(t_0)) \\
+        p(t_0) = u_x(x(t_0), y(t_0)) \\
+        q(t_0) = u_y(x(t_0), y(t_0))
+    \end{cases}
+    \]
+    entonces se cumple para todo $t \in I$:
+    \[
+    \begin{cases}
+        z(t) = u(x(t), y(t)) \\
+        p(t) = u_x(x(t), y(t)) \\
+        q(t) = u_y(x(t), y(t))
+    \end{cases}
+    \]
+    \textbf{Interpretación:} Si una franja característica tiene un elemento de contacto común con una superficie integral, entonces toda la franja está contenida en la superficie integral (es decir, la curva soporte está en la superficie y los planos tangentes de la franja son los planos tangentes a la superficie).
+\end{proposicion}
+\subsection{Teorema de Existencia y Unicidad (Problema de Cauchy)}
+
+Sea $\Omega \subseteq \mathbb{R}^5$ un abierto y $F \in \mathcal{C}^2(\Omega)$ con $|F_p| + |F_q| \neq 0$.
+Consideremos el problema de Cauchy para $F(x,y,z,p,q)=0$ con una curva inicial $\Gamma(s) = (f(s), g(s), h(s))$ para $s \in I$.
+
+Para poder resolver el problema, necesitamos "levantar" la curva inicial $\Gamma$ a una \textbf{franja inicial} $(f(s), g(s), h(s), p_0(s), q_0(s))$ que cumpla tres condiciones:
+
+\begin{enumerate}
+    \item \textbf{Condición de Franja (Tangencia):} La función incógnita debe tener diferencial compatible con la curva:
+    \[ h'(s) = p_0(s) f'(s) + q_0(s) g'(s). \]
+    \item \textbf{Condición de la Ecuación:} Los valores iniciales deben satisfacer la EDP:
+    \[ F(f(s), g(s), h(s), p_0(s), q_0(s)) = 0. \]
+    \item \textbf{Condición de Transversalidad:} La dirección característica no debe ser tangente a la curva inicial (proyectada):
+    \[ \Delta = \begin{vmatrix} F_p(p_0, q_0, \dots) & F_q(p_0, q_0, \dots) \\ f'(s) & g'(s) \end{vmatrix} \neq 0. \]
+\end{enumerate}
+
+\begin{teorema}{Existencia y Unicidad}
+    Si se cumplen las condiciones 1, 2 y 3 en un punto $s_0$, existe una única solución $z = u(x,y)$ en un entorno de la curva inicial que contiene dicha franja.
+    \textbf{Nota:} Es posible que existan varios pares $(p_0(s), q_0(s))$ que satisfagan las condiciones algebraicas (1) y (2). Cada par válido define una solución única distinta.
+\end{teorema}
+
+\begin{ejemplo}{Resolución paso a paso}
+    Resolver:
+    \[ \begin{cases} p^2 - 3q^2 - u = 0 \\ u(x,0) = x^2 \end{cases} \]
+    
+    \textbf{1. Planteamiento del Sistema Característico:}
+    Aquí $F = p^2 - 3q^2 - z$. Derivadas: $F_p=2p, F_q=-6q, F_x=0, F_y=0, F_z=-1$.
+    \[
+    \begin{cases}
+        x' = 2p \\
+        y' = -6q \\
+        z' = 2p^2 - 6q^2 \quad (\text{Nota: } = 2(p^2 - 3q^2) = 2z \text{ sobre la solución}) \\
+        p' = -(0 + p(-1)) = p \\
+        q' = -(0 + q(-1)) = q
+    \end{cases}
+    \]
+    Resolvemos primero para $p$ y $q$:
+    \[ p(t) = c_1 e^t, \quad q(t) = c_2 e^t. \]
+    Sustituyendo en $x', y'$:
+    \[ x(t) = 2c_1 e^t + c_3, \quad y(t) = -6c_2 e^t + c_4. \]
+    
+    \textbf{2. Determinación de la Franja Inicial $(p_0, q_0)$:}
+    Parametrización de la curva inicial: $x=s, y=0, z=s^2$.
+    \begin{itemize}
+        \item \textbf{Condición de Franja:} $h'(s) = p_0 f' + q_0 g'$
+        \[ 2s = p_0(s) \cdot 1 + q_0(s) \cdot 0 \implies \boxed{p_0(s) = 2s}. \]
+        \item \textbf{Condición de Ecuación:} $p_0^2 - 3q_0^2 - z_0 = 0$
+        \[ (2s)^2 - 3q_0^2 - s^2 = 0 \implies 3s^2 = 3q_0^2 \implies \boxed{q_0(s) = \pm s}. \]
+    \end{itemize}
+    Hay dos posibles soluciones.\\
+    \textbf{Interpretación de este resultado:} Nos han salido dos posibilidades para $(p(s),q(s))$. En principio ya vimos que la curva puede tener muchas direcciones para la normal (aquí hay 2, una para cada valor que nos ha salido de $q(s)$). Para cada normal tendré un plano tangente. Una vez que elija y fije UNA de ellas, esa será la solución única que verificará la condición de Cauchy si fijo también $p$ y $q$. \\
+
+    \textbf{3. Comprobación de Transversalidad:}
+    \[ \Delta = \begin{vmatrix} F_p & F_q \\ f' & g' \end{vmatrix} = \begin{vmatrix} 2p_0 & -6q_0 \\ 1 & 0 \end{vmatrix} = 6q_0 = \pm6s. \]
+    Es no nulo si $s \neq 0$. Existe solución única alrededor de puntos no nulos.
+    Se deduce la existencia y unicidad de la solución (una vez fijada, eso sí, la elección de $(p(s),q(s))$).\\
+
+    Trabajamos el caso en el que $(p(s),q(s))=(2s,s)$:\\
+    \textbf{4. Integración con Condiciones Iniciales:}
+    En $t=0$:
+    \[
+    \begin{cases}
+        x(0) =f(s)=s \\
+        y(0) = g(s)=0\\
+        z(0) = h(s)=s^2 \\
+        p(0) = p(s) = 2s \\
+        q(0) = q(s)=s
+    \end{cases}\]
+
+    \begin{enumerate}
+        \item \textbf{Para $p$ y $q$:}
+        \[ p' = p \implies p(t) = c_1 e^t. \quad \text{En } t=0: \quad 2s = c_1 e^0 \implies \boxed{c_1 = 2s}. \]
+        \[ q' = q \implies q(t) = c_2 e^t. \quad \text{En } t=0: \quad s = c_2 e^0 \implies \boxed{c_2 = s}. \]
+        Por tanto: $p(t) = 2s e^t, \quad q(t) = s e^t$.
+
+        \item \textbf{Para $x$:}
+        Sustituimos $p(t)$ en la ecuación de $x'$:
+        \[ x' = 2p = 2(2s e^t) = 4s e^t. \]
+        Integramos respecto a $t$:
+        \[ x(t) = \int 4s e^t dt = 4s e^t + c_3. \]
+        Imponemos $x(0) = s$:
+        \[ s = 4s(1) + c_3 \implies c_3 = s - 4s \implies \boxed{c_3 = -3s}. \]
+        Solución particular: $x(t) = 4s e^t - 3s$.
+
+        \item \textbf{Para $y$:}
+        Sustituimos $q(t)$ en la ecuación de $y'$:
+        \[ y' = -6q = -6(s e^t) = -6s e^t. \]
+        Integramos respecto a $t$:
+        \[ y(t) = \int -6s e^t dt = -6s e^t + c_4. \]
+        Imponemos $y(0) = 0$:
+        \[ 0 = -6s(1) + c_4 \implies \boxed{c_4 = 6s}. \]
+        Solución particular: $y(t) = -6s e^t + 6s$.
+
+        \item \textbf{Para $z$:}
+        \[ z' = 2z \implies \frac{z'}{z} = 2 \implies \ln|z| = 2t + K \implies z(t) = c_5 e^{2t}. \]
+        Imponemos $z(0) = s^2$:
+        \[ s^2 = c_5 e^0 \implies \boxed{c_5 = s^2}. \]
+        Solución particular: $z(t) = s^2 e^{2t}$.
+    \end{enumerate}
+    
+    \textbf{5. Inversión y Solución Final:}
+    Tenemos el sistema paramétrico:
+    \[ \begin{cases} x = s(4e^t - 3) \\ y = 6s(1 - e^t) \\ z = (s e^t)^2 \end{cases} \]
+    Buscamos eliminar $s$ y $t$. Observamos una combinación lineal entre $x$ e $y$ para aislar el término $se^t$:
+    \[ 6x + 3y = 6[s(4e^t - 3)] + 3[6s(1 - e^t)] \]
+    \[ 6x + 3y = 24s e^t - 18s + 18s - 18s e^t = 6s e^t. \]
+    Despejamos el término común:
+    \[ s e^t = x + \frac{1}{2}y. \]
+    Sustituyendo esto directamente en la ecuación de $z = (s e^t)^2$:
+    \[ \boxed{z = \left( x + \frac{y}{2} \right)^2}. \]
+\end{ejemplo}
+
+
+\section{Cálculo de Integrales Completas}
+
+\subsection{Conceptos Preliminares}
+
+Dada una ecuación en derivadas parciales $F(x,y,z,p,q)=0$, buscamos soluciones que dependan de parámetros arbitrarios.
+
+\begin{definicion}{Integral Completa}
+    Una solución $\Phi(x,y,z,a,b)=0$ de la EDP que depende de dos constantes arbitrarias independientes $a$ y $b$ se denomina \textbf{Integral Completa}.
+    
+    \textbf{Nota:} La integral completa no tiene por qué ser única y, en general, no recoge todas las soluciones de la EDP (por ejemplo, no suele incluir las soluciones singulares).
+\end{definicion}
+
+\begin{definicion}{Tipos de Soluciones}
+    \begin{itemize}
+        \item \textbf{Solución General:} Es una familia de soluciones que depende de una \textbf{función arbitraria}. Se suele construir a partir de la integral completa usando envolventes de familias uniparamétricas ($b = \phi(a)$).
+        \item \textbf{Solución Singular:} Es aquella solución que satisface la ecuación pero no se puede obtener particularizando las constantes de la integral completa ni de la solución general (suele ser la envolvente de la integral completa).
+    \end{itemize}
+\end{definicion}
+
+\subsection{Casos Particulares de Resolución}
+
+Analizamos métodos para hallar integrales completas en ecuaciones con estructuras específicas (donde falta alguna variable $x, y, z$).
+
+\subsubsection*{Caso 1: La ecuación no depende de $x, y, z$}
+La forma es $F(p,q)=0$.
+\begin{itemize}
+    \item \textbf{Método:} Como $p$ y $q$ son constantes en la ecuación característica simplificada, proponemos $p=a$ (constante).
+    \item Despejamos $q$ de la ecuación: $F(a, q) = 0 \implies q = \varphi(a)$.
+    \item Sustituimos en la forma diferencial $dz = p dx + q dy$:
+    \[ dz = a dx + \varphi(a) dy \implies z = ax + \varphi(a)y + b. \]
+\end{itemize}
+
+\begin{ejemplo}{Ejemplo Caso 1}
+    Resolver $u_x = 1 + 2u_y + 4(u_y)^2$.
+    \textbf{Solución:}
+    Identificamos $p = 1 + 2q + 4q^2$. Hacemos $q = a$.
+    Entonces $p = 1 + 2a + 4a^2$.
+    La integral completa es:
+    \[ z = (1 + 2a + 4a^2)x + ay + b. \]
+\end{ejemplo}
+
+\subsubsection*{Caso 2: Variables Separables}
+La ecuación se puede escribir como $\Psi_1(x, p) = \Psi_2(y, q)$.
+\begin{itemize}
+    \item \textbf{Método:} Igualamos ambos términos a una constante arbitraria $a$.
+    \[ \Psi_1(x, p) = a \implies p = \varphi_1(x, a); \quad \Psi_2(y, q) = a \implies q = \varphi_2(y, a). \]
+    \item Integramos $dz = p dx + q dy$:
+    \[ z = \int \varphi_1(x, a) \, dx + \int \varphi_2(y, a) \, dy + b. \]
+\end{itemize}
+
+\begin{ejemplo}{Ejemplo Caso 2}
+    Resolver $u_x u_y = 2xy$.
+    \textbf{Solución:}
+    Separamos variables: $\frac{u_x}{x} = \frac{2y}{u_y}$.
+    Hacemos $\frac{p}{x} = \frac{2y}{q} = a$.
+    Despejamos: $p = ax$, $q = \frac{2y}{a}$.
+    Integramos:
+    \[ z = \int ax \, dx + \int \frac{2y}{a} \, dy + b = \frac{a x^2}{2} + \frac{y^2}{a} + b. \]
+\end{ejemplo}
+
+\subsubsection*{Caso 3: La ecuación no depende de $x, y$}
+La forma es $F(z, p, q) = 0$.
+\begin{itemize}
+    \item \textbf{Método:} Buscamos soluciones de onda viajera $z = z(u)$ donde $u = x + ay$.
+    \item Por regla de la cadena: $p = \frac{dz}{du} \cdot 1 = z'$, $q = \frac{dz}{du} \cdot a = a z'$.
+    \item Sustituimos en la EDP: $F(z, z', az') = 0$, que es una EDO de primer orden.
+\end{itemize}
+
+\begin{ejemplo}{Ejemplo Caso 3}
+    Resolver $z^2 = 4 p q$.
+    \textbf{Solución:}
+    Sustituimos $p=z'$, $q=az'$:
+    \[ z^2 = 4(z')(az') = 4a (z')^2 \implies z = \pm 2\sqrt{a} z'. \]
+    Resolvemos la EDO separable $\frac{dz}{z} = \frac{du}{\pm 2\sqrt{a}}$:
+    \[ \ln|z| = \frac{u}{\pm 2\sqrt{a}} + C \implies z = b e^{\frac{x+ay}{\pm 2\sqrt{a}}}. \]
+\end{ejemplo}
+
+\subsubsection*{Caso 4: Ecuación de Clairaut Generalizada}
+La forma es $z = px + qy + \Psi(p,q)$.
+\begin{itemize}
+    \item \textbf{Método:} Es una generalización directa de la EDO de Clairaut. La integral completa son planos.
+    \item Hacemos $p=a$ y $q=b$.
+    \[ z = ax + by + \Psi(a, b). \]
+\end{itemize}
+
+\begin{ejemplo}{Ejemplo Caso 4}
+    Resolver $u = x u_x + y u_y + (u_x)^2 + (u_y)^2$.
+    \textbf{Solución:}
+    Identificamos la estructura Clairaut con $\Psi(p,q) = p^2 + q^2$.
+    Integral completa:
+    \[ z = ax + by + a^2 + b^2. \]
+\end{ejemplo}
+
+\subsubsection*{Caso 5: La ecuación no depende de una variable (ej. $y$) o es lineal en ella}
+Forma general $F(x, p, q) = 0$ (no aparece $y$, $z$). O más flexible, $p = \Psi(x, q)$.
+\begin{itemize}
+    \item \textbf{Método:} Hacemos $q = a$ (constante).
+    \item Despejamos $p = \Psi(x, a)$.
+    \item Integramos: $z = \int \Psi(x, a) \, dx + ay + b$.
+\end{itemize}
+
+\begin{ejemplo}{Varios Ejemplos Caso 5}
+    \begin{enumerate}
+        \item $u_x = \cos(2x) + 3u_y^2$.
+        Hacemos $q=a$. Entonces $p = \cos(2x) + 3a^2$.
+        \[ z = \int (\cos(2x) + 3a^2) dx + ay + b = \frac{1}{2}\sen(2x) + 3a^2x + ay + b. \]
+        
+        \item $u_x = 2x^2 + u_y^2$.
+        Hacemos $q=a$. $p = 2x^2 + a^2$.
+        \[ z = \frac{2}{3}x^3 + a^2x + ay + b. \]
+        
+        \item $u_x = 4u_y^2 + 2$.
+        Hacemos $q=a$. $p = 4a^2 + 2$.
+        \[ z = (4a^2+2)x + ay + b. \]
+    \end{enumerate}
+\end{ejemplo}
+
+\subsection{Ejercicio Resuelto: Superficies y Envolventes}
+
+\begin{ejemplo}{Ejercicio Típico de Control}
+    Consideramos la superficie $z = \sqrt{x^2 + y^2 + 1}$.
+    \begin{enumerate}
+        \item \textbf{Encontrar una EDP de primer orden que satisfagan todos los planos tangentes a esta superficie.}
+        
+        Calculamos el plano tangente en un punto genérico $(x_0, y_0, z_0)$:
+        \[ p = \frac{\partial z}{\partial x} = \frac{x_0}{\sqrt{x_0^2 + y_0^2 + 1}}, \quad q = \frac{\partial z}{\partial y} = \frac{y_0}{\sqrt{x_0^2 + y_0^2 + 1}}. \]
+        Observamos que $z_0 = \sqrt{x_0^2 + y_0^2 + 1}$.
+        Buscamos una relación entre $p$ y $q$ que elimine $x_0, y_0$.
+        Calculamos $p^2 + q^2$:
+        \[ p^2 + q^2 = \frac{x_0^2 + y_0^2}{x_0^2 + y_0^2 + 1} = \frac{(x_0^2 + y_0^2 + 1) - 1}{x_0^2 + y_0^2 + 1} = 1 - \frac{1}{z_0^2}. \]
+        Pero en el plano tangente (Clairaut) $Z = pX + qY + \Psi(p,q)$, el término independiente es la intersección con el eje Z o relacionado con la estructura.
+        Alternativamente, usamos la propiedad geométrica.
+        La ecuación del plano es $z = px + qy + \sqrt{1 - p^2 - q^2}$.
+        
+        Comprobación:
+        $1 - p^2 - q^2 = 1 - \frac{x_0^2 + y_0^2}{z_0^2} = \frac{z_0^2 - (x_0^2 + y_0^2)}{z_0^2} = \frac{1}{z_0^2}$.
+        Luego $\sqrt{1-p^2-q^2} = 1/z_0$.
+        La EDP es de tipo Clairaut:
+        \[ z = x p + y q + \sqrt{1 - p^2 - q^2}. \]
+        Su integral completa es la familia de planos:
+        \[ z = ax + by + \sqrt{1 - a^2 - b^2}, \quad \text{con } a^2 + b^2 \le 1. \]
+
+        \item \textbf{Demostrar que la EDP obtenida admite soluciones que son conos de revolución alrededor del eje Z.}
+        
+        Estrategia: Calcular la envolvente de una subfamilia uniparamétrica.
+        Tomamos la relación entre parámetros $a^2 + b^2 = c^2$ (constante) para buscar simetría radial, o usamos coordenadas polares en el espacio de parámetros.
+        Probamos imponiendo una relación $b = \Psi(a)$.
+        
+        Para obtener un cono, la envolvente debe ser cónica.
+        Probemos la familia dada por $a^2 + b^2 = k^2$ (fijo $k \in (0,1)$).
+        Esto no genera un cono directamente, sino un cilindro o similar.
+        
+        \textbf{Cálculo de la Envolvente Singular:}
+        Derivamos la integral completa respecto a $a$ y $b$ (si fueran independientes para la singular):
+        \[ 0 = x - \frac{a}{\sqrt{1-a^2-b^2}}, \quad 0 = y - \frac{b}{\sqrt{1-a^2-b^2}}. \]
+        Despejando $a$ y $b$ se recupera la superficie original $z^2 = x^2 + y^2 + 1$ (Hiperboloide), que es la envolvente general.
+        
+        \textbf{Búsqueda del Cono:}
+        Para hallar un cono $z^2 = x^2 + y^2$, necesitamos una relación específica.
+        Si imponemos la condición de que la superficie pase por el origen (vértice del cono), la ecuación Clairaut $0 = 0 + 0 + \sqrt{1-a^2-b^2}$ implica $a^2+b^2=1$.
+        Si $a^2+b^2=1$, el término de la raíz se anula:
+        \[ z = ax + by, \quad \text{con } a^2+b^2=1. \]
+        Esta es una familia de planos que pasan por el origen.
+        La envolvente de esta familia:
+        $b = \sqrt{1-a^2}$.
+        $z = ax + y\sqrt{1-a^2}$.
+        Derivamos respecto a $a$:
+        $0 = x + y \frac{-a}{\sqrt{1-a^2}} \implies x = \frac{ay}{\sqrt{1-a^2}} \implies x^2 (1-a^2) = a^2 y^2$.
+        $x^2 = a^2(x^2+y^2) \implies a = \frac{x}{\sqrt{x^2+y^2}}$.
+        Sustituyendo en $z$:
+        \[ z = \frac{x^2}{\sqrt{x^2+y^2}} + y\frac{y}{\sqrt{x^2+y^2}} = \frac{x^2+y^2}{\sqrt{x^2+y^2}} = \sqrt{x^2+y^2}. \]
+        Elevando al cuadrado: $z^2 = x^2 + y^2$.
+        Efectivamente, es un cono de revolución.
+    \end{enumerate}
+\end{ejemplo}
+
+
+
+
+\section{Ecuaciones de Pfaff y Método de Lagrange-Charpit}
+
+\subsection{Ecuaciones de Pfaff}
+
+Una ecuación diferencial de Pfaff en $\mathbb{R}^3$ tiene la forma diferencial:
+\begin{equation}
+    P(x,y,z)dx + Q(x,y,z)dy + R(x,y,z)dz = 0
+\end{equation}
+donde $\vec{F} = (P, Q, R)$ es un campo vectorial dado.
+
+\begin{observacion}{Significado Geométrico}
+    Resolver la ecuación consiste en encontrar una familia de superficies $U(x,y,z) = C$ tales que sean ortogonales a las líneas de campo de $\vec{F}$.
+    
+    Si $U(x,y,z)=C$ es solución, su vector normal es $\nabla U = (\frac{\partial U}{\partial x}, \frac{\partial U}{\partial y}, \frac{\partial U}{\partial z})$.
+    La ecuación de Pfaff establece que el desplazamiento tangente $(dx, dy, dz)$ sobre la superficie es ortogonal a $(P,Q,R)$, es decir, $\nabla U$ debe ser paralelo a $\vec{F}$.
+\end{observacion}
+
+
+
+
+
+\subsubsection{Caso 1: Campos Conservativos}
+Si el campo $\vec{F} = (P, Q, R)$ es conservativo, es decir, existe un potencial escalar $U$ tal que $\nabla U = \vec{F}$, entonces la solución es directa:
+\[ U(x,y,z) = C. \]
+\textbf{Condición de irrotacionalidad:} Sabemos que $\vec{F}$ es conservativo (en un dominio simplemente conexo) si y solo si $\text{rot}(\vec{F}) = \vec{0}$.
+\[
+\text{rot}(\vec{F}) = \begin{vmatrix} \mathbf{i} & \mathbf{j} & \mathbf{k} \\ \partial_x & \partial_y & \partial_z \\ P & Q & R \end{vmatrix} = \left( \frac{\partial R}{\partial y} - \frac{\partial Q}{\partial z}, \frac{\partial P}{\partial z} - \frac{\partial R}{\partial x}, \frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y} \right) = (0,0,0).
+\]
+
+\begin{ejemplo}{Ejemplo Canónico: Esferas Concéntricas}
+    Resolver la ecuación de Pfaff:
+    \[ x \, dx + y \, dy + z \, dz = 0 \]
+
+    \textbf{1. Identificación del Campo Vectorial}
+    La ecuación tiene la forma $\vec{F} \cdot d\vec{r} = 0$, donde el campo es:
+    \[ \vec{F} = (P, Q, R) = (x, y, z). \]
+
+    \textbf{2. Condición de Integrabilidad (Frobenius)}
+    Antes de integrar, verificamos si el campo es conservativo calculando su rotacional:
+    \[
+    \text{rot}(\vec{F}) = \nabla \times \vec{F} = \begin{vmatrix} \mathbf{i} & \mathbf{j} & \mathbf{k} \\ \partial_x & \partial_y & \partial_z \\ x & y & z \end{vmatrix}
+    \]
+    Calculamos las componentes:
+    \begin{itemize}
+        \item Componente $\mathbf{i}$: $\frac{\partial z}{\partial y} - \frac{\partial y}{\partial z} = 0 - 0 = 0$.
+        \item Componente $\mathbf{j}$: $\frac{\partial x}{\partial z} - \frac{\partial z}{\partial x} = 0 - 0 = 0$.
+        \item Componente $\mathbf{k}$: $\frac{\partial y}{\partial x} - \frac{\partial x}{\partial y} = 0 - 0 = 0$.
+    \end{itemize}
+    Como $\text{rot}(\vec{F}) = \vec{0}$, la condición de integrabilidad $\vec{F} \cdot \text{rot}(\vec{F}) = 0$ se cumple trivialmente. Es una **Ecuación Diferencial Exacta**.
+
+    \textbf{3. Integración Directa}
+    Al ser un diferencial exacto, existe una función potencial $U$ tal que $dU = xdx + ydy + zdz$.
+    Integramos término a término:
+    \[ \int x \, dx + \int y \, dy + \int z \, dz = C \]
+    \[ \frac{x^2}{2} + \frac{y^2}{2} + \frac{z^2}{2} = C \]
+    Reordenando la constante ($K = 2C$), obtenemos la familia de superficies integrales:
+    \[ \boxed{x^2 + y^2 + z^2 = K} \]
+
+    \textbf{4. Interpretación Geométrica}
+    \begin{itemize}
+        \item La solución representa una familia de **esferas concéntricas** centradas en el origen.
+        \item El campo vectorial $\vec{F} = (x,y,z)$ es el vector de posición (radio vector), que siempre es **perpendicular** a la superficie de la esfera.
+        \item La ecuación de Pfaff $x dx + y dy + z dz = 0$ es equivalente al producto escalar $\vec{r} \cdot d\vec{r} = 0$. Esto nos dice geométricamente que cualquier desplazamiento infinitesimal $d\vec{r}$ sobre la superficie solución debe ser ortogonal al radio vector.
+    \end{itemize}
+\end{ejemplo}
+
+
+
+
+\begin{ejemplo}{Campo Conservativo}
+    Resolver $(4x^3y + z^4)dx + (x^4 + 4y^3z)dy + (y^4 + 4z^3x)dz = 0$.
+    Calculamos el rotacional y vemos que es nulo. Por integración directa ("método del potencial"):
+    \[ U(x,y,z) = x^4 y + y^4 z + z^4 x = C. \]
+\end{ejemplo}
+
+\subsubsection{Caso 2: Factor Integrante (Integrabilidad)}
+Si $\text{rot}(\vec{F}) \neq \vec{0}$, el campo no es gradiente. Sin embargo, podemos buscar un factor escalar $\mu(x,y,z)$ (factor integrante) tal que el nuevo campo $\mu \vec{F} = (\mu P, \mu Q, \mu R)$ sí sea conservativo:
+\[ \text{rot}(\mu \vec{F}) = \vec{0}. \]
+
+
+\begin{teorema}{Condición de Integrabilidad de Frobenius}
+    La ecuación de Pfaff admite un factor integrante (y por tanto familias de superficies solución) si y solo si el campo es ortogonal a su rotacional:
+    \begin{equation}
+        \vec{F} \cdot \text{rot}(\vec{F}) = P \left( \frac{\partial R}{\partial y} - \frac{\partial Q}{\partial z} \right) + Q \left( \frac{\partial P}{\partial z} - \frac{\partial R}{\partial x} \right) + R \left( \frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y} \right) = 0.
+    \end{equation}
+    Si esta condición no se cumple, no existen superficies integrales $U(x,y,z)=C$ ortogonales al campo (sistema no holónomo).
+\end{teorema}
+
+\begin{ejemplo}{Resolución paso a paso}
+    Resolver: $yz \, dx + 2xz \, dy + xy \, dz = 0$.
+    Aquí $\vec{F} = (yz, 2xz, xy)$.
+    
+    \textbf{1. Comprobación:} Calculamos el rotacional y verificamos $\vec{F} \cdot \text{rot}(\vec{F}) = 0$.
+    
+    \textbf{2. Reducción dimensional:} Tratamos una variable como constante (ej. $z=cte \implies dz=0$).
+    La ecuación reducida es: $yz \, dx + 2xz \, dy = 0$. Dividiendo por $z$ (si $z \neq 0$):
+    \[ y \, dx + 2x \, dy = 0. \]
+    Esta es una EDO de variables separables:
+    \[ \frac{dy}{y} = -\frac{1}{2} \frac{dx}{x} \implies \ln y = -\frac{1}{2} \ln x + C \implies y x^{1/2} = K \implies x y^2 = C. \]
+    
+    \textbf{3. Reconstrucción:} Asumimos que la "constante" depende de $z$:
+    \[ U(x,y,z) = x y^2 - C(z) = 0. \]
+    Para hallar $C(z)$, imponemos que esta función satisfaga la ecuación original.
+    Calculamos el diferencial total $dU$:
+    \[ dU = y^2 dx + 2xy dy - C'(z) dz = 0. \]
+    Para que esta ecuación sea equivalente a la original ($yz dx + 2xz dy + xy dz = 0$), sus coeficientes deben ser proporcionales:
+    \[ \frac{y^2}{yz} = \frac{2xy}{2xz} = \frac{-C'(z)}{xy}. \]
+    Simplificando las dos primeras fracciones obtenemos $\frac{y}{z} = \frac{y}{z}$ (consistente).
+    Igualamos con la tercera:
+    \[ \frac{y}{z} = \frac{-C'(z)}{xy} \implies C'(z) = -\frac{xy^2}{z}. \]
+    Como en la superficie tenemos $xy^2 = C(z)$, sustituimos:
+    \[ C'(z) = -\frac{C(z)}{z} \implies \frac{C'(z)}{C(z)} = -\frac{1}{z} \implies \ln C(z) = -\ln z + k \implies C(z) = \frac{K}{z}. \]
+    
+    \textbf{4. Solución General:}
+    \[ x y^2 = \frac{K}{z} \implies \boxed{x y^2 z = K}. \]
+\end{ejemplo}
+
+\subsection{Método de Lagrange-Charpit}
+
+Este método generaliza el método de las características para encontrar una \textbf{Integral Completa} de una ecuación no lineal general $F(x,y,z,p,q)=0$.
+
+La idea es encontrar una segunda relación entre las variables, $G(x,y,z,p,q) = a$ (donde $a$ es una constante), que sea compatible con la ecuación original. Si tenemos el sistema:
+\[
+\begin{cases}
+    F(x,y,z,p,q) = 0 \\
+    G(x,y,z,p,q) = a
+\end{cases}
+\]
+podemos despejar $p = p(x,y,z,a)$ y $q = q(x,y,z,a)$. Si esta forma es exacta (cumple la condición de compatibilidad), podemos integrar $dz = p dx + q dy$.
+
+\begin{teorema}{Ecuaciones Auxiliares de Charpit}
+    Para hallar la función $G$, buscamos una integral primera del siguiente sistema de EDOs:
+    \begin{equation}
+        \frac{dx}{F_p} = \frac{dy}{F_q} = \frac{dz}{p F_p + q F_q} = \frac{dp}{-(F_x + p F_z)} = \frac{dq}{-(F_y + q F_z)}
+    \end{equation}
+    Basta con encontrar una relación $G(x,y,z,p,q)=a$ que involucre a $p$ o $q$ y sea funcionalmente independiente de $F$.
+\end{teorema}
+
+\begin{ejemplo}{Resolución con Lagrange-Charpit}
+    Hallar una integral completa de $p^2 + q^2 = x^2$ (nota: corregido del apunte $p^2+q^2-x^2=0$).
+    
+    \textbf{1. Definir F:}
+    \[ F \equiv p^2 + q^2 - x^2 = 0. \]
+    Derivadas: $F_p = 2p$, $F_q = 2q$, $F_x = -2x$, $F_y = 0$, $F_z = 0$.
+    
+    \textbf{2. Sistema Auxiliar:}
+    \[ \frac{dx}{2p} = \frac{dy}{2q} = \frac{dz}{2p^2+2q^2} = \frac{dp}{-(-2x) - p(0)} = \frac{dq}{-0 - q(0)}. \]
+    Simplificando:
+    \[ \frac{dx}{2p} = \frac{dy}{2q} = \frac{dz}{2(p^2+q^2)} = \frac{dp}{2x} = \frac{dq}{0}. \]
+    
+    \textbf{3. Búsqueda de la Integral G:}
+    De la última fracción $\frac{dq}{0}$, deducimos $dq = 0 \implies q = a$ (constante).
+    Esta es la relación más simple. Sin embargo, intentemos usar otra relación del sistema para ilustrar.
+    Tomamos $\frac{dx}{2p} = \frac{dp}{2x} \implies x dx = p dp \implies \frac{x^2}{2} = \frac{p^2}{2} + C \implies x^2 - p^2 = a$.
+    
+    Usemos la relación del sistema original $F=0$: $p^2 + q^2 - x^2 = 0$.
+    Si elegimos $G = x^2 - p^2 = a$, sustituyendo en $F$:
+    $(x^2 - a) + q^2 - x^2 = 0 \implies q^2 = a \implies q = \sqrt{a}$.
+    Entonces $p = \sqrt{x^2 - a}$.
+    
+    \textbf{4. Integración Final:}
+    \[ dz = p dx + q dy = \sqrt{x^2 - a} \, dx + \sqrt{a} \, dy. \]
+    Integrando:
+    \[ z = \int \sqrt{x^2 - a} \, dx + \sqrt{a} y + b. \]
+    (La integral de $\sqrt{x^2-a}$ es estándar y da lugar a la solución completa con dos parámetros $a, b$).
+\end{ejemplo}
+
+
+
+
+
+
+\section{Problemas Propuestos: Ecuaciones Cuasi-Lineales}
+
+
+
+\begin{enumerate}
+    \item Resolver las siguientes ecuaciones en derivadas parciales:
+    \begin{enumerate}
+        \item $u_x - 2y u_y + 5y^2 u = 0$ 
+        \item $u_x + 2u_y = u$ en $\mathbb{R}^2$.
+        \item $x u_x + c u = 0$.
+    \end{enumerate}
+    
+    \item Encontrar la función $u: (-1, \infty) \times \mathbb{R} \to \mathbb{R}$ de clase $\mathcal{C}^2$ que es solución de:
+    \[ (1+x)u_{x} + y u_y = x - 2y \]
+    y satisface las condiciones $u(x,0)=1$ y $u(0,y)=\cos y$.
+    
+    \item Describir todas las soluciones de la ecuación $u_y = 0$ definidas en la región $\mathbb{R}^2 \setminus \{(x,0) : x \leq 0\}$.
+    
+    \item Describir todas las soluciones de la ecuación $u_x + 2u_y = u$ definidas en $\mathbb{R}^2$.
+    
+    \item Resolver la ecuación $\frac{1}{y} u_x + u_y = \frac{e^{-x}}{x} u$, con condición inicial $u(x,1) = h(x)$ para $x > 0$.
+    
+    \item Resolver el problema de Cauchy:
+    \[ (x+2)u_x + 2y u_y = 2u, \quad u(-1, y) = \sqrt{y}, \quad y > 0. \]
+    
+    \item Encontrar la solución de la ecuación $u u_x + u_y = 1$ con condición de Cauchy sobre la curva $x=y$, dada por $u = \frac{x}{2}$ (para $x < 2$).
+\end{enumerate}
+
+
+\begin{enumerate}[resume]
+    \item Considérese la ecuación lineal general:
+    \[ f(x,y)u_x + g(x,y)u_y = a(x,y)u + b(x,y). \]
+    Probar que el cambio de variables $v=x$, $w=w(x,y)$, donde $w(x,y)=C$ es la solución general de la ecuación diferencial ordinaria $y'(x) = \frac{g(x,y)}{f(x,y)}$, transforma la ecuación en otra de la forma:
+    \[ z_v = p(v,w)z + q(v,w). \]
+    Como aplicación, usar este cambio de variables para resolver:
+    \[ y^3 u_x - x y^2 u_y = x u \quad \text{y} \quad x y (u_x - u_y) = (x-y)u. \]
+\end{enumerate}
+
+
+\begin{enumerate}[resume]
+    \item Hallar una solución general de las siguientes ecuaciones:
+    \begin{enumerate}
+        \item $y e^u u_x + x e^y u_y = \frac{y}{x}$
+        \item $(x+u)u_x + y u_y = u + y^2$
+        \item $\frac{b-c}{a} y u u_x + \frac{c-a}{b} x u u_y = \frac{a-b}{c} xy$, con $a,b,c$ parámetros adecuados.
+    \end{enumerate}
+    
+    \item Probar que la ecuación $(x^2 - 1)u_x + x u_y = 1$ no tiene ninguna solución definida en todo $\mathbb{R}^2$.
+    
+    \item Encontrar una familia de factores integrantes para la ecuación diferencial ordinaria:
+    \[ (t^3 y - 2y^4) + (y^3 t - 2t^4) y'(t) = 0. \]
+    
+    \item Sea $u$ una solución de la ecuación $(ax+by)u_x + (cx+dy)u_y = u$ definida en todo $\mathbb{R}^2$, donde los parámetros satisfacen $a+d < 0$ y $ad-bc > 0$. Probar que $u$ es idénticamente nula.
+    
+    \item Encontrar una EDP de primer orden que satisfagan todos los planos tangentes a la familia de conos $z^2 = a^2(x^2 + y^2)$ con vértice en el origen.
+    
+    \item Encontrar una EDP de primer orden que satisfagan todos los cilindros cuyas generatrices son paralelas a la recta dada por intersección de $ax+by+c=0$ y $z=0$.
+\end{enumerate}
+
+
+\begin{enumerate}[resume]
+    \item Resolver el problema mixto de condiciones iniciales y de frontera:
+    \[
+    \begin{cases}
+        u_t + c u_x = -\lambda u & x,t > 0 \\
+        u(0,t) = g(t) & t > 0 \\
+        u(x,0) = 0 & x > 0
+    \end{cases}
+    \]
+    Nota: Los dominios $x > ct$ y $x < ct$ deben tratarse de modo diferente. La condición de frontera afecta a $x < ct$ y la inicial a $x > ct$.
+    
+    \item \textbf{Modelo Biológico:} Para estudiar la absorción de nutrientes de un saltamontes, modelamos su tracto digestivo como un tubo de longitud $l$ y sección $A$. A través del tracto fluyen nutrientes a velocidad $c$ con concentración $n(x,t)$, siendo absorbidos a un ritmo proporcional a $\sqrt{n}$.
+    \begin{enumerate}
+        \item ¿Cuál es la EDP que modeliza el proceso?
+        \item Si el tracto está vacío en $t=0$ y luego se introducen nutrientes con concentración constante $n_0$ por la boca ($x=0$), formular las condiciones iniciales y de frontera.
+        \item Resolver el problema y dibujar la gráfica de la concentración de salida ($x=l$) para $t>0$.
+        \item Interpretar físicamente por qué $u(x,t)=0$ para $x > ct$.
+    \end{enumerate}
+\end{enumerate}
+
+
+\begin{enumerate}[resume]
+    \item Se sabe que una solución de $u u_x + y u_y = 1$ definida en el semiplano $y>1$ satisface $u(0,e) = 1/2$. Calcular $u(1, e^2)$.
+    
+    \item Hallar una solución general de la ecuación $2x u u_x + 2y u u_y + x^2 + y^2 = 0$.
+    
+    \item Hallar la superficie $z=u(x,y)$ ($\mathcal{C}^1$ en el primer cuadrante) que contiene a la recta $\{(t, 2t, 1/2) : t > 0\}$ y cuyo plano tangente en cada punto $(x_0, y_0, z_0)$ es perpendicular al vector $(x_0^2, y_0^2, x_0+y_0)$. (Interpretación corregida del enunciado original "perpendicular al plano...").
+    
+    \item Hallar una EDP de primer orden que tenga entre sus soluciones a las funciones $u_1 = -e^x$, $u_2 = -xy$ y $u_3 = e^x - 2xy$.
+    
+    \item Hallar todas las soluciones de $x^2 u_x + y^2 u_y = (x+y)u$ en el primer cuadrante.
+    
+    \item Hallar una EDP de primer orden que tenga entre sus soluciones a los planos paralelos a la recta $\{(t+1, 2t+2, 3t+3) : t \in \mathbb{R}\}$.
+    
+    \item Hallar una solución del problema de Cauchy $(x^2-1)u_x - 2y u_y = x-1$, con $u(0,y)=y$, definida en $\Omega = (-1, \infty) \times \mathbb{R}$. Probar que la solución es única en $\Omega_1 = (-1, 1) \times \mathbb{R}$.
+    
+    \item Construir una superficie $z=u(x,y)$ tal que por cada punto del eje $Z$ pase una recta que forma con la vertical un ángulo igual a la distancia del punto al origen, y cuya proyección en el plano $XY$ es paralela a la bisectriz del primer y tercer cuadrante.
+    
+    \item Hallar una solución general de $(y^2 - u^3)u_x + (u^3 - x)u_y = x - y^2$.
+\end{enumerate}

@@ -1,0 +1,507 @@
+\section{Clasificación de las EDPs lineales de segundo orden}
+
+Consideramos la ecuación general de segundo orden:
+\begin{equation}
+    a_{11}u_{xx} + 2a_{12}u_{xy} + a_{22}u_{yy} + F(x, y, u, u_x, u_y) = 0 \label{eq:principal}
+\end{equation}
+Donde $a_{ij} = a_{ij}(x, y)$. La \textbf{idea} es buscar un cambio de variables (transformación invertible):
+\[
+\begin{cases} \xi = \varphi(x, y) \\ \eta = \psi(x, y) \end{cases}
+\]
+de modo que la ecuación \eqref{eq:principal} se exprese de forma más sencilla. Usando la regla de la cadena para $u(x, y) = \mu(\xi, \eta)$:
+
+\begin{itemize}
+    \item $u_x = u_\xi \xi_x + u_\eta \eta_x$
+    \item $u_y = u_\xi \xi_y + u_\eta \eta_y$
+    \item $u_{xx} = u_{\xi\xi}(\xi_x)^2 + 2u_{\xi\eta}\xi_x \eta_x + u_{\eta\eta}(\eta_x)^2 + u_\xi \xi_{xx} + u_\eta \eta_{xx}$
+    \item $u_{yy} = u_{\xi\xi}(\xi_y)^2 + 2u_{\xi\eta}\xi_y \eta_y + u_{\eta\eta}(\eta_y)^2 + u_\xi \xi_{yy} + u_\eta \eta_{yy}$
+    \item $u_{xy} = u_{\xi\xi}(\xi_x \xi_y) + u_{\eta\eta}(\eta_x \eta_y) + u_{\xi\eta}(\xi_x \eta_y + \xi_y \eta_x) + u_\xi \xi_{xy} + u_\eta \eta_{xy}$
+\end{itemize}
+
+Sustituyendo en \eqref{eq:principal}, obtenemos la ecuación transformada:
+\begin{equation}
+    \bar{a}_{11}u_{\xi\xi} + 2\bar{a}_{12}u_{\xi\eta} + \bar{a}_{22}u_{\eta\eta} + \tilde{F} = 0 \label{eq:transformada}
+\end{equation}
+donde los nuevos coeficientes son:
+\begin{itemize}
+    \item $\bar{a}_{11} = a_{11}(\xi_x)^2 + 2a_{12}\xi_x \xi_y + a_{22}(\xi_y)^2$
+    \item $\bar{a}_{12} = a_{11}\xi_x \eta_x + a_{12}(\xi_x \eta_y + \xi_y \eta_x) + a_{22}\xi_y \eta_y$
+    \item $\bar{a}_{22} = a_{11}(\eta_x)^2 + 2a_{12}\eta_x \eta_y + a_{22}(\eta_y)^2$
+\end{itemize}
+
+\subsection{Ecuaciones Características}
+
+Para simplificar la ecuación, buscamos que $\bar{a}_{11} = 0$. Esto implica que $\varphi(x, y)$ debe satisfacer la ecuación:
+\begin{equation}
+    a_{11}(z_x)^2 + 2a_{12}z_x z_y + a_{22}(z_y)^2 = 0 \label{eq:caracteristica_pde}
+\end{equation}
+
+\begin{lema}{Relación con EDO}
+    $\varphi(x, y) = C$ es solución general de la EDO $a_{11}(\frac{dy}{dx})^2 - 2a_{12}(\frac{dy}{dx}) + a_{22} = 0$ si y solo si $\varphi$ es solución de \eqref{eq:caracteristica_pde}.
+\end{lema}
+
+\begin{proof}
+    Por el Teorema de la Función Implícita, si $\varphi(x, y) = C$, entonces $\frac{dy}{dx} = -\frac{\varphi_x}{\varphi_y}$. Sustituyendo en la EDO:
+    \[ a_{11}\left(-\frac{\varphi_x}{\varphi_y}\right)^2 - 2a_{12}\left(-\frac{\varphi_x}{\varphi_y}\right) + a_{22} = 0 \]
+    Multiplicando por $(\varphi_y)^2$ obtenemos \eqref{eq:caracteristica_pde}.
+\end{proof}
+
+\subsection{Clasificación}
+A través de la EDO obtenida en el Lema, podemos sacar sus " soluciones " a partir de la fórmula de la ecuación de segundo grado. Vamos a clasificar la EDP en función del número de soluciones que tenga esta ecuación. 
+La clasificación depende del discriminante $\Delta = a_{12}^2 - a_{11}a_{22}$:
+
+\begin{itemize}
+    \item \textbf{Hiperbólica}: $a_{12}^2 - a_{11}a_{22} > 0$. Existen dos familias de curvas características reales.
+    \item \textbf{Parabólica}: $a_{12}^2 - a_{11}a_{22} = 0$. Existe una única familia de curvas características reales.
+    \item \textbf{Elíptica}: $a_{12}^2 - a_{11}a_{22} < 0$. No existen curvas características reales (son complejas).
+\end{itemize}
+
+\begin{observacion}{Invarianza del Tipo y EDPs Mixtas}
+    \begin{enumerate}
+        \item \textbf{EDP Mixta:} Puede ocurrir que la EDP sea "mixta", es decir, que tenga diferentes tipos (elíptica, hiperbólica o parabólica) en diferentes zonas de la región $\Omega$ donde se consideran los coeficientes $a_{11}, a_{12}, a_{22}$.
+        
+        \item \textbf{Invarianza:} Se cumple que la ecuación transformada:
+        \[ \overline{a_{11}} u_{\xi\xi} + 2\overline{a_{12}} u_{\xi\eta} + \overline{a_{22}} u_{\eta\eta} + \overline{F} = 0 \]
+        también tiene el \textbf{mismo tipo} que la inicial, en el correspondiente punto.
+        Se comprueba mediante la relación de los discriminantes:
+        \[ (\overline{a_{12}})^2 - \overline{a_{11}} \cdot \overline{a_{22}} = (a_{12}^2 - a_{11}a_{22}) \cdot D^2 \]
+        donde $D = \det\left(\frac{\partial(\xi,\eta)}{\partial(x,y)}\right) \neq 0$ (el cambio es biyectivo).
+    \end{enumerate}
+\end{observacion}
+
+\subsection*{TIPO HIPERBÓLICO (en $\Omega$)}
+
+Resolvemos las ecuaciones características. Al ser hiperbólica, el discriminante es positivo, lo que nos da dos raíces reales distintas ($+\sqrt{\dots}$ y $-\sqrt{\dots}$):
+\[
+\left.
+\begin{aligned}
+    +\sqrt{\Delta} &\leadsto \varphi(x,y) = C \\
+    -\sqrt{\Delta} &\leadsto \psi(x,y) = C
+\end{aligned}
+\right\} \implies 
+\begin{cases}
+    \xi = \varphi(x,y) \\
+    \eta = \psi(x,y)
+\end{cases}
+\]
+
+La EDP inicial se transforma en:
+\[
+\boxed{u_{\xi\eta} = \Phi(\xi, \eta, u, u_\xi, u_\eta)} \quad \leftarrow \textbf{1ª FORMA CANÓNICA (Hiperbólica)}
+\]
+
+\subsubsection*{Paso a la 2ª Forma Canónica}
+Incluso, podemos aplicar otro nuevo cambio de variables:
+\[
+\begin{cases}
+    \xi = \alpha + \beta \\
+    \eta = \alpha - \beta
+\end{cases}
+\implies
+\begin{cases}
+    \alpha = \frac{\xi + \eta}{2} \\[2mm]
+    \beta = \frac{\xi - \eta}{2}
+\end{cases}
+\]
+Aplicando la regla de la cadena a las derivadas:
+\[ u_\eta = u_\alpha \cdot \frac{1}{2} - u_\beta \cdot \frac{1}{2} \]
+\[ u_{\eta\xi} = \frac{1}{2} \left( u_{\alpha\alpha} \cdot \frac{1}{2} + u_{\alpha\beta} \frac{1}{2} - \left( u_{\beta\alpha} \frac{1}{2} + u_{\beta\beta} \frac{1}{2} \right) \right) = \frac{1}{4} (u_{\alpha\alpha} - u_{\beta\beta}) \]
+La ecuación se convierte en:
+\[
+\boxed{u_{\alpha\alpha} - u_{\beta\beta} = 4\Phi} \quad \leftarrow \textbf{2ª FORMA CANÓNICA} \quad (\text{Prototipo: Ecuación de Ondas})
+\]
+
+\begin{observacion}{Independencia Funcional}
+    Se cumple que el Jacobiano es no nulo:
+    \[ \begin{vmatrix} \xi_x & \xi_y \\ \eta_x & \eta_y \end{vmatrix} \neq 0 \]
+    Esto indica que $\xi$ y $\eta$ son funciones funcionalmente independientes.
+\end{observacion}
+
+\subsection*{TIPO ELÍPTICO (en $\Omega$)}
+
+En este caso el discriminante es negativo ($\Delta < 0$). Las raíces de la ecuación característica son complejas conjugadas:
+\[
+\begin{aligned}
+    \frac{dy}{dx} &= \frac{a_{12} - \sqrt{a_{12}^2 - a_{11}a_{22}}}{a_{11}} \quad \xrightarrow{\text{Integramos}} \quad \varphi(x,y) = C \quad (\text{compleja}) \\
+    \frac{dy}{dx} &= \frac{a_{12} + \sqrt{a_{12}^2 - a_{11}a_{22}}}{a_{11}} \quad \xrightarrow{\text{Integramos}} \quad \varphi^*(x,y) = C \quad (\text{conjugada de } \varphi)
+\end{aligned}
+\]
+(Nota: En $\mathbb{C}$ son formalmente hiperbólicos).
+
+Para eludir el manejo de funciones de variable compleja, tomamos el cambio basado en la parte real e imaginaria:
+\[
+\left.
+\begin{aligned}
+    \xi &= \varphi(x,y) \\
+    \eta &= \varphi^*(x,y)
+\end{aligned}
+\right\} \quad \xrightarrow{\text{Cambio Real}} \quad
+\begin{cases}
+    \alpha = \frac{\varphi + \varphi^*}{2} = \text{Re}(\varphi) \\[2mm]
+    \beta = \frac{\varphi - \varphi^*}{2i} = \text{Im}(\varphi)
+\end{cases}
+\]
+Sustituyendo las derivadas ($\xi_x = \alpha_x + i\beta_x$, etc.) en la ecuación original, se obtiene que los nuevos coeficientes cumplen $\overline{a_{11}} = \overline{a_{22}}$ y $\overline{a_{12}} = 0$.
+
+Entonces la ecuación (1) queda:
+\[
+\overline{a_{11}} u_{\alpha\alpha} + \overline{a_{22}} u_{\beta\beta} = \Phi \implies \boxed{u_{\alpha\alpha} + u_{\beta\beta} = \widetilde{\Phi}}
+\]
+\textbf{Prototipos:}
+\begin{itemize}
+    \item Ecuación de Laplace: $\widetilde{\Phi} = 0$.
+    \item Ecuación de Poisson: $\widetilde{\Phi} \neq 0$.
+\end{itemize}
+
+\subsection*{TIPO PARABÓLICO (en $\Omega$)}
+
+En este caso el discriminante es nulo ($\Delta = 0$). Existe una única familia de características.
+
+\begin{enumerate}
+    \item Elegimos $\xi = \varphi(x,y)$ de modo que $\varphi(x,y) = C$ sea la solución general de la ecuación característica única:
+    \[ \frac{dy}{dx} = \frac{a_{12}}{a_{11}}. \]
+    
+    \item Como segunda variable $\eta = \psi(x,y)$, tomamos simplemente \textbf{cualquier expresión} que haga que $\xi$ y $\eta$ sean funcionalmente independientes.
+\end{enumerate}
+
+\begin{definicion}{Independencia Funcional}
+    Sea $M \subseteq \mathbb{R}^2$ un abierto y $f_1, f_2: M \to \mathbb{R}$ funciones de clase $\mathcal{C}^1(M)$.
+    
+    Se dice que $f_1, f_2$ son \textbf{funcionalmente independientes} en un punto $a \in M$ si el Jacobiano no se anula:
+    \[ \frac{D(f_1, f_2)}{D(x,y)} = \begin{vmatrix} \frac{\partial f_1}{\partial x} & \frac{\partial f_1}{\partial y} \\ \frac{\partial f_2}{\partial x} & \frac{\partial f_2}{\partial y} \end{vmatrix} \neq 0 \]
+\end{definicion}
+
+\textbf{Estrategia práctica:} Por ejemplo, si $\varphi_y \neq 0$, podemos tomar $\psi(x,y) = x$. El Jacobiano sería:
+\[ \begin{vmatrix} \varphi_x & \varphi_y \\ 1 & 0 \end{vmatrix} = -\varphi_y \neq 0. \]
+
+Sustituyendo en la ecuación, se eliminan los términos en $u_{\xi\xi}$, llegándose a la forma canónica:
+\[
+\boxed{u_{\eta\eta} = \Phi(\xi, \eta, u, u_\eta, u_\xi)} \quad (\text{Prototipo: Ecuación del Calor})
+\]
+
+\section*{Ejemplos de Reducción a Forma Canónica}
+
+\begin{ejemplo}{Ejemplo 1: Caso Hiperbólico con Coeficientes Constantes}
+    Consideramos la ecuación:
+    \[ u_{xx} + 10 u_{xy} + 9 u_{yy} = y \]
+    Identificamos coeficientes: $a_{11}=1$, $a_{12}=5$, $a_{22}=9$.
+    Discriminante: $\Delta = 5^2 - 1\cdot 9 = 16 > 0$ (Hiperbólica).
+
+    \textbf{1. Ecuaciones Características:}
+    \[ \frac{dy}{dx} = \frac{5 \pm \sqrt{16}}{1} = 5 \pm 4 \implies \begin{cases} y' = 9 \\ y' = 1 \end{cases} \]
+    Integrando obtenemos las familias de curvas:
+    \[ y = 9x + C_1 \implies \xi = 9x - y \]
+    \[ y = x + C_2 \implies \eta = x - y \]
+
+    \textbf{2. Cambio de Variables y Transformación:}
+    Calculamos las derivadas ($u_x, u_y, u_{xx}, u_{xy}, u_{yy}$) en función de $\xi, \eta$ y sustituimos en la ecuación original.
+    Al simplificar, los términos $u_{\xi\xi}$ y $u_{\eta\eta}$ se anulan (como se esperaba), y el coeficiente cruzado queda:
+    \[ 2\overline{a_{12}} = -64. \]
+    El término independiente $y$ se despeja del sistema: $y = \frac{\xi - 9\eta}{8}$.
+    
+    La ecuación reducida (1ª Forma Canónica) es:
+    \[ -64 u_{\xi\eta} = \frac{\xi - 9\eta}{8} \implies \boxed{u_{\xi\eta} = \frac{9\eta - \xi}{512}} \]
+
+    \textbf{3. Integración (Solución General):}
+    Integramos respecto a $\xi$:
+    \[ u_\eta = \int \frac{9\eta - \xi}{512} d\xi = \frac{1}{512} \left( 9\eta\xi - \frac{\xi^2}{2} \right) + \varphi(\eta) \]
+    Integramos respecto a $\eta$:
+    \[ u(\xi,\eta) = \frac{1}{512} \left( \frac{9\xi\eta^2}{2} - \frac{\xi^2\eta}{2} \right) + \Psi(\eta) + \Phi(\xi) \]
+    Finalmente, deshacemos el cambio $\xi=9x-y$, $\eta=x-y$.
+
+    \textbf{4. Segunda Forma Canónica:}
+    Si hacemos el cambio adicional $\alpha = \frac{\xi+\eta}{2}$, $\beta = \frac{\xi-\eta}{2}$, la ecuación se transforma en:
+    \[ \frac{1}{4}(u_{\alpha\alpha} - 4u_{\beta\beta}) = \frac{9(\alpha-\beta) - (\alpha+\beta)}{512} \dots \]
+\end{ejemplo}
+
+\begin{ejemplo}{Ejemplo 2: Ecuación con Coeficientes Variables (Tricomi)}
+    Consideramos la ecuación:
+    \[ y u_{xx} + u_{yy} = 0 \]
+    Aquí $a_{11}=y, a_{12}=0, a_{22}=1$. Discriminante $\Delta = -y$.
+    
+    \textbf{CASO A: Región Elíptica ($y > 0$)}
+    $\Delta < 0$. Características complejas:
+    \[ \frac{dy}{dx} = \pm \frac{i}{\sqrt{y}} \implies \sqrt{y} dy = \pm i dx \implies \frac{2}{3}y^{3/2} = \pm i x + C \]
+    Tomamos el cambio real:
+    \[ \alpha = 3x, \quad \beta = 2y^{3/2} \]
+    Al transformar la ecuación, llegamos a la forma canónica elíptica:
+    \[ \boxed{u_{\alpha\alpha} + u_{\beta\beta} = -\frac{1}{3\beta} u_\beta} \]
+
+    \textbf{CASO B: Región Hiperbólica ($y < 0$)}
+    $\Delta > 0$. Características reales.
+    \[ \frac{dy}{dx} = \pm \frac{1}{\sqrt{-y}} \implies \xi = 3x + 2(-y)^{3/2}, \quad \eta = 3x - 2(-y)^{3/2} \]
+    La 1ª Forma Canónica resulta:
+    \[ u_{\xi\eta} = \frac{1}{6(\xi-\eta)}(u_\xi - u_\eta) \]
+    Usando variables $\alpha, \beta$ (2ª Forma Canónica), se obtiene:
+    \[ \boxed{u_{\alpha\alpha} - u_{\beta\beta} = \frac{1}{3\beta} u_\beta} \]
+\end{ejemplo}
+
+\section{El Problema de Cauchy para EDPs Lineales de Segundo Orden}
+
+Antes de abordar el teorema general, realizamos una breve incursión mediante ejemplos para ilustrar la variedad de comportamientos (existencia, unicidad o carencia de ellas) que presentan estos problemas dependiendo del tipo de ecuación.
+
+\subsection{Ejemplos Preliminares}
+
+\begin{ejemplo}{Ejemplo 1: Dependencia de los Datos (Mal Planteamiento)}
+    Consideramos el problema:
+    \[
+    \begin{cases}
+        u_{xt} = 0 \\
+        u(x,0) = \phi_0(x) \\
+        u_t(x,0) = \phi_1(x)
+    \end{cases}
+    \]
+    Sabemos que la solución general de $u_{xt}=0$ es $u(x,t) = \varphi(x) + \psi(t)$.
+    Imponemos las condiciones iniciales:
+    \begin{enumerate}
+        \item $u(x,0) = \varphi(x) + \psi(0) = \phi_0(x) \implies \varphi(x) = \phi_0(x) - C$.
+        \item $u_t(x,t) = \psi'(t) \implies u_t(x,0) = \psi'(0)$.
+    \end{enumerate}
+    \textbf{Conclusión:} Para que exista solución, el dato $\phi_1(x)$ debe cumplir $\phi_1(x) = \psi'(0) = \text{cte}$.
+    \begin{itemize}
+        \item Si $\phi_1(x)$ no es constante: \textbf{No existe solución}.
+        \item Si $\phi_1(x) = K$: Existen \textbf{infinitas soluciones} (indeterminación en $\psi(t)$ salvo en $t=0$).
+    \end{itemize}
+\end{ejemplo}
+
+\begin{ejemplo}{Ejemplo 2: Compatibilidad y Analiticidad}
+    Consideramos el sistema:
+    \[
+    \begin{cases}
+        u_t = u_{xx} \\
+        u(x,0) = \phi_0(x) \quad \text{con } \phi_0, \phi_1 \in \mathcal{C}^2(\mathbb{R}) \\
+        u_t(x,0) = \phi_1(x)
+    \end{cases}
+    \]
+    Observamos que la propia ecuación impone una relación entre los datos iniciales.
+    Si $u$ es solución, en $t=0$ se debe cumplir:
+    \[ u_t(x,0) = u_{xx}(x,0) \implies \phi_1(x) = \phi_0''(x). \]
+    Este es un sistema \textbf{sobredeterminado}. Si no se cumple esta condición, no existe solución clásica.
+
+    \textbf{Comparación con Cauchy-Kowalevski:}
+    Si consideramos el problema:
+    \[
+    \begin{cases}
+        u_t = u_{xx} \\
+        u(0,t) = \phi_1(t) \\
+        u_x(0,t) = \phi_2(t)
+    \end{cases}
+    \]
+    Por el Teorema de Cauchy-Kowalevski, este problema tiene una \textbf{única solución analítica} si $\phi_1, \phi_2$ son funciones \textbf{analíticas} reales (es decir, se pueden expresar como series de potencias convergentes).
+\end{ejemplo}
+
+\begin{ejemplo}{Ejemplo 3: Ecuación de Laplace y Principio de Reflexión}
+    \[
+    \begin{cases}
+        u_{xx} + u_{yy} = 0, \quad y > 0 \\
+        u(x,0) = 0 \\
+        u_y(x,0) = h(x)
+    \end{cases}
+    \]
+    Si $u \in \mathcal{C}^2(\Omega)$ es solución, entonces $\Delta u = 0$ y se dice que $u$ es \textbf{armónica}.
+    En teoría compleja, sabemos que localmente $u = \text{Re}(f)$ para alguna función $f = u + iv$ analítica en $\Omega$ ($y>0$).
+
+    \textbf{Principio de Reflexión de Schwarz:}
+    Dado que $u(x,0)=0$ en el borde real, podemos extender la función $\tilde{f}$ al semiplano inferior ($y<0$) mediante:
+    \[ \tilde{f}(z) = \begin{cases} f(z) & \text{en } \Omega \\ \overline{f(\bar{z})} & \text{en el reflejado} \end{cases} \]
+    La función extendida es analítica. Esto implica que la extensión de $u$:
+    \[ \tilde{u}(x,y) = \begin{cases} u(x,y) & \text{si } y \ge 0 \\ -u(x,-y) & \text{si } y < 0 \end{cases} \]
+    es armónica en todo el entorno del eje $x$.
+    \textbf{Conclusión:} Para que exista solución, el dato $u_y(x,0) = h(x)$ \textbf{debe ser analítico}.
+\end{ejemplo}
+
+\begin{ejemplo}{Ejemplo 4: Ecuación de Ondas y Fórmula de D'Alembert}
+    Resolver el problema de Cauchy:
+    \[
+    \begin{cases}
+        u_{tt} - u_{xx} = 0 \\
+        u(x,0) = f(x) \quad \text{con } f \in \mathcal{C}^2, g \in \mathcal{C}^1 \\
+        u_t(x,0) = g(x)
+    \end{cases}
+    \]
+    \textbf{1. Clasificación y Reducción:}
+    Discriminante: $a_{12}^2 - a_{11}a_{22} = 0 - 1(-1) = 1 > 0$ (\textbf{Hiperbólica}).
+    Características:
+    \[ \left(\frac{dx}{dt}\right)^2 - 1 = 0 \implies \frac{dx}{dt} = \pm 1 \implies \begin{cases} x-t = C_1 \\ x+t = C_2 \end{cases} \]
+    Cambio de variables: $\xi = x+t, \eta = x-t$.
+    La ecuación se reduce a $u_{\xi\eta} = 0$.
+
+    \textbf{2. Solución General:}
+    Integrando $u_{\xi\eta}=0$ obtenemos $u(\xi,\eta) = \varphi(\xi) + \psi(\eta)$.
+    Deshaciendo el cambio:
+    \[ u(x,t) = \varphi(x+t) + \psi(x-t) \quad (*) \]
+
+    \textbf{3. Imposición de Condiciones Iniciales ($t=0$):}
+    \begin{itemize}
+        \item $u(x,0) = \varphi(x) + \psi(x) = f(x)$
+        \item $u_t(x,0) = \varphi'(x) \cdot 1 + \psi'(x) \cdot (-1) = \varphi'(x) - \psi'(x) = g(x)$
+    \end{itemize}
+    Integrando la segunda ecuación:
+    \[ \varphi(x) - \psi(x) = \int_{a}^{x} g(s) ds + K \]
+    
+    Resolviendo el sistema para $\varphi$ y $\psi$:
+    \[
+    \begin{cases}
+        \varphi(x) = \frac{1}{2} \left[ f(x) + \int_{a}^{x} g(s) ds + K \right] \\
+        \psi(x) = \frac{1}{2} \left[ f(x) - \int_{a}^{x} g(s) ds - K \right]
+    \end{cases}
+    \]
+
+    \textbf{4. Solución Final (Sustituyendo en *):}
+    \[
+    u(x,t) = \frac{1}{2} \left[ f(x+t) + \int_{a}^{x+t} g(s)ds + K \right] + \frac{1}{2} \left[ f(x-t) - \int_{a}^{x-t} g(s)ds - K \right]
+    \]
+    Agrupando las integrales ($\int_a^{x+t} - \int_a^{x-t} = \int_{x-t}^{x+t}$):
+    \[
+    \boxed{u(x,t) = \frac{f(x+t) + f(x-t)}{2} + \frac{1}{2} \int_{x-t}^{x+t} g(s) \, ds}
+    \]
+    Esta es la \textbf{Solución de D'Alembert}.
+\end{ejemplo}
+\section{Teorema de Cauchy-Kowalevski (Enunciado Débil)}
+
+Consideramos un punto $X^0 = (x_{10}, x_{20}, \dots, x_{n0}) \in \mathbb{R}^n$, con $n \in \mathbb{N}$.
+Sea la ecuación en derivadas parciales:
+\begin{equation}
+    \frac{\partial^N u}{\partial x_1^N} = F\left( x_1, \dots, x_n, u, \frac{\partial u}{\partial x_1}, \dots, \frac{\partial^N u}{\partial x_1^{N-1} \partial x_n}, \dots \right)
+\end{equation}
+que resulta de despejar con respecto a una de sus derivadas de orden mayor (orden $N$) respecto a la variable $x_1$.
+
+\begin{ejemplo}{Ejemplo de estructura}
+    Para $N=3, n=2$:
+    \[ \frac{\partial^3 u}{\partial x_1^3} = F\left( x_1, x_2, u, u_{x_1}, u_{x_2}, u_{x_1 x_1}, u_{x_1 x_2}, u_{x_2 x_2}, u_{x_1 x_1 x_2}, u_{x_1 x_2 x_2} \right) \]
+\end{ejemplo}
+
+\subsection*{Condiciones Iniciales (Datos de Cauchy)}
+
+Añadimos las siguientes condiciones sobre el hiperplano $x_1 = x_{10}$ (al fijar la variable $x_1$):
+
+\[
+\begin{cases}
+    u(x_{10}, x_2, \dots, x_n) = \psi_0(x_2, x_3, \dots, x_n) \\
+    \frac{\partial u}{\partial x_1}(x_{10}, x_2, \dots, x_n) = \psi_1(x_2, \dots, x_n) \\
+    \frac{\partial^2 u}{\partial x_1^2}(x_{10}, x_2, \dots, x_n) = \psi_2(x_2, \dots, x_n) \\
+    \quad \vdots \\
+    \frac{\partial^{N-1} u}{\partial x_1^{N-1}}(x_{10}, x_2, \dots, x_n) = \psi_{N-1}(x_2, \dots, x_n)
+\end{cases}
+\]
+
+\begin{definicion}{Función Analítica}
+    Una función $f(x)$ es analítica en un punto $x_0$ si admite desarrollo en serie de potencias:
+    \[ f(x) = \sum_{j=0}^{\infty} a_j (x-x_0)^j \]
+    En varias variables:
+    \[ f(x,y) = \sum_{j,k=0}^{\infty} a_{jk} (x-x_0)^j (y-y_0)^k \]
+\end{definicion}
+
+\begin{teorema}{Enunciado del Teorema}
+    Si las funciones $\psi_0, \psi_1, \dots, \psi_{N-1}$ son \textbf{analíticas} en un entorno de $\bar{X}^0 = (x_{20}, \dots, x_{n0})$, y si la función $F$ es \textbf{analítica} en un entorno de sus argumentos (en el punto evaluado), entonces:
+    
+    El problema de Cauchy admite una \textbf{única solución analítica} $u(x_1, \dots, x_n)$ en un entorno de $X^0 = (x_{10}, \dots, x_{n0})$.
+\end{teorema}
+
+\subsection*{Caso Particular ($N=2, n=2$)}
+
+Variables $(t, x)$ y punto $X^0 = (t_0, x_0)$.
+\[
+\begin{cases}
+    u_{tt} = F(t, x, u, u_t, u_x, u_{tx}, u_{xx}) \\
+    u(t_0, x) = \varphi_0(x) \\
+    u_t(t_0, x) = \varphi_1(x)
+\end{cases}
+\]
+Si $F$ es analítica en $(t_0, x_0, u(t_0,x_0), \dots)$ y $\varphi_0, \varphi_1$ son analíticas alrededor de $x_0$, el problema tiene una \textbf{única solución analítica} en un entorno de $(t_0, x_0)$.
+
+\begin{observacion}{Notas Adicionales}
+    \begin{itemize}
+        \item Geométricamente, $u_t$ representa la derivada en la dirección normal a la curva inicial $t=t_0$.
+        \item Si $F$ es \textbf{lineal}, la única solución que hay es analítica (porque si no, podría haber soluciones no analíticas o distribucionales, pero el teorema de Holmgren asegura la unicidad en el caso lineal).
+        \item Si tenemos dos soluciones analíticas definidas en entornos distintos, estas coinciden y son únicas en la \textbf{intersección} de los entornos.
+    \end{itemize}
+\end{observacion}
+
+
+
+\subsection{Aplicación Práctica: Resolución por Series}
+
+\begin{ejemplo}{Cálculo de Solución Analítica}
+    Resolver el problema de Cauchy:
+    \[ (P) \quad \begin{cases} u_{xx} = u_t \\ u(0,t) = e^t \\ u_x(0,t) = 2 \end{cases} \]
+    
+    \textbf{1. Análisis:}
+    Los coeficientes (constantes) y los datos ($e^t, 2$) son analíticos. Por el teorema, existe solución única analítica alrededor de $(0,0)$.
+    
+    \textbf{2. Construcción de la Serie:}
+    Proponemos una solución en series de potencias respecto a $x$ (ya que los datos están en $x=0$):
+    \[ u(x,t) = \sum_{n=0}^{\infty} K_n(t) x^n \]
+    Calculamos las derivadas:
+    \[ u_t = \sum_{n=0}^{\infty} K_n'(t) x^n \]
+    \[ u_{xx} = \sum_{n=2}^{\infty} n(n-1) K_n(t) x^{n-2} = \sum_{n=0}^{\infty} (n+2)(n+1) K_{n+2}(t) x^n \]
+    
+    \textbf{3. Relación de Recurrencia:}
+    Igualando coeficientes de $x^n$ en la EDP $u_{xx} = u_t$:
+    \[ (n+2)(n+1) K_{n+2}(t) = K_n'(t), \quad \forall n \ge 0. \]
+    
+    \textbf{4. Condiciones Iniciales:}
+    \begin{itemize}
+        \item $u(0,t) = K_0(t) = e^t$.
+        \item $u_x(0,t) = K_1(t) = 2 \implies K_1'(t) = 0$.
+    \end{itemize}
+    
+    \textbf{5. Resolución de los Coeficientes:}
+    \begin{itemize}
+        \item \textbf{Términos Impares:}
+        $K_1(t) = 2$.
+        $K_3(t) = \frac{K_1'(t)}{3\cdot 2} = 0$.
+        Por recurrencia, $K_{2n+1}(t) = 0$ para todo $n \ge 1$. El único término impar es $2x$.
+        
+        \item \textbf{Términos Pares:}
+        $K_0(t) = e^t$.
+        $K_2(t) = \frac{K_0'(t)}{2\cdot 1} = \frac{e^t}{2!}$.
+        $K_4(t) = \frac{K_2'(t)}{4\cdot 3} = \frac{e^t}{4!}$.
+        En general: $K_{2n}(t) = \frac{e^t}{(2n)!}$.
+    \end{itemize}
+    
+    \textbf{6. Solución Final:}
+    Sustituimos en la serie:
+    \[ u(x,t) = 2x + \sum_{n=0}^{\infty} \frac{e^t}{(2n)!} x^{2n} = 2x + e^t \underbrace{\sum_{n=0}^{\infty} \frac{x^{2n}}{(2n)!}}_{\cosh x} \]
+    \[ \boxed{u(x,t) = 2x + e^t \cosh x} \]
+\end{ejemplo}
+
+
+
+
+
+\section{Problema de Cauchy y Teorema de Cauchy-Kowalevski}
+
+\begin{teorema}{Cauchy-Kowalevski (Enunciado débil)}
+    Sea el problema de Cauchy para una ecuación de orden $N$:
+    \[ \frac{\partial^N u}{\partial x_1^N} = F\left(x_i, u, \dots, \frac{\partial^\alpha u}{\partial x^\alpha}\right) \]
+    con condiciones iniciales $\frac{\partial^k u}{\partial x_1^k} = \varphi_k$ para $k=0, \dots, N-1$ en $x_1 = x_{10}$.
+    Si $F$ y todas las $\varphi_k$ son \textbf{analíticas} en un entorno de sus argumentos, entonces el problema admite una \textbf{única solución analítica} en un entorno del punto inicial.
+\end{teorema}
+
+\begin{ejemplo}{Cálculo de solución analítica}
+    Resolver $u_{xx} = u_t$ con $u(0, t) = e^t, u_x(0, t) = 2$.
+    Buscamos $u(x, t) = \sum_{n=0}^\infty K_n(t) x^n$.
+    Derivando e igualando potencias de $x$: $(n+2)(n+1)K_{n+2}(t) = K_n'(t)$.
+    \begin{itemize}
+        \item Condición $u(0, t) = e^t \Rightarrow K_0(t) = e^t$.
+        \item Condición $u_x(0, t) = 2 \Rightarrow K_1(t) = 2$.
+    \end{itemize}
+    Recursión:
+    $K_2(t) = \frac{K_0'}{2\cdot 1} = \frac{e^t}{2!}$, $K_4(t) = \frac{e^t}{4!}$, etc. $\Rightarrow K_{2n}(t) = \frac{e^t}{(2n)!}$.
+    Para impares: $K_1(t)=2, K_1'=0 \Rightarrow K_3=0, K_5=0 \dots$
+    
+    Solución final: $u(x, t) = 2x + e^t \sum_{j=0}^\infty \frac{x^{2j}}{(2j)!} = 2x + e^t \cosh(x)$.
+\end{ejemplo}
+
+\section{Anexo: Funciones Analíticas y Multiíndices}
+
+\begin{definicion}{Multiíndice}
+    Un multiíndice $\alpha = (\alpha_1, \dots, \alpha_n) \in \N_0^n$ define:
+    $|\alpha| = \sum \alpha_i$, $x^\alpha = x_1^{\alpha_1} \dots x_n^{\alpha_n}$ y $D^\alpha f = \frac{\partial^{|\alpha|} f}{\partial x_1^{\alpha_1} \dots \partial x_n^{\alpha_n}}$.
+\end{definicion}
+
+\begin{definicion}{Función Analítica}
+    $f$ es analítica en $x_0$ si se puede expresar como una serie de potencias convergente:
+    \[ f(x) = \sum_{\alpha \in \N_0^n} c_\alpha (x - x_0)^\alpha \]
+\end{definicion}

@@ -1,0 +1,412 @@
+\section{Tema 1: Introducción a las Ecuaciones en Derivadas Parciales}
+
+\subsection{Contexto General: Ecuaciones Funcionales}
+
+Las Ecuaciones en Derivadas Parciales (EDPs) son un subconjunto de un campo más amplio: las ecuaciones funcionales, donde la incógnita no es un número, sino una función.
+
+\subsubsection{Tipos de Ecuaciones Funcionales}
+
+\begin{ejemplo}{Ecuaciones Algebraicas y de Intervalo}
+    \begin{itemize}
+        \item \textbf{Ecuación de Cauchy:} Buscar $f: \mathbb{R} \to \mathbb{R}$ continua tal que:
+        \[ f(x+y) = f(x) + f(y). \]
+        Solución: $f(x) = cx$ (funciones lineales).
+        
+        \item \textbf{Ecuación de D'Alembert (Intervalo):} $f: [0,1] \to \mathbb{R}$ tal que:
+        \[ f(x) = \frac{1}{2}f\left(\frac{x}{2}\right) + \frac{1}{2}f\left(\frac{x+1}{2}\right). \]
+        Solución: $f(x) = C$ (constante).
+        
+        \item \textbf{Ejercicio propuesto:} Hallar $f$ continua tal que $f(x) + f(3x) = x$.
+        (Pista: Iterando la relación se obtiene una serie geométrica).
+    \end{itemize}
+\end{ejemplo}
+
+%\begin{ejemplo}{Ecuaciones Iterativas (Babbage, 1825)}
+ %   Se busca $f$ tal que la composición $n$-ésima sea la identidad o una función dada:
+  %  \[ f^n(x) = f \circ f \circ \dots \circ f(x) = x. \]
+   % O ecuaciones de "tiro polinómico": $\sum a_k f^k(x) = 0$.
+%\end{ejemplo}
+
+\begin{ejemplo}{Ecuaciones en Diferencias Finitas}
+    Relaciones de recurrencia del tipo:
+    \[ x_{n+k} = F(n, x_{n+k-1}, \dots, x_n). \]
+    Describen evoluciones discretas (dinámica de poblaciones, algoritmos).
+\end{ejemplo}
+
+\subsubsection{Ecuaciones Integrales}
+
+Aparecen cuando la incógnita está bajo el signo integral.
+
+\begin{definicion}{Ecuación de Volterra de 2ª Especie}
+    \[ \varphi(x) = f(x) + \lambda \int_a^x K(x,t) \varphi(t) \, dt \]
+    Donde $K(x,t)$ es el núcleo (kernel) y $\lambda$ un parámetro.
+\end{definicion}
+
+\begin{observacion}{Método de Resolución (Series de Neumann)}
+    Se busca una solución en forma de serie de potencias respecto a $\lambda$:
+    \[ \varphi(x) = \varphi_0(x) + \lambda \varphi_1(x) + \lambda^2 \varphi_2(x) + \dots \]
+    Sustituyendo en la ecuación integral e igualando potencias de $\lambda$, obtenemos un sistema recursivo:
+    \begin{itemize}
+        \item $\varphi_0(x) = f(x)$.
+        \item $\varphi_n(x) = \int_a^x K(x,t) \varphi_{n-1}(t) \, dt$.
+    \end{itemize}
+    Esto permite expresar la solución mediante núcleos iterados $K_n(x,t)$.
+    
+    \textbf{Ejemplo:} Para $\varphi(x) = x - \int_0^x (t-x) \varphi(t) dt$, se puede comprobar que la solución es $\varphi(x) = \sin(x)$ (o similar según el núcleo exacto). En los apuntes se menciona $\varphi(x) = x - x^3/6$ como aproximación o solución a otro kernel.
+\end{observacion}
+
+\subsection{Definiciones Básicas de EDPs}
+
+Sea $u = u(x_1, \dots, x_n): \Omega \subseteq \mathbb{R}^n \to \mathbb{R}$ una función escalar.
+
+\begin{definicion}{Ecuación en Derivadas Parciales}
+    Una EDP es una relación funcional del tipo:
+    \[ F(x_1, \dots, x_n, u, u_{x_1}, \dots, u_{x_n}, u_{x_1 x_1}, \dots) = 0 \]
+    donde aparecen las variables independientes, la función incógnita y sus derivadas parciales hasta un orden finito.
+\end{definicion}
+
+\begin{definicion}{Notación}
+        \[ u_x = \frac{\partial u}{\partial x}, \quad u_{xy} = \frac{\partial^2 u}{\partial x \partial y}, \quad D^\alpha u. \]
+        Convenio: $u_{xy}$ denota derivar primero respecto a una variable y luego la otra (según el Teorema de Schwarz, el orden no importa para funciones $\mathcal{C}^2$).
+\end{definicion}
+
+\begin{definicion}{Orden de una EDP}
+    El \textbf{orden} de una EDP es el orden de la derivada parcial más alta que aparece en la ecuación.
+\end{definicion}
+
+\begin{ejemplo}{Ejemplos de Orden}
+    \begin{itemize}
+        \item $u_x - u_{xy} + u_{xxx} = 2u + x$. (Orden 3, variables $x,y$).
+        \item $2x + 12y^2 - u_x + u_{yy} = 0$. (Orden 2).
+        \item \textbf{Ecuación de Ondas:} $u_{xx} = u_{tt}$. (Orden 2). Una solución particular es $u(x,t) = \cos(x+2t) - e^{x-2t}$. La solución general es $u(x,t) = f(x+2t) + g(x-2t)$.
+    \end{itemize}
+\end{ejemplo}
+\subsection{Clasificación según la Linealidad}
+
+\begin{definicion}{1. EDP Lineal}
+    La ecuación es lineal respecto a la incógnita $u$ y todas sus derivadas. Los coeficientes dependen solo de las variables independientes.
+    \begin{itemize}
+        \item Orden 1: $A(x,y)u_x + B(x,y)u_y + C(x,y)u = D(x,y)$.
+        \item Orden 2: $\sum A_{ij} u_{x_i x_j} + \sum B_i u_{x_i} + C u = D$.
+    \end{itemize}
+    Si $D=0$, es \textbf{homogénea}.
+\end{definicion}
+
+\begin{definicion}{2. EDP Cuasi-Lineal}
+    La ecuación es \textbf{lineal respecto a las derivadas de orden máximo}. Los coeficientes de estas derivadas pueden depender de las derivadas de orden inferior y de la propia $u$.
+    \begin{itemize}
+        \item Orden 1: $A(x,y,u) u_x + B(x,y,u) u_y = C(x,y,u)$.
+        \item Orden 2: $A(x,y,u, u_x, u_y) u_{xx} + \dots = G(x,y,u, u_x, u_y)$.
+    \end{itemize}
+\end{definicion}
+
+\begin{definicion}{3. EDP No Lineal}
+    Cualquier ecuación que no sea cuasi-lineal.
+    Ejemplo: $(u_x)^2 + u_y = 1$ o la ecuación de Monge-Ampère $u_{xx}u_{yy} - (u_{xy})^2 = f$.
+\end{definicion}
+\begin{ejemplo}{Clasificación Práctica}
+    \begin{enumerate}
+        \item $u_x + 4u_y = u$. \textbf{(Lineal, Orden 1)}.
+        Solución general: $u(x,y) = e^x g(4x-y)$.
+        \item $2x u_x + y u_y = 2x$. \textbf{(Lineal, Orden 1)}.
+        Solución general: $u(x,y) = x + f(y^2/x)$.
+        \item $y u_x + (x-u)u_y = y$. \textbf{(Cuasi-Lineal, Orden 1)}.
+        Solución implícita: $u = \frac{1}{x}(1 - y^2/2) + \lambda$ (a verificar).
+        \item $u_x^2 + u_y^2 = u^2$. \textbf{(No Lineal)}.
+    \end{enumerate}
+\end{ejemplo}
+
+
+
+\subsection{Métodos de Integración Directa}
+A diferencia de las EDOs donde la solución general depende de constantes arbitrarias ($C_1, \dots, C_m$), en las EDPs la solución general depende de \textbf{funciones arbitrarias}. El número de funciones arbitrarias suele coincidir con el orden de la ecuación.
+\subsubsection{Casos Simples de Integración}
+
+\begin{itemize}
+    \item \textbf{Caso $u_y = 0$ (en $\mathbb{R}^2$):}
+    Integramos respecto a $y$ (tratando $x$ como constante).
+    \[ u(x,y) = \phi(x). \]
+    
+    \item \textbf{Caso $u_x = 0$ (en $\mathbb{R}^4$, $u(x,y,z,t)$):}
+    \[ u(x,y,z,t) = \Phi(y,z,t). \]
+    
+    \item \textbf{Caso $u_{xy} = 0$:}
+    Integramos respecto a $x$: $u_y(x,y) = \psi(y)$.
+    Integramos respecto a $y$: $u(x,y) = \int \psi(y) dy + f(x)$.
+    \[ u(x,y) = f(x) + g(y). \]
+    
+    \item \textbf{Caso $u_{xy} = f(x,y)$ (No homogénea):}
+    Integrando sucesivamente:
+    \[ u(x,y) = \int_{x_0}^x \left( \int_{y_0}^y f(\tau, s) \, ds \right) d\tau + \Phi(x) + \Psi(y). \]
+\end{itemize}
+
+
+\subsubsection{Integración Mixta}
+Para $u_{xy} = f(x,y)$ en un dominio convexo:
+1. Integramos respecto a $y$:
+\[ u_x(x,y) - u_x(x, y_0) = \int_{y_0}^y f(x,s) \, ds \implies u_x(x,y) = \alpha(x) + \int_{y_0}^y f(x,s) \, ds. \]
+2. Integramos respecto a $x$:
+\[ u(x,y) = \int_{x_0}^x \left( \int_{y_0}^y f(\tau, s) \, ds \right) d\tau + \Phi(x) + \Psi(y). \]
+
+Muchas EDPs lineales de coeficientes constantes pueden reducirse a una integración directa mediante un cambio de coordenadas adecuado.
+
+%\begin{ejemplo}{Ecuación $u_x = u_y$}
+    %Consideramos el cambio:
+    %\[ \begin{cases} \xi = x+y \\ \eta = x-y \end{cases} \implies \begin{cases} x = \frac{\xi+\eta}{2} \\ y = \frac{\xi-\eta}{2} \end{cases} \]
+    %Aplicamos la regla de la cadena para transformar el operador diferencial. Sea $w(\xi, \eta) = u(x,y)$.
+    %\[ u_x = w_\xi \cdot 1 + w_\eta \cdot 1, \quad u_y = w_\xi \cdot 1 + w_\eta \cdot (-1). \]
+    %Sustituyendo en la ecuación $u_x - u_y = 0$:
+    %\[ (w_\xi + w_\eta) - (w_\xi - w_\eta) = 0 \implies 2w_\eta = 0 \implies w_\eta = 0. \]
+    %Solución: $w(\xi, \eta) = \phi(\xi)$.
+    %Deshaciendo el cambio: $\boxed{u(x,y) = \phi(x+y)}$.
+%\end{ejemplo}
+
+
+\begin{ejemplo}{Caso General \texorpdfstring{$\alpha u_x + \beta u_y = 0$}{αuₓ + βuᵧ = 0}}
+    Proponemos el cambio $\xi = \beta x - \alpha y$ (curvas características) y $\eta = \beta x + \alpha y$ (o cualquier otra independiente).
+    Siguiendo el proceso anterior, llegamos a que la derivada en la dirección transversal es nula, obteniendo:
+    \[ u(x,y) = \phi(\beta x - \alpha y). \]
+    \textbf{Nota:} También se puede ver geométricamente: el gradiente $\nabla u$ es ortogonal a $(\alpha, \beta)$, por lo que $u$ es constante en las líneas $\beta x - \alpha y = C$.
+\end{ejemplo}
+
+\begin{ejemplo}{Transporte Lineal con Coeficientes Constantes}
+    Resolver $u_x + 4u_y = u$.
+    
+    \textbf{1. Cambio de Variable:} Buscamos alinear una nueva coordenada con las curvas características.
+    \[ \begin{cases} \xi = 4x + y \\ \eta = 4x - y \end{cases} \implies \begin{cases} x = \frac{1}{8}(\xi+\eta) \\ y = \frac{1}{2}(\xi-\eta) \end{cases} \]
+    
+    \textbf{2. Regla de la Cadena:}
+    \[ u_x = u_\xi \cdot 4 + u_\eta \cdot 4 \]
+    \[ u_y = u_\xi \cdot 1 + u_\eta \cdot (-1) \]
+    Sustituyendo en la ecuación:
+    \[ (4u_\xi + 4u_\eta) + 4(u_\xi - u_\eta) = u \implies 8u_\xi = u. \]
+    
+    \textbf{3. Integración:}
+    Es una EDO en $\xi$: $\frac{u_\xi}{u} = \frac{1}{8} \implies \ln|u| = \frac{\xi}{8} + K(\eta)$.
+    \[ u(\xi, \eta) = C(\eta) e^{\xi/8}. \]
+    
+    \textbf{4. Deshacer el cambio:}
+    \[ u(x,y) = C(4x-y) e^{(4x+y)/8} = C(4x-y) e^{x/2 + y/8}. \]
+    (Nota: Se puede reabsorber parte de la exponencial en la función arbitraria si se desea simplificar).
+\end{ejemplo}
+
+\begin{ejemplo}{Problema de Cauchy}
+    Si añadimos la condición inicial $u(x,0) = \cos(x)$.
+    Usando la forma general simplificada $u(x,y) = e^{x} \phi(4x-y)$ (otra variante válida del cambio):
+    \[ u(x,0) = e^x \phi(4x) = \cos(x) \implies \phi(4x) = e^{-x} \cos(x). \]
+    Haciendo $t=4x \implies x=t/4$: $\phi(t) = e^{-t/4} \cos(t/4)$.
+    Solución final:
+    \[ u(x,y) = e^x \cdot e^{-(4x-y)/4} \cos\left(\frac{4x-y}{4}\right) = e^{y/4} \cos\left(x - \frac{y}{4}\right). \]
+\end{ejemplo}
+
+\begin{ejemplo}{Ecuación de Ondas}
+    Para $u_{yy} = a^2 u_{xx}$, el cambio canónico es $\xi = x+ay, \eta = x-ay$.
+    Esto transforma la ecuación en $u_{\xi \eta} = 0$, cuya solución es la fórmula de D'Alembert:
+    \[ u(x,y) = f(x+ay) + g(x-ay). \]
+\end{ejemplo}
+
+\subsection{Construcción de EDPs y Familias de Soluciones}
+
+Al igual que eliminando constantes en una familia $n$-paramétrica de curvas obtenemos una EDO de orden $n$, eliminando \textbf{funciones arbitrarias} obtenemos EDPs.
+
+\begin{ejemplo}{Eliminación de función arbitraria}
+    Sea la familia $u(x,y) = e^{\sqrt{2xy + f(x-y)}}$.
+    Derivando respecto a $x$ e $y$ y operando para eliminar $f(x-y)$ y $f'(x-y)$, llegamos a la relación:
+    \[ u_x + u_y = \frac{x+y}{\ln u} u \iff (x+y)u = (u_x + u_y)\ln u. \]
+\end{ejemplo}
+
+\subsubsection{Soluciones Implícitas}
+\begin{observacion}{Teorema de la Función Inversa (Aplicado a EDPs)}
+    Sea $\Phi: \Omega \subseteq \mathbb{R}^n \to \mathbb{R}^n$ una función de clase $\mathcal{C}^1$ (por ejemplo, el cambio de coordenadas entre el espacio físico $(x,y)$ y los parámetros característicos $(t,s)$).
+    
+    Si en un punto $P_0 \in \Omega$ el Jacobiano es no nulo:
+    \[
+    \det(J\Phi(P_0)) = \det \begin{pmatrix} \frac{\partial \phi_1}{\partial u_1} & \cdots & \frac{\partial \phi_1}{\partial u_n} \\ \vdots & \ddots & \vdots \\ \frac{\partial \phi_n}{\partial u_1} & \cdots & \frac{\partial \phi_n}{\partial u_n} \end{pmatrix} \neq 0,
+    \]
+    entonces existen entornos abiertos $U$ de $P_0$ y $V$ de $\Phi(P_0)$ tales que $\Phi: U \to V$ es una biyección con inversa $\Phi^{-1}: V \to U$ también de clase $\mathcal{C}^1$.
+\end{observacion}
+
+\begin{observacion}{Teorema de la Función Implícita}
+    Sea $F: \Omega \subseteq \mathbb{R}^n \times \mathbb{R} \to \mathbb{R}$ una función de clase $\mathcal{C}^1$ definida en un abierto, denotando los puntos como $(\mathbf{x}, z)$. Sea $(\mathbf{x}_0, z_0) \in \Omega$ un punto tal que:
+    \begin{enumerate}
+        \item $F(\mathbf{x}_0, z_0) = 0$ (El punto está en la superficie).
+        \item $\frac{\partial F}{\partial z}(\mathbf{x}_0, z_0) \neq 0$ (Condición de no degeneración).
+    \end{enumerate}
+    Entonces, existen entornos $U \subset \mathbb{R}^n$ de $\mathbf{x}_0$ y $W \subset \mathbb{R}$ de $z_0$, y una única función $g: U \to W$ de clase $\mathcal{C}^1$ tal que $g(\mathbf{x}_0) = z_0$ y satisface idénticamente:
+    \[ F(\mathbf{x}, g(\mathbf{x})) = 0, \quad \forall \mathbf{x} \in U. \]
+    Las derivadas parciales de la función implícita $z = g(\mathbf{x})$ vienen dadas por:
+    \[ \frac{\partial z}{\partial x_i} = - \frac{\partial F / \partial x_i}{\partial F / \partial z}. \]
+\end{observacion}
+Si la solución viene dada por $F(x,y,u)=0$ (p.ej. $xu+y = \phi(yu+x)$), podemos hallar la EDP derivando implícitamente y eliminando $\phi'$.
+Para garantizar que la relación define a $u(x,y)$, usamos el \textbf{Teorema de la Función Implícita}:
+Se requiere que $\frac{\partial F}{\partial u} \neq 0$ en el punto de estudio. Si esto se cumple, existe una única solución local $u(x,y)$ diferenciable, cuyas derivadas se obtienen derivando la identidad.
+
+\subsection{Reducción de EDPs a Sistemas de Primer Orden}
+
+Cualquier EDP de orden superior puede transformarse en un sistema de ecuaciones de primer orden (aunque aumenta el número de incógnitas). Este proceso es crucial para teoremas de existencia como el de Cauchy-Kovalevskaya.
+
+\textbf{Mecanismo de conversión:}
+Dada una EDP de orden $k$ para $u$, introducimos nuevas incógnitas para todas las derivadas parciales de orden hasta $k-1$.
+
+\begin{ejemplo}{Reducción de la Ecuación de Laplace/Calor}
+    Sea $u_{xx} + u_{yy} + u_{zz} = u_t$ (Ecuación del calor inhomogénea o similar).
+    Variables: $x,y,z,t$. Incógnita original: $u$.
+    
+    Definimos nuevas variables:
+    \[ u_1 = u, \quad u_2 = u_x, \quad u_3 = u_y, \quad u_4 = u_z. \]
+    El sistema de primer orden equivalente (y compatible) sería:
+    \begin{align*}
+        (u_1)_x &= u_2 \\
+        (u_1)_y &= u_3 \\
+        (u_1)_z &= u_4 \\
+        (u_1)_t &= (u_2)_x + (u_3)_y + (u_4)_z \quad (\text{Sustituyendo en la EDP original})
+    \end{align*}
+    Además, se deben añadir las condiciones de compatibilidad (Schwarz) como $(u_2)_y = (u_3)_x$, etc., para cerrar el sistema.
+\end{ejemplo}
+
+
+
+
+
+
+\subsection{El Problema de Cauchy (Introducción)}
+
+Consiste en hallar una solución particular que satisfaga ciertos datos iniciales.
+
+\begin{ejemplo}{Resolución de un P.C.}
+    \[ \begin{cases} 5u_x + 6u_y = 0 \\ u(x,0) = 2x^2 \end{cases} \]
+    1. Solución general: $u(x,y) = \phi(6x - 5y)$.
+    2. Imponer condición inicial en $y=0$:
+    \[ u(x,0) = \phi(6x) = 2x^2. \]
+    3. Identificar la función $\phi$: Si llamamos $t = 6x \implies x = t/6$.
+    \[ \phi(t) = 2\left(\frac{t}{6}\right)^2 = \frac{t^2}{18}. \]
+    4. Solución final:
+    \[ u(x,y) = \frac{1}{18}(6x - 5y)^2. \]
+\end{ejemplo}
+
+\begin{ejemplo}{Reducción de la Ecuación de Ondas}
+    Sea $u_{yy} = a^2 u_{xx}$. Hacemos el cambio $\xi = x+ay, \eta = x-ay$.
+    Calculamos las segundas derivadas y sustituimos. Los términos cruzados se simplifican y llegamos a la forma canónica:
+    \[ u_{\xi \eta} = 0 \implies u = \phi(\xi) + \psi(\eta). \]
+    Solución general (D'Alembert): $u(x,y) = \phi(x+ay) + \psi(x-ay)$.
+\end{ejemplo}
+
+
+
+\begin{ejemplo}{Verificación y Obtención de la EDP}
+    Sea la relación $xu + y = \phi(uy+x)$ donde $\phi \in \mathcal{C}^1(\mathbb{R})$.
+    ¿Qué EDP satisface $u(x,y)$?
+    
+    1. Derivamos implícitamente respecto a $x$:
+    \[ u + x u_x = \phi'(uy+x) \cdot (u_x y + 1). \]
+    2. Derivamos implícitamente respecto a $y$:
+    \[ x u_y + 1 = \phi'(uy+x) \cdot (u_y y + u). \]
+    3. Eliminamos el término arbitrario $\phi'$ dividiendo ambas expresiones:
+    \[ \frac{u + x u_x}{x u_y + 1} = \frac{y u_x + 1}{y u_y + u}. \]
+    Operando en cruz:
+    \[ (u + x u_x)(u + y u_y) = (x u_y + 1)(y u_x + 1). \]
+    Desarrollando y simplificando se obtiene la EDP correspondiente.
+\end{ejemplo}
+
+
+
+\begin{ejemplo}{Obtención de EDP}
+    Consideramos la EDP $u = h(x-uy)$\\
+    Derivamos respecto a $x$ y $y$:
+    \[ u_x = h' \cdot (1 - u_x y) \implies h' = \frac{u_x}{1 - u_x y}. \]
+    \[ u_y = h' \cdot (-u - u_y y) \implies h' = \frac{u_y}{-u - u_y y}. \]
+    Igualamos las expresiones para $h'$:
+    \[ \frac{u_x}{1 - u_x y} = \frac{u_y}{-u - u_y y}. \]
+    \[ u_x (-u - u_y y) = u_y (1 - u_x y) \implies -u u_x - y u_x u_y = u_y - y u_x u_y. \]
+    Simplificando y reordenando:
+    \[ u u_x + u_y = 0. \]
+    Esta es la ecuación de Burgers sin viscosidad (en forma implícita).
+\end{ejemplo}
+
+
+%%%% EJERCICIOS 
+\section{Problemas Propuestos: Hoja 1 - Introducción}
+
+\subsection*{Ecuaciones Funcionales e Integrales}
+
+\begin{enumerate}
+    \item \textbf{(Ecuación funcional de Cauchy)} Encontrar las funciones continuas $f:\mathbb{R}\rightarrow\mathbb{R}$ tales que
+    \[ f(x+y)=f(x)+f(y), \quad \forall x, y \in \mathbb{R}. \]
+    Como consecuencia, resolver estas otras ecuaciones funcionales:
+    \begin{enumerate}
+        \item $g(xy)=g(x)+g(y)$ con $g:(0,\infty)\rightarrow\mathbb{R}$ continua.
+        \item $h(xy)=h(x)h(y)$, con $h:(0,\infty)\rightarrow(0,\infty)$ continua.
+    \end{enumerate}
+
+    \item Encontrar todas las funciones continuas $f:[0,1]\longrightarrow[0,1]$ que satisfacen la ecuación funcional:
+    \[ f(x)=\frac{1}{2}f\left(\frac{x}{2}\right)+\frac{1}{2}f\left(\frac{x+1}{2}\right), \quad x\in[0,1]. \]
+
+    \item 
+    \begin{enumerate}
+        \item Comprobar que la función $\varphi(x)=\frac{1}{(1+x^{2})^{3/2}}$ es solución de la ecuación integral de Volterra de segunda especie:
+        \[ \varphi(x)=\frac{1}{1+x^{2}}-\int_{0}^{x}\frac{t}{1+x^{2}}\varphi(t)\,dt. \]
+        \item Resolver la ecuación integral $\varphi(x)=x-\int_{0}^{x}e^{x-t}\varphi(t)\,dt$, reduciéndola previamente a una ecuación diferencial.
+    \end{enumerate}
+\end{enumerate}
+
+\subsection*{Clasificación y Verificación de Soluciones}
+
+\begin{enumerate}[resume]
+    \item Clasifica las siguientes ecuaciones diferenciales, indicando si es EDO o EDP. Determina el orden, linealidad, y variables dependientes/independientes:
+    \begin{enumerate}
+        \item $x''(t)+5x'(t)-6x(t)=2\cos(3t)$ (Vibraciones mecánicas).
+        \item $x'=k(4-x)(1-x)$ (Velocidades de reacción química).
+        \item $8\frac{d^{4}y}{dx^{4}}=x(1-x)$ (Deflexión de una viga).
+        \item $y''-2xy'+2py=0$, $p\in\mathbb{R}$ (Ecuación de Hermite).
+        \item $\frac{\partial^{2}u}{\partial x^{2}}+\frac{\partial^{2}u}{\partial y^{2}}+\frac{\partial^{2}u}{\partial z^{2}}=0$ (Ecuación de Laplace).
+        \item $\frac{dP}{dt}=KP(P-\alpha)$ (Curva logística).
+        \item $\frac{\partial N}{\partial t}=\frac{\partial^{2}N}{\partial r^{2}}+\frac{1}{r}\frac{\partial N}{\partial r}+KN$ (Fisión nuclear).
+        \item $\frac{d^{2}y}{dx^{2}}-\epsilon(1-y^{2})\frac{dy}{dx}+9y=0$ (Ecuación de Van der Pol).
+        \item $\sqrt{1-\alpha y}\frac{d^{2}y}{dx^{2}}+2x\frac{dy}{dx}=0$ (Ecuación de Kidder).
+    \end{enumerate}
+
+    \item Verificar que las siguientes funciones (soluciones fundamentales) son solución de la ecuación correspondiente:
+    \begin{enumerate}
+        \item $u=(x^{2}+y^{2}+z^{2})^{-1/2} \implies u_{xx}+u_{yy}+u_{zz}=0$ (Laplace 3D).
+        \item $u=\ln(x^{2}+y^{2}) \implies u_{xx}+u_{yy}=0$ (Laplace 2D).
+        \item $u=\sqrt{\frac{\pi}{t}}e^{-\frac{x^{2}}{4\alpha^{2}t}} \implies \alpha^{2}u_{xx}=u_{t}$ (Calor).
+        \item $u=f(x-at)+g(x+at) \implies a^{2}u_{xx}=u_{tt}$ (Ondas).
+    \end{enumerate}
+
+    \item Comprobar que $u=e^{x}f(2x-y)$, donde $f$ es una función derivable arbitraria, es solución de $u_{x}+2u_{y}=u$.
+
+    \item Consideramos la EDP $u_{t}=u_{xx}+2\sech^{2}(x)u$. Sea $v(t)=e^{k^{2}t}\sinh(kx)$ ó $v(t)=e^{k^{2}t}\cosh(kx)$. Comprobar que $u=v_{x}-\tanh(x)v$ satisface la ecuación.
+
+    \item Mostrar que la función:
+    \[ u=\ln\left(\frac{2f'(x)g'(y)}{(f(x)+g(y))^{2}}\right) \]
+    donde $f, g \in \mathcal{C}^2$ con $f'(x)g'(y)>0$, satisface la ecuación de Liouville $u_{xy}=e^{u}$.
+
+    \item Comprobar que $u=4\arctan(e^{ax+a^{-1}y})$ ($a\neq 0$) satisface la ecuación de Sine-Gordon $u_{xy}=\sin u$.
+
+    \item Dada la ecuación de Korteweg-de Vries (KdV): $u_{t}+6uu_{x}+u_{xxx}=0$.
+    \begin{enumerate}
+        \item Comprobar que la función $u(x,t;a,c)=\frac{c}{2}\sech^{2}\left(\frac{\sqrt{c}}{2}(x-ct-a)\right)$ es solución.
+        \item Si $u=f(x+ct)$ satisface la ecuación, probar que $f$ cumple la EDO: $cy'+6yy'+y'''=0$. Mostrar que existe un valor de $c$ tal que $f(r)=2\sech^{2}r$ es solución.
+    \end{enumerate}
+\end{enumerate}
+
+\subsection*{Construcción de EDPs y Cambios de Variable}
+
+\begin{enumerate}[resume]
+    \item Dada la familia de paraboloides $(x-\alpha)^{2}+(y-\beta)^{2}-z=0$, encontrar la EDP de primer orden que satisface eliminando los parámetros $\alpha, \beta$.
+
+    \item Encontrar EDPs de primer orden satisfechas por las siguientes familias ($a,b$ parámetros, $h$ función arbitraria):
+    \begin{enumerate}
+        \item $z=(x+a)(y+b)$
+        \item $ax^{2}+by^{2}+z^{2}=1$
+        \item $z=xy+h(x^{2}+y^{2})$
+        \item $z=h\left(\frac{xy}{z}\right)$
+    \end{enumerate}
+
+    \item Considérese la ecuación lineal $f(x,y)u_{x}+g(x,y)u_{y}=a(x,y)u+b(x,y)$. Probar que el cambio de variables $v=x$, $w=w(x,y)$ (donde $w(x,y)=C$ es la solución general de $y' = g/f$) transforma la ecuación en $z_{v}=p(v,w)z+q(v,w)$.
+
+    \item Probar que $u(x,y)=yf(x)+g(x)+xh(y)+l(y)$ (con funciones arbitrarias de clase $\mathcal{C}^2$) es la solución general de $u_{xxyy}=0$.
+
+    \item Con un cambio apropiado de coordenadas, resolver el problema de Cauchy ($u\in \mathcal{C}^{1}(\mathbb{R}^{2})$):
+    \[ \begin{cases} 2u_{x}-3u_{y}=0 \\ u(x,x)=e^{5x} \end{cases} \]
+\end{enumerate}
