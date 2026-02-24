@@ -1229,6 +1229,9 @@ Para poder resolver el problema, necesitamos "levantar" la curva inicial $\Gamma
 \end{ejemplo}
 
 
+
+
+
 \section{Cálculo de Integrales Completas}
 
 \subsection{Conceptos Preliminares}
@@ -1250,100 +1253,453 @@ Dada una ecuación en derivadas parciales $F(x,y,z,p,q)=0$, buscamos soluciones 
 
 \subsection{Casos Particulares de Resolución}
 
-Analizamos métodos para hallar integrales completas en ecuaciones con estructuras específicas (donde falta alguna variable $x, y, z$).
+Analizamos métodos simplificados para hallar integrales completas en ecuaciones diferenciales en derivadas parciales (EDPs) con estructuras específicas. En particular, estudiamos aquellos casos donde falta alguna de las variables espaciales explícitas o la propia función incógnita ($x, y, z$).
 
-\subsubsection*{Caso 1: La ecuación no depende de $x, y, z$}
-La forma es $F(p,q)=0$.
-\begin{itemize}
-    \item \textbf{Método:} Como $p$ y $q$ son constantes en la ecuación característica simplificada, proponemos $p=a$ (constante).
-    \item Despejamos $q$ de la ecuación: $F(a, q) = 0 \implies q = \varphi(a)$.
-    \item Sustituimos en la forma diferencial $dz = p dx + q dy$:
-    \[ dz = a dx + \varphi(a) dy \implies z = ax + \varphi(a)y + b. \]
-\end{itemize}
+\subsubsection{Caso 1: La ecuación no depende explícitamente de $x, y, z$}
 
-\begin{ejemplo}{Ejemplo Caso 1}
-    Resolver $u_x = 1 + 2u_y + 4(u_y)^2$.
-    \textbf{Solución:}
-    Identificamos $p = 1 + 2q + 4q^2$. Hacemos $q = a$.
-    Entonces $p = 1 + 2a + 4a^2$.
-    La integral completa es:
-    \[ z = (1 + 2a + 4a^2)x + ay + b. \]
-\end{ejemplo}
+\begin{observacion}{Estructura y Justificación Teórica}
+    La forma general de esta ecuación se reduce a:
+    $$F(p, q) = 0$$
+    donde, empleando la notación clásica, $p = z_x$ y $q = z_y$.
+    
+    \textbf{¿Por qué $p$ y $q$ son constantes?} 
+    Si recurrimos a las ecuaciones características generales (el sistema de Charpit para EDPs no lineales), las derivadas de $p$ y $q$ a lo largo de una curva característica respecto a un parámetro $t$ vienen dadas por:
+    $$ \frac{dp}{dt} = -(F_x + p F_z) \quad \text{y} \quad \frac{dq}{dt} = -(F_y + q F_z) $$
+    Como la ecuación $F(p,q)=0$ no contiene explícitamente $x, y, z$, las derivadas parciales $F_x, F_y, F_z$ son idénticamente nulas. Por lo tanto, $\frac{dp}{dt} = 0$ y $\frac{dq}{dt} = 0$. Esto demuestra algebraicamente que tanto $p$ como $q$ permanecen constantes en las ecuaciones características simplificadas.
+\end{observacion}
 
-\subsubsection*{Caso 2: Variables Separables}
-La ecuación se puede escribir como $\Psi_1(x, p) = \Psi_2(y, q)$.
-\begin{itemize}
-    \item \textbf{Método:} Igualamos ambos términos a una constante arbitraria $a$.
-    \[ \Psi_1(x, p) = a \implies p = \varphi_1(x, a); \quad \Psi_2(y, q) = a \implies q = \varphi_2(y, a). \]
-    \item Integramos $dz = p dx + q dy$:
-    \[ z = \int \varphi_1(x, a) \, dx + \int \varphi_2(y, a) \, dy + b. \]
-\end{itemize}
+\textbf{Metodología de Resolución:}
+\begin{enumerate}
+    \item Como $p$ y $q$ son constantes, proponemos que una de ellas tome un valor arbitrario constante, por ejemplo $p = a$.
+    \item Sustituimos este valor en la ecuación original para despejar la otra derivada en función de ese parámetro $a$:
+    $$F(a, q) = 0 \implies q = \varphi(a)$$
+    \item Utilizamos la relación diferencial fundamental (la diferencial total de la función incógnita $z$):
+    $$dz = p dx + q dy$$
+    Sustituimos nuestros valores constantes en la forma diferencial:
+    $$dz = a dx + \varphi(a) dy$$
+    \item Integramos directamente de forma exacta para obtener la \textbf{integral completa}:
+    $$z = a x + \varphi(a) y + b$$
+    donde $b$ es la segunda constante de integración independiente que debe aparecer en una integral completa de primer orden.  Geométricamente, esta solución representa una familia biparamétrica de planos en el espacio.
+\end{enumerate}
 
-\begin{ejemplo}{Ejemplo Caso 2}
-    Resolver $u_x u_y = 2xy$.
-    \textbf{Solución:}
-    Separamos variables: $\frac{u_x}{x} = \frac{2y}{u_y}$.
-    Hacemos $\frac{p}{x} = \frac{2y}{q} = a$.
-    Despejamos: $p = ax$, $q = \frac{2y}{a}$.
-    Integramos:
-    \[ z = \int ax \, dx + \int \frac{2y}{a} \, dy + b = \frac{a x^2}{2} + \frac{y^2}{a} + b. \]
-\end{ejemplo}
-
-\subsubsection*{Caso 3: La ecuación no depende de $x, y$}
-La forma es $F(z, p, q) = 0$.
-\begin{itemize}
-    \item \textbf{Método:} Buscamos soluciones de onda viajera $z = z(u)$ donde $u = x + ay$.
-    \item Por regla de la cadena: $p = \frac{dz}{du} \cdot 1 = z'$, $q = \frac{dz}{du} \cdot a = a z'$.
-    \item Sustituimos en la EDP: $F(z, z', az') = 0$, que es una EDO de primer orden.
-\end{itemize}
-
-\begin{ejemplo}{Ejemplo Caso 3}
-    Resolver $z^2 = 4 p q$.
-    \textbf{Solución:}
-    Sustituimos $p=z'$, $q=az'$:
-    \[ z^2 = 4(z')(az') = 4a (z')^2 \implies z = \pm 2\sqrt{a} z'. \]
-    Resolvemos la EDO separable $\frac{dz}{z} = \frac{du}{\pm 2\sqrt{a}}$:
-    \[ \ln|z| = \frac{u}{\pm 2\sqrt{a}} + C \implies z = b e^{\frac{x+ay}{\pm 2\sqrt{a}}}. \]
-\end{ejemplo}
-
-\subsubsection*{Caso 4: Ecuación de Clairaut Generalizada}
-La forma es $z = px + qy + \Psi(p,q)$.
-\begin{itemize}
-    \item \textbf{Método:} Es una generalización directa de la EDO de Clairaut. La integral completa son planos.
-    \item Hacemos $p=a$ y $q=b$.
-    \[ z = ax + by + \Psi(a, b). \]
-\end{itemize}
-
-\begin{ejemplo}{Ejemplo Caso 4}
-    Resolver $u = x u_x + y u_y + (u_x)^2 + (u_y)^2$.
-    \textbf{Solución:}
-    Identificamos la estructura Clairaut con $\Psi(p,q) = p^2 + q^2$.
-    Integral completa:
-    \[ z = ax + by + a^2 + b^2. \]
-\end{ejemplo}
-
-\subsubsection*{Caso 5: La ecuación no depende de una variable (ej. $y$) o es lineal en ella}
-Forma general $F(x, p, q) = 0$ (no aparece $y$, $z$). O más flexible, $p = \Psi(x, q)$.
-\begin{itemize}
-    \item \textbf{Método:} Hacemos $q = a$ (constante).
-    \item Despejamos $p = \Psi(x, a)$.
-    \item Integramos: $z = \int \Psi(x, a) \, dx + ay + b$.
-\end{itemize}
-
-\begin{ejemplo}{Varios Ejemplos Caso 5}
-    \begin{enumerate}
-        \item $u_x = \cos(2x) + 3u_y^2$.
-        Hacemos $q=a$. Entonces $p = \cos(2x) + 3a^2$.
-        \[ z = \int (\cos(2x) + 3a^2) dx + ay + b = \frac{1}{2}\sen(2x) + 3a^2x + ay + b. \]
+\begin{ejemplo}{Ejemplo 2.7.1: Aplicación del Caso 1}
+    Resolver la EDP: $$u_x = 1 + 2u_y + 4(u_y)^2$$
+   
+    \textbf{Solución Paso a Paso:}
+    \begin{itemize}
+        \item \textbf{1. Identificación:} Reconocemos la notación de Monge donde $u_x = p$ y $u_y = q$. La ecuación se reescribe como:
+        $$p = 1 + 2q + 4q^2$$
+        Observamos que tiene la estructura de un Caso 1, $F(p,q) = 0$, ya que no aparecen explícitamente las variables $x, y, u$.
         
-        \item $u_x = 2x^2 + u_y^2$.
-        Hacemos $q=a$. $p = 2x^2 + a^2$.
-        \[ z = \frac{2}{3}x^3 + a^2x + ay + b. \]
+        \item \textbf{2. Asignación de constante:} En este problema concreto, como $p$ ya está despejada explícitamente en función de $q$, resulta algebraicamente más directo asignar la constante a $q$ (es decir, hacemos $q = a$) en lugar de despejar una raíz cuadrada.
         
-        \item $u_x = 4u_y^2 + 2$.
-        Hacemos $q=a$. $p = 4a^2 + 2$.
-        \[ z = (4a^2+2)x + ay + b. \]
-    \end{enumerate}
+        \item \textbf{3. Cálculo de la otra derivada:} Si $q = a$, entonces sustituyendo en la ecuación original obtenemos el valor constante de $p$:
+        $$p = 1 + 2a + 4a^2$$
+        
+        \item \textbf{4. Integración:} Sustituimos los valores de $p$ y $q$ en la diferencial total $du = p dx + q dy$:
+        $$du = (1 + 2a + 4a^2) dx + a dy$$
+        Integrando directamente ambas partes, hallamos la integral completa:
+        $$\boxed{ u(x,y) = (1 + 2a + 4a^2)x + ay + b }$$
+    \end{itemize}
+\end{ejemplo}
+
+\begin{ejemplo}{Ejemplo Adicional: Aplicación del Caso 1}
+    Resolver la ecuación en derivadas parciales no lineal:
+    \[ u_x = 6(u_y)^4 + 1 \]
+    
+    \textbf{1. Identificación y Clasificación:}
+    Empleamos la notación clásica de Monge para las derivadas de primer orden, definiendo $p = u_x$ y $q = u_y$. 
+    Reescribimos la ecuación en términos de $p$ y $q$:
+    \[ p = 6q^4 + 1 \implies p - 6q^4 - 1 = 0 \]
+    Observamos que la ecuación tiene la estructura $F(p,q) = 0$. Al no aparecer de forma explícita las variables independientes ($x, y$) ni la función incógnita ($u$), confirmamos que estamos estrictamente ante el \textbf{Caso 1}.
+
+    \textbf{2. Asignación de Constantes (Ecuaciones Características):}
+    Por la teoría del sistema de Charpit, sabemos que para ecuaciones del tipo $F(p,q)=0$, las derivadas $p$ y $q$ se mantienen constantes a lo largo de las curvas características. 
+    Por conveniencia algebraica (dado que $p$ ya está despejada), proponemos que $q$ sea una constante arbitraria $a$:
+    \[ q = a \]
+    Sustituyendo este valor en nuestra ecuación original, determinamos unívocamente el valor constante de $p$ en función de $a$:
+    \[ p = 6a^4 + 1 \]
+
+    \textbf{3. Construcción de la Forma Diferencial:}
+    Sabemos que la diferencial total de la función superficie $u(x,y)$ viene dada por:
+    \[ du = \frac{\partial u}{\partial x} dx + \frac{\partial u}{\partial y} dy \implies du = p \, dx + q \, dy \]
+    Sustituimos nuestros valores constantes parametrizados por $a$ en esta expresión fundamental:
+    \[ du = (6a^4 + 1) dx + a \, dy \]
+
+    \textbf{4. Integración Exacta y Solución Final:}
+    Dado que los coeficientes de $dx$ y $dy$ son constantes (independientes de $x$ e $y$), la forma diferencial es trivialmente exacta. Procedemos a integrar directamente:
+    \[ \int du = \int (6a^4 + 1) dx + \int a \, dy \]
+    \[ u(x,y) = (6a^4 + 1)x + ay + b \]
+    donde $b$ surge como la segunda constante de integración.
+
+    \textbf{Conclusión Geométrica:}
+    La \textbf{integral completa} buscada es:
+    \[ \boxed{ u(x,y) = (6a^4 + 1)x + ay + b } \]
+    Esta solución depende de dos constantes arbitrarias independientes ($a$ y $b$), lo cual es preceptivo para una integral completa de una EDP de primer orden en dos variables independientes. Geométricamente, esta solución representa una familia biparamétrica de planos en el espacio $\mathbb{R}^3$.
+\end{ejemplo}
+
+\begin{ejemplo}{Resolución del Problema de Cauchy a partir de la Integral Completa}
+    Resolver el problema de Cauchy para la EDP:
+    \[ u_x = 6(u_y)^4 + 1 \]
+    con la condición inicial $u(0,y) = y + \frac{1}{2}$.
+
+    \textbf{1. Recordar la Integral Completa}
+    En el apartado anterior, al tratarla como una ecuación del \textbf{Caso 1} ($F(p,q)=0$), obtuvimos la siguiente familia biparamétrica de planos que representa la Integral Completa:
+    \[ u(x,y) = (6a^4 + 1)x + ay + b \]
+
+    \textbf{2. Imposición de la Condición Inicial}
+    Queremos seleccionar de esta infinita familia de planos aquel (o aquellos) que contenga a la curva inicial. 
+    Evaluamos nuestra Integral Completa en $x = 0$:
+    \[ u(0,y) = (6a^4 + 1)(0) + ay + b = ay + b \]
+    
+    Por otro lado, el enunciado nos exige que $u(0,y) = y + \frac{1}{2}$. Igualando ambas expresiones:
+    \[ ay + b = y + \frac{1}{2} \]
+    
+    Dado que esta igualdad debe cumplirse \textbf{para todo valor de $y$} a lo largo de la curva inicial, podemos identificar directamente los coeficientes (polinomios idénticos):
+    \begin{itemize}
+        \item Coeficiente de $y$: $a = 1$.
+        \item Término independiente: $b = \frac{1}{2}$.
+    \end{itemize}
+
+    \textbf{3. Solución Final}
+    Sustituyendo los valores hallados $a=1$ y $b=\frac{1}{2}$ en la Integral Completa original:
+    \[ u(x,y) = (6(1)^4 + 1)x + (1)y + \frac{1}{2} \]
+    \[ \boxed{ u(x,y) = 7x + y + \frac{1}{2} } \]
+    Geométricamente, hemos encontrado el único plano de la familia biparamétrica que contiene a la recta inicial en el plano $x=0$.
+\end{ejemplo}
+
+\begin{observacion}{Análisis de Existencia y Unicidad (Transversalidad)}
+    Para justificar formalmente que esta es la \textbf{única} solución posible, debemos comprobar la condición de transversalidad sobre la franja inicial.
+    
+    \textbf{A. Parametrización y Franja Inicial:}
+    Parametrizamos la curva inicial $\Gamma$ usando $s$:
+    \[ x_0(s) = 0, \quad y_0(s) = s, \quad z_0(s) = s + \frac{1}{2} \]
+    Calculamos las derivadas respecto a $s$: $x_0'(s) = 0, y_0'(s) = 1, z_0'(s) = 1$.
+    
+    Para hallar la franja inicial $(p_0, q_0)$, usamos la condición de franja $z_0' = p_0 x_0' + q_0 y_0'$:
+    \[ 1 = p_0(0) + q_0(1) \implies \boxed{q_0(s) = 1} \]
+    Sustituimos $q_0$ en la EDP $p - 6q^4 - 1 = 0$:
+    \[ p_0 - 6(1)^4 - 1 = 0 \implies \boxed{p_0(s) = 7} \]
+    Como los valores de $p_0$ y $q_0$ son únicos y reales, la franja inicial está unívocamente determinada.
+    
+    \textbf{B. Condición de Transversalidad:}
+    Definimos $F(p,q) = p - 6q^4 - 1$. Sus derivadas parciales son:
+    \[ F_p = 1, \quad F_q = -24q^3 \]
+    Evaluamos el determinante de transversalidad $\Delta$ a lo largo de la franja inicial:
+    \[
+    \Delta = \begin{vmatrix} F_p & F_q \\ x_0'(s) & y_0'(s) \end{vmatrix} = \begin{vmatrix} 1 & -24(1)^3 \\ 0 & 1 \end{vmatrix} = (1)(1) - (-24)(0) = 1
+    \]
+    
+    \textbf{Conclusión:}
+    Como $\Delta = 1 \neq 0$ en todo punto de la curva inicial, la curva \textbf{no es característica} en ninguna parte. Por el Teorema de Existencia y Unicidad Local, garantizamos que el problema de Cauchy está bien planteado y que la solución clásica que hemos encontrado ($u = 7x + y + 1/2$) es \textbf{única}.
+\end{observacion}
+
+\begin{observacion}{Nota}
+    Hemos obtenido que tanto a como b son valor fijos. Podría ocurrir que llegásemos a una expresión en la que $b=b(a)$. En ese caso, la solución general se obtendría a través de
+    la envolvente de $\phi(x,y,z,a,b(a))$. 
+\end{observacion}
+
+
+\subsubsection{Caso 2: Ecuaciones de Variables Separables}
+
+Este caso aplica cuando la ecuación no lineal de primer orden no depende explícitamente de la función incógnita $z$, y además los términos que contienen $x$ y $p$ pueden separarse algebraicamente de los términos que contienen $y$ y $q$. Es decir, la ecuación $F(x,y,p,q)=0$ puede reescribirse en la forma:
+\[ \Psi_1(x, p) = \Psi_2(y, q) \]
+
+\begin{observacion}{Estrategia de Separación y Justificación Lógica}
+    \textbf{¿Por qué igualamos a una constante $a$?}
+    
+    Supongamos que existe una solución $z(x,y)$ cuyas derivadas parciales $p = z_x$ y $q = z_y$ satisfacen la ecuación $\Psi_1(x, p) = \Psi_2(y, q)$. 
+    
+    Dado que $x$ e $y$ son \textbf{variables independientes}, podemos mantener $y$ fija y variar $x$. Al hacer esto, el lado derecho $\Psi_2(y, q)$ permanece inalterado (pues no depende de $x$), lo que obliga a que el lado izquierdo $\Psi_1(x, p)$ también permanezca constante ante cualquier variación de $x$. Aplicando el mismo razonamiento variando $y$ y fijando $x$, concluimos que ambas expresiones no pueden depender ni de $x$ ni de $y$. 
+    
+    Por imperativo lógico, ambas funciones deben ser iguales a una misma constante arbitraria $a$:
+    \[ \Psi_1(x, p) = a \quad \text{y} \quad \Psi_2(y, q) = a \]
+    
+    \textbf{¿Qué ocurre a partir de aquí y a qué llegamos?}
+    
+    Esta igualación "rompe" la ecuación original acoplada en dos ecuaciones algebraicas desacopladas. Suponiendo que se dan las condiciones del Teorema de la Función Implícita, podemos despejar $p$ y $q$ de forma independiente:
+    \[ p = \varphi_1(x, a) \quad \text{y} \quad q = \varphi_2(y, a) \]
+    
+    Llegamos entonces a que el problema de hallar la superficie se reduce a integrar una forma diferencial. Si tomamos la diferencial total $dz = p\,dx + q\,dy$, y sustituimos nuestras expresiones:
+    \[ dz = \varphi_1(x, a)\,dx + \varphi_2(y, a)\,dy \]
+    
+    Dado que el coeficiente de $dx$ solo depende de $x$ y el de $dy$ solo depende de $y$, la condición de exactitud (rotacional nulo bidimensional, $\frac{\partial p}{\partial y} = \frac{\partial q}{\partial x} = 0$) se cumple trivialmente. Esto nos permite integrar directamente para obtener la \textbf{integral completa}:
+    \[ \boxed{ z(x,y) = \int \varphi_1(x, a) \, dx + \int \varphi_2(y, a) \, dy + b } \]
+    donde $b$ es la segunda constante de integración independiente, confirmando que tenemos una familia biparamétrica de superficies.
+\end{observacion}
+
+\begin{ejemplo}{Ejemplo del Caso 2}
+    Resolución paso a paso de la Ecuación $pq = 2xy$\\
+    Resolver la ecuación en derivadas parciales no lineal:
+    \[ pq = 2xy \]
+    
+    \textbf{1. Separación de Variables:}
+    Observamos que no aparece $z$ y que podemos agrupar las variables $x, p$ a un lado y $y, q$ al otro. Dividiendo entre $x$ y $q$ (asumiendo que son no nulos), obtenemos:
+    \[ \frac{p}{x} = \frac{2y}{q} \]
+    
+    \textbf{2. Igualación a la constante arbitraria $a$:}
+    Aplicando la lógica de la separación de variables independientes, igualamos ambas partes a una constante $a$:
+    \[ \frac{p}{x} = a \quad \text{y} \quad \frac{2y}{q} = a \]
+    
+    \textbf{3. Despeje de $p$ y $q$:}
+    Aislamos las derivadas parciales en función de su respectiva variable y el parámetro $a$:
+    \[ p = ax \]
+    \[ q = \frac{2y}{a} \]
+    
+    \textbf{4. Planteamiento de la Diferencial Total:}
+    Sustituimos estas expresiones en la ecuación diferencial total para la función superficie $z(x,y)$:
+    \[ dz = p \, dx + q \, dy \]
+    \[ dz = (ax) \, dx + \left(\frac{2y}{a}\right) \, dy \]
+    
+    \textbf{5. Integración y Solución Final:}
+    Como la forma es exacta (las variables están separadas), integramos término a término:
+    \[ \int dz = \int ax \, dx + \int \frac{2y}{a} \, dy \]
+    \[ z(x,y) = a \left( \frac{x^2}{2} \right) + \frac{2}{a} \left( \frac{y^2}{2} \right) + b \]
+    
+    Simplificando, obtenemos la \textbf{integral completa}:
+    \[ \boxed{ z(x,y) = \frac{a}{2}x^2 + \frac{1}{a}y^2 + b } \]
+    Esta solución representa una familia biparamétrica (parámetros $a$ y $b$) de paraboloides.
+\end{ejemplo}
+
+%% CASO 3: La ecuación no depende de x, y%
+
+
+\subsubsection{Caso 3: La ecuación no depende explícitamente de $x, y$}
+
+Este caso abarca las ecuaciones no lineales de primer orden que adoptan la forma general:
+\[ F(z, p, q) = 0 \]
+donde la función incógnita $z$ y sus derivadas parciales $p = z_x, q = z_y$ están presentes en la ecuación, pero las variables espaciales independientes $x$ e $y$ no aparecen de forma explícita.
+
+\begin{observacion}{Estrategia de Reducción (Cambio a Ondas Viajeras)}
+    La ausencia explícita de las coordenadas espaciales $x$ e $y$ confiere a la ecuación una simetría traslacional. Para aprovechar esta estructura, la técnica matemática estándar consiste en buscar soluciones que colapsen las dos dimensiones espaciales en una sola variable combinada.
+    
+    Proponemos el siguiente cambio de variables lineal:
+    \[ u = ax + y \]
+    donde $a$ es una constante arbitraria que representa, geométricamente, la pendiente o dirección de propagación en el plano $(x,y)$. Asumimos entonces que la solución de la superficie depende únicamente de esta variable combinada: $z = z(u)$. 
+    
+    Para aplicar este cambio a nuestra EDP, necesitamos reescribir las derivadas parciales $p$ y $q$ empleando la \textbf{Regla de la Cadena} para funciones de varias variables:
+    \begin{itemize}
+        \item $p = \frac{\partial z}{\partial x} = \frac{dz}{du} \cdot \frac{\partial u}{\partial x} = z' \cdot a = a z'$
+        \item $q = \frac{\partial z}{\partial y} = \frac{dz}{du} \cdot \frac{\partial u}{\partial y} = z' \cdot 1 = z'$
+    \end{itemize}
+    donde $z' = \frac{dz}{du}$ denota la derivada ordinaria de $z$ respecto a $u$.
+    
+    Al sustituir estas expresiones de $p$ y $q$ en la EDP original $F(z, p, q) = 0$, obtenemos:
+    \[ F(z, az', z') = 0 \]
+    
+    ¡El gran logro analítico de esta sustitución es que hemos transformado una Ecuación en Derivadas Parciales (EDP) en una \textbf{Ecuación Diferencial Ordinaria (EDO)} de primer orden para $z(u)$! Una vez integrada esta EDO, bastará con deshacer el cambio $u = ax + y$ para recuperar la integral completa en términos de $x$ e $y$.
+\end{observacion}
+
+\begin{ejemplo}{Resolución paso a paso de una ecuación del Caso 3}
+    Resolver la ecuación en derivadas parciales no lineal:
+    \[ z^2 = 4pq \]
+    
+    \textbf{1. Identificación y Cambio de Variables:}
+    Observamos que la ecuación es de la forma $F(z, p, q) = 0$, ya que carece de $x$ e $y$. 
+    Aplicamos la transformación $u = ax + y$, asumiendo la forma de solución $z = z(u)$. 
+    Por la regla de la cadena deducida anteriormente, sabemos que:
+    \[ p = a z' \quad \text{y} \quad q = z' \]
+    
+    \textbf{2. Reducción a una EDO:}
+    Sustituimos $p$ y $q$ en la ecuación diferencial original:
+    \[ z^2 = 4(az')(z') \]
+    \[ z^2 = 4a(z')^2 \]
+    
+    \textbf{3. Despeje de la Derivada Ordinaria:}
+    Para resolver la EDO, aislamos el término diferencial $(z')^2$ y tomamos la raíz cuadrada en ambos miembros:
+    \[ (z')^2 = \frac{z^2}{4a} \implies z' = \pm \frac{z}{2\sqrt{a}} \]
+    Recordando que $z' = \frac{dz}{du}$, reescribimos la expresión obteniendo una EDO de variables separables clásica:
+    \[ \frac{dz}{du} = \pm \frac{z}{2\sqrt{a}} \]
+    
+    \textbf{4. Integración de la EDO:}
+    Agrupamos la variable dependiente $z$ con $dz$ y la independiente $u$ con $du$:
+    \[ \frac{dz}{z} = \pm \frac{1}{2\sqrt{a}} du \]
+    Integramos directamente ambos lados de la igualdad:
+    \[ \int \frac{dz}{z} = \int \pm \frac{1}{2\sqrt{a}} du \]
+    \[ \ln|z| = \pm \frac{u}{2\sqrt{a}} + C \]
+    
+    Para despejar $z$, aplicamos la función exponencial a ambos lados:
+    \[ z(u) = e^{\pm \frac{u}{2\sqrt{a}} + C} = e^C \cdot e^{\pm \frac{u}{2\sqrt{a}}} \]
+    Podemos redefinir la constante exponencial $e^C$ como una nueva constante arbitraria $b$. Así, la solución de la EDO es:
+    \[ z(u) = b e^{\pm \frac{u}{2\sqrt{a}}} \]
+    
+    \textbf{5. Solución Final (Integral Completa):}
+    Finalmente, para obtener la solución a nuestro problema original de EDP, deshacemos el cambio de variable $u = ax + y$:
+    \[ \boxed{ z(x,y) = b e^{\pm \frac{ax + y}{2\sqrt{a}}} } \]
+    Esta expresión es la \textbf{integral completa} de la ecuación propuesta, conformando una familia de superficies que depende de dos constantes arbitrarias e independientes ($a$ y $b$).
+\end{ejemplo}
+
+\begin{ejemplo}{Resolución paso a paso de otra ecuación}
+    Resolver la ecuación en derivadas parciales no lineal:
+    \[ u^2 = 4u_x u_y \]
+    
+    \textbf{1. Identificación y Cambio de Variables:}
+    Utilizando la notación clásica $p = u_x$ y $q = u_y$, reescribimos la ecuación:
+    \[ u^2 = 4pq \]
+    Observamos que la ecuación es de la forma $F(u, p, q) = 0$, ya que carece explícitamente de las variables espaciales $x$ e $y$. Estamos ante el \textbf{Caso 3}.
+    
+    Para aplicar el método de ondas viajeras, dado que la variable dependiente ya se llama $u$, definiremos una nueva variable independiente combinada $\xi$:
+    \[ \xi = ax + y \]
+    Asumimos que la solución depende únicamente de esta nueva variable: $u = u(\xi)$. 
+    Calculamos las derivadas parciales aplicando la regla de la cadena ($u' = \frac{du}{d\xi}$):
+    \[ p = u_x = \frac{du}{d\xi} \frac{\partial \xi}{\partial x} = a u' \]
+    \[ q = u_y = \frac{du}{d\xi} \frac{\partial \xi}{\partial y} = u' \cdot 1 = u' \]
+    
+    \textbf{2. Reducción a una EDO:}
+    Sustituimos las expresiones de $p$ y $q$ en la ecuación original:
+    \[ u^2 = 4(a u')(u') \]
+    \[ u^2 = 4a(u')^2 \]
+    
+    \textbf{3. Despeje de la Derivada Ordinaria:}
+    Aislamos el término diferencial $(u')^2$ y tomamos la raíz cuadrada:
+    \[ (u')^2 = \frac{u^2}{4a} \implies u' = \pm \frac{u}{2\sqrt{a}} \]
+    Reescribiendo la derivada ordinaria obtenemos una EDO de variables separables:
+    \[ \frac{du}{d\xi} = \pm \frac{u}{2\sqrt{a}} \]
+    
+    \textbf{4. Integración de la EDO:}
+    Separamos las variables, agrupando $u$ con $du$ y $\xi$ con $d\xi$:
+    \[ \frac{du}{u} = \pm \frac{1}{2\sqrt{a}} d\xi \]
+    Integramos directamente en ambos miembros:
+    \[ \int \frac{du}{u} = \int \pm \frac{1}{2\sqrt{a}} d\xi \]
+    \[ \ln|u| = \pm \frac{\xi}{2\sqrt{a}} + C \]
+    
+    Aplicamos la función exponencial para despejar $u(\xi)$:
+    \[ u(\xi) = e^{\pm \frac{\xi}{2\sqrt{a}} + C} = e^C \cdot e^{\pm \frac{\xi}{2\sqrt{a}}} \]
+    Llamando a la constante $e^C = b$, obtenemos la solución de la EDO:
+    \[ u(\xi) = b e^{\pm \frac{\xi}{2\sqrt{a}}} \]
+    
+    \textbf{5. Solución Final (Integral Completa):}
+    Para recuperar la solución en términos de las variables originales espaciales, deshacemos el cambio de variable $\xi = ax + y$:
+    \[ \boxed{ u(x,y) = b e^{\pm \frac{ax + y}{2\sqrt{a}}} } \]
+    Esta es la \textbf{integral completa}, la cual conforma una familia biparamétrica de superficies (dependiente de las constantes arbitrarias $a$ y $b$).
+\end{ejemplo}
+
+
+
+\subsubsection{Caso 4: Ecuación de Clairaut Generalizada}
+
+La ecuación de Clairaut en derivadas parciales es una generalización directa de su homóloga en EDOs. Se caracteriza por tener la función incógnita $z$ despejada y expresada como una combinación lineal de las variables espaciales ponderadas por sus respectivas derivadas, más una función no lineal que depende exclusivamente de dichas derivadas. Su forma canónica es:
+$$z = px + qy + \Psi(p,q)$$
+
+\begin{observacion}{Justificación Analítica (¿Por qué $p$ y $q$ son constantes?)}
+    Para un estudiante de Matemáticas, no basta con aplicar la receta; veamos por qué $p=a$ y $q=b$. 
+    
+    Si diferenciamos la ecuación original $z = px + qy + \Psi(p,q)$ con respecto a $x$, aplicando la regla de la cadena y recordando que $z_x = p$:
+    $$p = p + x p_x + y q_x + \Psi_p p_x + \Psi_q q_x$$
+    Simplificando, restamos $p$ en ambos lados y agrupamos términos:
+    $$0 = p_x(x + \Psi_p) + q_x(y + \Psi_q)$$
+    
+    De manera análoga, si diferenciamos respecto a $y$ (sabiendo que $z_y = q$):
+    $$q = p_y x + q + y q_y + \Psi_p p_y + \Psi_q q_y$$
+    $$0 = p_y(x + \Psi_p) + q_y(y + \Psi_q)$$
+    
+    Dado que por el Teorema de Schwarz las derivadas cruzadas coinciden ($p_y = z_{xy} = z_{yx} = q_x$), nos encontramos ante un sistema homogéneo para las derivadas segundas. Una solución trivial y universal (que no impone restricciones geométricas sobre $x$ e $y$) es forzar que todas las derivadas segundas se anulen:
+    $$p_x = 0, \quad p_y = 0, \quad q_x = 0, \quad q_y = 0$$
+    
+    Si las derivadas de $p$ y $q$ son nulas en todas las direcciones espaciales, esto implica analíticamente que $p$ y $q$ deben ser constantes reales arbitrarias a lo largo de las superficies integrales:
+    $$p = a \quad \text{y} \quad q = b$$
+    
+    Sustituyendo estas constantes directamente en la ecuación original, obtenemos la \textbf{integral completa}:
+    $$\boxed{ z(x,y) = ax + by + \Psi(a,b) }$$
+    Geométricamente, esta integral completa representa una familia biparamétrica de planos en $\mathbb{R}^3$.
+\end{observacion}
+
+\begin{ejemplo}{Resolución paso a paso: Ecuación de Clairaut}
+    Resolver la ecuación en derivadas parciales no lineal:
+    $$u = x u_x + y u_y + u_y^2 + 3u_x + 5$$
+    
+    \textbf{1. Identificación y Cambio de Notación:}
+    Empleamos la notación clásica de Monge asignando $p = u_x$ y $q = u_y$. Reescribimos la ecuación:
+    $$u = xp + yq + q^2 + 3p + 5$$
+    
+    \textbf{2. Clasificación de la Ecuación:}
+    Reordenamos los términos para comparar con las formas canónicas estudiadas:
+    $$u = px + qy + (q^2 + 3p + 5)$$
+    Observamos que encaja perfectamente con la estructura de la ecuación de Clairaut generalizada $u = px + qy + \Psi(p,q)$, donde la función residual que depende solo de las derivadas es:
+    $$\Psi(p,q) = q^2 + 3p + 5$$
+    
+    \textbf{3. Obtención de la Integral Completa:}
+    Por el teorema desarrollado anteriormente, sabemos que las derivadas se reducen a constantes arbitrarias $p = a$ y $q = b$. Sustituimos estos valores directamente en nuestra estructura:
+    $$u(x,y) = ax + by + (b^2 + 3a + 5)$$
+    
+    La \textbf{integral completa} es, por tanto:
+    $$\boxed{ u(x,y) = ax + by + b^2 + 3a + 5 }$$
+    
+    \textbf{Nota Geométrica Adicional:} Esta solución define una familia de infinitos planos en el espacio tridimensional. En este tipo de ecuaciones, si se quisiera buscar la \textbf{solución singular} (la envolvente de esta familia de planos), se derivaría la integral completa respecto a $a$ y $b$ para igualar a cero. 
+    \[
+    \begin{cases}
+        \frac{\partial u}{\partial a} = x + 3 = 0 \implies x = -3 \\
+        \frac{\partial u}{\partial b} = y + 2b = 0 \implies b = -\frac{y}{2}
+    \end{cases}
+    \]
+    En este caso particular, como la derivada respecto a $a$ no nos permite despejar $a$ en función de las variables espaciales (solo nos da la restricción plana $x=-3$), la familia no posee una superficie envolvente regular tradicional en todo el espacio, sino que degenera topológicamente.
+\end{ejemplo}
+
+
+
+\subsubsection{Caso 5: La ecuación no depende de una variable espacial (ej. $y$) ni de la función incógnita}
+
+Este último caso de reducción se presenta cuando la ecuación en derivadas parciales tiene la forma general:
+\[ F(x, p, q) = 0 \]
+o, de manera equivalente y más directa para el cálculo analítico:
+\[ p = \Psi(x, q) \]
+La característica geométrica y algebraica principal es la ausencia explícita tanto de la variable dependiente (la función incógnita $z$ o $u$) como de \textbf{una} de las variables espaciales independientes (en este caso de estudio, $y$).
+
+\begin{observacion}{Justificación Analítica (Invarianza a lo largo de las características)}
+    Para fundamentar rigurosamente el método, sin recurrir a memorizar "recetas", acudimos a las ecuaciones características del sistema de Charpit. La evolución de la derivada $q$ a lo largo de una curva característica parametrizada por $t$ viene dictada por la EDO:
+    \[ \frac{dq}{dt} = -\left( \frac{\partial F}{\partial y} + q \frac{\partial F}{\partial z} \right) \]
+    
+    Como nuestra ecuación $F(x, p, q) = 0$ no contiene explícitamente ni la variable $y$ ni la función $z$, ambas derivadas parciales se anulan idénticamente ($F_y = 0$ y $F_z = 0$). En consecuencia, la ecuación diferencial ordinaria colapsa a:
+    \[ \frac{dq}{dt} = 0 \]
+    
+    Esto demuestra lógicamente que $q$ (la derivada parcial respecto a la variable espacial ausente) permanece \textbf{estrictamente constante} a lo largo de las curvas características. Por tanto, podemos fijarla globalmente como una constante arbitraria $a$:
+    \[ q = a \]
+    
+    Al sustituir esta constante en la ecuación original, reducimos el problema a despejar la otra derivada $p$ en función únicamente de la variable $x$ que sí aparece, y del parámetro $a$:
+    \[ p = \Psi(x, a) \]
+    
+    Finalmente, construimos la diferencial total de la superficie $dz = p\,dx + q\,dy$. Al sustituir nuestras deducciones, obtenemos una forma diferencial donde las variables están separadas:
+    \[ dz = \Psi(x, a)\,dx + a\,dy \]
+    Dado que el rotacional bidimensional de esta forma es nulo (es una diferencial exacta), la \textbf{integral completa} se halla mediante integración directa término a término:
+    \[ z(x,y) = \int \Psi(x, a) \, dx + ay + b \]
+\end{observacion}
+
+\begin{ejemplo}{Batería de Ejemplos: Aplicación del Caso 5}
+    En los siguientes ejemplos, la función incógnita se denota como $u(x,y)$, por lo que adoptamos $p = u_x$ y $q = u_y$.
+    
+    \textbf{1. Resolver } $u_x = \cos(2x) + 3u_y^2$
+    \begin{itemize}
+        \item \textbf{Identificación:} La ecuación es $p = \cos(2x) + 3q^2$. No aparecen de forma explícita ni $y$ ni $u$.
+        \item \textbf{Reducción Charpit:} Fijamos la derivada respecto a la variable ausente $y$ como una constante: $q = a$.
+        \item \textbf{Despeje:} Sustituimos $q$ para hallar $p$: $p = \cos(2x) + 3a^2$.
+        \item \textbf{Integración Exacta:} Planteamos la diferencial total $du = p\,dx + q\,dy$ e integramos:
+        \[ u(x,y) = \int (\cos(2x) + 3a^2) \, dx + \int a \, dy \]
+        La integral completa es:
+        \[ \boxed{ u(x,y) = \frac{1}{2}\text{sen}(2x) + 3a^2x + ay + b } \]
+    \end{itemize}
+    
+    \textbf{2. Resolver } $u_x = 2x^2 + u_y^2$
+    \begin{itemize}
+        \item \textbf{Identificación:} La ecuación es $p = 2x^2 + q^2$. Nuevamente, faltan $y$ y $u$.
+        \item \textbf{Reducción Charpit:} Imponemos $q = a$.
+        \item \textbf{Despeje:} Obtenemos directamente $p = 2x^2 + a^2$.
+        \item \textbf{Integración Exacta:} Integramos la diferencial total $du = (2x^2 + a^2)dx + a\,dy$:
+        \[ u(x,y) = \int (2x^2 + a^2) \, dx + ay \]
+        La integral completa es:
+        \[ \boxed{ u(x,y) = \frac{2}{3}x^3 + a^2x + ay + b } \]
+    \end{itemize}
+    
+    \textbf{3. Resolver } $u_x = 4u_y^2 + 2$
+    \begin{itemize}
+        \item \textbf{Identificación:} La ecuación es $p = 4q^2 + 2$. Este es un subcaso notable; faltan $x$, $y$ y $u$. Al faltar todo, podríamos resolverlo también por el \textbf{Caso 1}, pero aplicaremos la lógica del Caso 5 por coherencia estructural.
+        \item \textbf{Reducción Charpit:} Hacemos $q = a$.
+        \item \textbf{Despeje:} Resulta que $p$ es completamente constante frente a cualquier variación espacial: $p = 4a^2 + 2$.
+        \item \textbf{Integración Exacta:} 
+        \[ u(x,y) = \int (4a^2 + 2) \, dx + \int a \, dy \]
+        La integral completa es:
+        \[ \boxed{ u(x,y) = (4a^2 + 2)x + ay + b } \]
+        (Como era de prever teóricamente por la ausencia total de variables espaciales, la solución degenera en una familia de planos en $\mathbb{R}^3$).
+    \end{itemize}
 \end{ejemplo}
 
 \subsection{Ejercicio Resuelto: Superficies y Envolventes}
@@ -1715,6 +2071,7 @@ En lugar de buscar $\mu$ a ciegas (lo cual suele ser muy complejo), se emplea un
 \end{ejemplo}
 
 
+
 \begin{ejemplo}{Resolución alternativa: Fijando la variable $y$}
     Resolver la ecuación de Pfaff (ya comprobada su integrabilidad):
     \[ yz \, dx + (xz + yz^3) \, dy - 2xy \, dz = 0 \]
@@ -1773,6 +2130,59 @@ En lugar de buscar $\mu$ a ciegas (lo cual suele ser muy complejo), se emplea un
     Llamando a la constante arbitraria $K = 2\widetilde{K}$, reordenamos para obtener exactamente la misma solución general que conseguimos al fijar $z$:
     \[ \boxed{ \frac{2xy}{z^2} + y^2 = K } \]
 \end{ejemplo}
+
+\begin{observacion}
+    La ecuación $$dz=pdx+qdy$$ es un caso particular de la ecuación de Pfaff, donde $P=-p$, $Q=-q$ y $R=1$. 
+\end{observacion}
+
+%%% INTERPRETACIÓN DE LA ECUACIÓN DE PFAFF%%%
+\subsection{Interpretación de la Ecuación de Pfaff}
+El estudio de las ecuaciones de Pfaff es un pilar fundamental porque actúa como puente natural entre el análisis vectorial clásico, la geometría diferencial de variedades y la topología. Una ecuación de Pfaff en $\mathbb{R}^3$ adopta la forma general:
+\begin{equation}
+    P(x,y,z)dx + Q(x,y,z)dy + R(x,y,z)dz = 0
+\end{equation}
+Para comprenderla con el rigor matemático adecuado, y trascender la mera manipulación algebraica, es necesario desdoblar su significado en dos vertientes interconectadas que se enriquecen mutuamente: la analítica (basada en el álgebra exterior) y la geométrica (enfocada en los fibrados tangentes).
+\subsubsection{Interpretación Analítica (Cálculo Exterior y Formas Diferenciales)}
+
+Desde un punto de vista estrictamente analítico, la expresión del lado izquierdo se identifica formalmente con una \textbf{1-forma diferencial}, que denotaremos como $\omega = Pdx + Qdy + Rdz \in \Omega^1(\mathbb{R}^3)$. Resolver la ecuación de Pfaff $\omega = 0$ significa encontrar subvariedades (superficies) inmersas en $\mathbb{R}^3$ sobre las cuales la restricción (el \textit{pullback} a través de la inclusión) de esta 1-forma se anula idénticamente.
+
+Para profundizar, calculemos la derivada exterior de $\omega$, $d\omega \in \Omega^2(\mathbb{R}^3)$, que formaliza el concepto de rotacional:
+\begin{equation}
+    d\omega = \left(\frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y}\right) dx \wedge dy + \left(\frac{\partial R}{\partial y} - \frac{\partial Q}{\partial z}\right) dy \wedge dz + \left(\frac{\partial P}{\partial z} - \frac{\partial R}{\partial x}\right) dz \wedge dx
+\end{equation}
+
+\begin{observacion}{Factores Integrantes y el Ideal Diferencial}
+    Si la 1-forma no es cerrada ($d\omega \neq 0$), el problema analítico se reorienta a la búsqueda de un \textbf{factor integrante} $\mu(x,y,z) \neq 0$ tal que la nueva 1-forma conformada, $\mu\omega$, sí sea cerrada. Imponer $d(\mu\omega) = 0$ equivale a exigir que $d\mu \wedge \omega + \mu d\omega = 0$. 
+    
+    En el lenguaje del álgebra exterior, esto significa que $d\omega$ debe pertenecer al ideal algebraico generado por $\omega$, es decir, $d\omega = \alpha \wedge \omega$ para alguna 1-forma $\alpha = -\frac{d\mu}{\mu}$. Cuando esto ocurre, decimos que el ideal $\mathcal{I} = \langle \omega \rangle$ es un \textit{ideal diferencial}.
+\end{observacion}
+
+\begin{teorema}{El Teorema de Frobenius (Versión Formas Diferenciales)}
+    Analíticamente, la condición necesaria y suficiente para que el ideal generado por $\omega$ sea diferencial (y por ende, exista el factor integrante) se obtiene multiplicando exteriormente la condición de exactitud por $\omega$:
+    \[ d(\mu\omega) \wedge \omega = (d\mu \wedge \omega + \mu d\omega) \wedge \omega = 0 \]
+    Dado que $\omega \wedge \omega = 0$ por la antisimetría del producto cuña, obtenemos la condición de integrabilidad analítica:
+    \[ \mu(d\omega \wedge \omega) = 0 \implies \omega \wedge d\omega = 0 \]
+    Esta 3-forma, $\omega \wedge d\omega$, es el análogo exterior del producto mixto $\vec{F} \cdot \text{rot}(\vec{F})$. Su anulación es la piedra angular que dictamina si un sistema de Pfaff se puede resolver analíticamente mediante integración.
+\end{teorema}
+
+\subsubsection{Interpretación Geométrica (Distribuciones y Foliaciones)}
+
+Geométricamente, el problema se traslada al fibrado tangente $T\mathbb{R}^3$. La ecuación de Pfaff se puede interpretar como la anulación del producto escalar estándar entre el campo vectorial de coeficientes y el vector de desplazamientos:
+\[ \vec{F} \cdot d\vec{r} = 0 \]
+donde $\vec{F} = (P,Q,R)$ y $d\vec{r} = (dx, dy, dz) \in T_p\mathbb{R}^3$.
+
+\begin{observacion}{Campo de Planos y Distribuciones de Rango 2}
+    En cada punto $p=(x,y,z)$, si $\vec{F}(p) \neq \vec{0}$, el conjunto de vectores tangentes $v \in T_p\mathbb{R}^3$ que anulan a $\omega_p$ (es decir, el núcleo o kernel de $\omega$) forma un \textbf{subespacio vectorial de dimensión 2}. 
+    \[ \Delta_p = \ker(\omega_p) = \{ v \in T_p\mathbb{R}^3 \mid \omega_p(v) = 0 \} \]
+    Geométricamente, la forma de Pfaff $\omega$ no define una superficie, sino que asigna a cada punto del espacio un plano tangente que es ortogonal a $\vec{F}$. Esta asignación suave $p \mapsto \Delta_p$ se denomina \textbf{distribución de codimensión 1} (o rango 2).
+\end{observacion}
+
+\begin{observacion}{El Caso No Integrable y las Estructuras de Contacto}
+    El extremo opuesto y geométricamente más complejo ocurre cuando el producto cuña no se anula en ninguna parte: $\omega \wedge d\omega \neq 0$ en todo punto. En este escenario, la distribución de planos sufre una rotación o "torsión" continua alrededor de cualquier trayectoria. 
+    
+    Esta torsión impide absolutamente la integración local; no existe ninguna superficie que pueda ser tangente a estos planos en un conjunto abierto, ya que la curva de la superficie obligaría a los planos a coincidir de formas que su rotación prohíbe. Esta "frustración topológica" no es un callejón sin salida, sino que define una \textbf{estructura de contacto} (y a $\omega$ como una \textit{forma de contacto}). En lugar de superficies de nivel, este comportamiento es la base de la geometría simpléctica de dimensión impar, fundamental en la formulación de la mecánica hamiltoniana y la termodinámica.
+\end{observacion}
+
 
 \subsection{Método de Lagrange-Charpit}
 

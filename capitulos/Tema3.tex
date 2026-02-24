@@ -8,7 +8,7 @@ Donde $a_{ij} = a_{ij}(x, y)$. La \textbf{idea} es buscar un cambio de variables
 \[
 \begin{cases} \xi = \varphi(x, y) \\ \eta = \psi(x, y) \end{cases}
 \]
-de modo que la ecuación \eqref{eq:principal} se exprese de forma más sencilla. Usando la regla de la cadena para $u(x, y) = \mu(\xi, \eta)$:
+de modo que la ecuación  se exprese de forma más sencilla. Usando la regla de la cadena para $u(x, y) = \mu(\xi, \eta)$:
 
 \begin{itemize}
     \item $u_x = u_\xi \xi_x + u_\eta \eta_x$
@@ -18,7 +18,7 @@ de modo que la ecuación \eqref{eq:principal} se exprese de forma más sencilla.
     \item $u_{xy} = u_{\xi\xi}(\xi_x \xi_y) + u_{\eta\eta}(\eta_x \eta_y) + u_{\xi\eta}(\xi_x \eta_y + \xi_y \eta_x) + u_\xi \xi_{xy} + u_\eta \eta_{xy}$
 \end{itemize}
 
-Sustituyendo en \eqref{eq:principal}, obtenemos la ecuación transformada:
+Sustituyendo en , obtenemos la ecuación transformada:
 \begin{equation}
     \bar{a}_{11}u_{\xi\xi} + 2\bar{a}_{12}u_{\xi\eta} + \bar{a}_{22}u_{\eta\eta} + \tilde{F} = 0 \label{eq:transformada}
 \end{equation}
@@ -33,7 +33,7 @@ donde los nuevos coeficientes son:
 
 Para simplificar la ecuación, buscamos que $\bar{a}_{11} = 0$. Esto implica que $\varphi(x, y)$ debe satisfacer la ecuación:
 \begin{equation}
-    a_{11}(z_x)^2 + 2a_{12}z_x z_y + a_{22}(z_y)^2 = 0 \label{eq:caracteristica_pde}
+    a_{11}(z_x)^2 + 2a_{12}z_x z_y + a_{22}(z_y)^2 = 0 
 \end{equation}
 
 \begin{lema}{Relación con EDO}
@@ -43,7 +43,7 @@ Para simplificar la ecuación, buscamos que $\bar{a}_{11} = 0$. Esto implica que
 \begin{proof}
     Por el Teorema de la Función Implícita, si $\varphi(x, y) = C$, entonces $\frac{dy}{dx} = -\frac{\varphi_x}{\varphi_y}$. Sustituyendo en la EDO:
     \[ a_{11}\left(-\frac{\varphi_x}{\varphi_y}\right)^2 - 2a_{12}\left(-\frac{\varphi_x}{\varphi_y}\right) + a_{22} = 0 \]
-    Multiplicando por $(\varphi_y)^2$ obtenemos \eqref{eq:caracteristica_pde}.
+    Multiplicando por $(\varphi_y)^2$ obtenemos la ecuación en cuestión. 
 \end{proof}
 
 \subsection{Clasificación}
@@ -240,31 +240,8 @@ Sustituyendo en la ecuación, se eliminan los términos en $u_{\xi\xi}$, llegán
 
 Antes de abordar el teorema general, realizamos una breve incursión mediante ejemplos para ilustrar la variedad de comportamientos (existencia, unicidad o carencia de ellas) que presentan estos problemas dependiendo del tipo de ecuación.
 
-\subsection{Ejemplos Preliminares}
-
-\begin{ejemplo}{Ejemplo 1: Dependencia de los Datos (Mal Planteamiento)}
-    Consideramos el problema:
-    \[
-    \begin{cases}
-        u_{xt} = 0 \\
-        u(x,0) = \phi_0(x) \\
-        u_t(x,0) = \phi_1(x)
-    \end{cases}
-    \]
-    Sabemos que la solución general de $u_{xt}=0$ es $u(x,t) = \varphi(x) + \psi(t)$.
-    Imponemos las condiciones iniciales:
-    \begin{enumerate}
-        \item $u(x,0) = \varphi(x) + \psi(0) = \phi_0(x) \implies \varphi(x) = \phi_0(x) - C$.
-        \item $u_t(x,t) = \psi'(t) \implies u_t(x,0) = \psi'(0)$.
-    \end{enumerate}
-    \textbf{Conclusión:} Para que exista solución, el dato $\phi_1(x)$ debe cumplir $\phi_1(x) = \psi'(0) = \text{cte}$.
-    \begin{itemize}
-        \item Si $\phi_1(x)$ no es constante: \textbf{No existe solución}.
-        \item Si $\phi_1(x) = K$: Existen \textbf{infinitas soluciones} (indeterminación en $\psi(t)$ salvo en $t=0$).
-    \end{itemize}
-\end{ejemplo}
-
-\begin{ejemplo}{Ejemplo 2: Compatibilidad y Analiticidad}
+\subsection{Ejemplos Preliminaresrate}
+\begin{ejemplo}{ Compatibilidad y Analiticidad}
     Consideramos el sistema:
     \[
     \begin{cases}
@@ -357,6 +334,8 @@ Antes de abordar el teorema general, realizamos una breve incursión mediante ej
     \]
     Esta es la \textbf{Solución de D'Alembert}.
 \end{ejemplo}
+
+
 \section{Teorema de Cauchy-Kowalevski (Enunciado Débil)}
 
 Consideramos un punto $X^0 = (x_{10}, x_{20}, \dots, x_{n0}) \in \mathbb{R}^n$, con $n \in \mathbb{N}$.
@@ -466,10 +445,6 @@ Si $F$ es analítica en $(t_0, x_0, u(t_0,x_0), \dots)$ y $\varphi_0, \varphi_1$
     \[ \boxed{u(x,t) = 2x + e^t \cosh x} \]
 \end{ejemplo}
 
-
-
-
-
 \section{Problema de Cauchy y Teorema de Cauchy-Kowalevski}
 
 \begin{teorema}{Cauchy-Kowalevski (Enunciado débil)}
@@ -493,15 +468,3 @@ Si $F$ es analítica en $(t_0, x_0, u(t_0,x_0), \dots)$ y $\varphi_0, \varphi_1$
     
     Solución final: $u(x, t) = 2x + e^t \sum_{j=0}^\infty \frac{x^{2j}}{(2j)!} = 2x + e^t \cosh(x)$.
 \end{ejemplo}
-
-\section{Anexo: Funciones Analíticas y Multiíndices}
-
-\begin{definicion}{Multiíndice}
-    Un multiíndice $\alpha = (\alpha_1, \dots, \alpha_n) \in \N_0^n$ define:
-    $|\alpha| = \sum \alpha_i$, $x^\alpha = x_1^{\alpha_1} \dots x_n^{\alpha_n}$ y $D^\alpha f = \frac{\partial^{|\alpha|} f}{\partial x_1^{\alpha_1} \dots \partial x_n^{\alpha_n}}$.
-\end{definicion}
-
-\begin{definicion}{Función Analítica}
-    $f$ es analítica en $x_0$ si se puede expresar como una serie de potencias convergente:
-    \[ f(x) = \sum_{\alpha \in \N_0^n} c_\alpha (x - x_0)^\alpha \]
-\end{definicion}
