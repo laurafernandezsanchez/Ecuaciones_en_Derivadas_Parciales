@@ -2205,35 +2205,80 @@ podemos despejar $p = p(x,y,z,a)$ y $q = q(x,y,z,a)$. Si esta forma es exacta (c
     Basta con encontrar una relación $G(x,y,z,p,q)=a$ que involucre a $p$ o $q$ y sea funcionalmente independiente de $F$.
 \end{teorema}
 
-\begin{ejemplo}{Resolución con Lagrange-Charpit}
-    Hallar una integral completa de $p^2 + q^2 = x^2$ (nota: corregido del apunte $p^2+q^2-x^2=0$).
-    
-    \textbf{1. Definir F:}
-    \[ F \equiv p^2 + q^2 - x^2 = 0. \]
-    Derivadas: $F_p = 2p$, $F_q = 2q$, $F_x = -2x$, $F_y = 0$, $F_z = 0$.
-    
-    \textbf{2. Sistema Auxiliar:}
-    \[ \frac{dx}{2p} = \frac{dy}{2q} = \frac{dz}{2p^2+2q^2} = \frac{dp}{-(-2x) - p(0)} = \frac{dq}{-0 - q(0)}. \]
-    Simplificando:
-    \[ \frac{dx}{2p} = \frac{dy}{2q} = \frac{dz}{2(p^2+q^2)} = \frac{dp}{2x} = \frac{dq}{0}. \]
-    
-    \textbf{3. Búsqueda de la Integral G:}
-    De la última fracción $\frac{dq}{0}$, deducimos $dq = 0 \implies q = a$ (constante).
-    Esta es la relación más simple. Sin embargo, intentemos usar otra relación del sistema para ilustrar.
-    Tomamos $\frac{dx}{2p} = \frac{dp}{2x} \implies x dx = p dp \implies \frac{x^2}{2} = \frac{p^2}{2} + C \implies x^2 - p^2 = a$.
-    
-    Usemos la relación del sistema original $F=0$: $p^2 + q^2 - x^2 = 0$.
-    Si elegimos $G = x^2 - p^2 = a$, sustituyendo en $F$:
-    $(x^2 - a) + q^2 - x^2 = 0 \implies q^2 = a \implies q = \sqrt{a}$.
-    Entonces $p = \sqrt{x^2 - a}$.
-    
-    \textbf{4. Integración Final:}
-    \[ dz = p dx + q dy = \sqrt{x^2 - a} \, dx + \sqrt{a} \, dy. \]
-    Integrando:
-    \[ z = \int \sqrt{x^2 - a} \, dx + \sqrt{a} y + b. \]
-    (La integral de $\sqrt{x^2-a}$ es estándar y da lugar a la solución completa con dos parámetros $a, b$).
-\end{ejemplo}
+\subsubsection{Fundamentación del Método de Charpit y la Ecuación de Pfaff}
 
+El método de Charpit no surge de una manipulación algebraica arbitraria, sino de una exigencia geométrica profunda vinculada a las ecuaciones de Pfaff. 
+
+Supongamos que hemos encontrado esa segunda relación $G(x,y,z,p,q) = a$ de manera que, por el Teorema de la Función Implícita (asumiendo que el jacobiano $\frac{\partial(F,G)}{\partial(p,q)} \neq 0$), podemos despejar $p$ y $q$ como funciones explícitas de $x, y, z, a$:
+\[ p = p(x,y,z,a) \quad \text{y} \quad q = q(x,y,z,a) \]
+
+\begin{observacion}{La Ecuación de Pfaff y la Condición de Exactitud}
+    Para que estas funciones $p$ y $q$ definan realmente una superficie solución $z(x,y)$, deben satisfacer la ecuación diferencial total de la superficie, que es inherentemente una \textbf{ecuación de Pfaff}:
+    \begin{equation}
+        dz = p(x,y,z,a) \, dx + q(x,y,z,a) \, dy \implies p \, dx + q \, dy - dz = 0
+    \end{equation}
+    
+    Para que esta ecuación de Pfaff sea integrable (es decir, para que represente una familia paramétrica de superficies y admita una función potencial $z$), debe satisfacer la condición de Frobenius $\vec{V} \cdot \text{rot}(\vec{V}) = 0$. Para esta forma diferencial específica, la condición analítica de exactitud exige que se cumpla la simetría de las derivadas cruzadas (con $z$ tratada como función de $x$ e $y$):
+    \begin{equation}
+        \frac{dp}{dy} = \frac{dq}{dx} \implies \frac{\partial p}{\partial y} + \frac{\partial p}{\partial z} q = \frac{\partial q}{\partial x} + \frac{\partial q}{\partial z} p
+    \end{equation}
+    Esta es la \textbf{condición de integrabilidad} o compatibilidad. Si no se cumple, nuestro despeje de $p$ y $q$ no sirve geométricamente para nada, porque no "tejerá" una superficie continua.
+\end{observacion}
+
+Entonces, ¿cómo podemos encontrar tal función $G(x,y,z,p,q)$?\\
+Resulta que se obtiene de las mismas ecuaciones que daban las bandas características. Ha de ser solución de: 
+\begin{equation}
+        \frac{dx}{F_p} = \frac{dy}{F_q} = \frac{dz}{p F_p + q F_q} = \frac{dp}{-(F_x + p F_z)} = \frac{dq}{-(F_y + q F_z)}
+\end{equation}
+
+\begin{observacion}{}
+    No hace falta tener una relación de G con todas las ecuaciones; nos podemos restringir a alguna relación parcial 
+    y obtener el candidato $G(x,y,z,p,q)=a$. 
+\end{observacion}
+
+\begin{ejemplo}{Resolución Alternativa: Usando la relación entre $dx$ y $dp$}
+    Resolver la ecuación en derivadas parciales no lineal:
+    \[ u_x^2 + u_y^2 = x^2 \implies p^2 + q^2 - x^2 = 0 \]
+    
+    \textbf{1. Planteamiento del Sistema de Charpit}
+    Como vimos, definiendo $F(x,y,u,p,q) = p^2 + q^2 - x^2 = 0$, obtenemos las derivadas $F_x = -2x$, $F_p = 2p$, $F_q = 2q$, y $F_y = F_u = 0$. 
+    El sistema de ecuaciones auxiliares es:
+    \[ \frac{dx}{2p} = \frac{dy}{2q} = \frac{du}{2(p^2 + q^2)} = \frac{dp}{-(-2x)} = \frac{dq}{0} \]
+
+    \textbf{2. Selección y Resolución de la EDO (Integral Primera)}
+    En lugar de usar $dq = 0$, esta vez seleccionamos estratégicamente la primera y la cuarta fracción del sistema extendido:
+    \[ \frac{dx}{2p} = \frac{dp}{2x} \]
+    Multiplicando en cruz para separar las variables (o simplemente cancelando el factor 2 en los denominadores):
+    \[ 2x \, dx = 2p \, dp \implies x \, dx - p \, dp = 0 \]
+    
+    Integramos directamente esta ecuación diferencial ordinaria exacta:
+    \[ \int x \, dx - \int p \, dp = K \implies \frac{x^2}{2} - \frac{p^2}{2} = K_1 \]
+    Multiplicando por 2, obtenemos nuestra integral primera (nuestra función $G$ constante a lo largo de las características):
+    \[ x^2 - p^2 = C \]
+    
+    Para que esta constante sea coherente con la ecuación original (donde $p^2 \le x^2$ para que $q^2$ sea positivo y real), definimos convenientemente la constante de integración como $C = a^2$. Por tanto:
+    \[ x^2 - p^2 = a^2 \implies p^2 = x^2 - a^2 \implies p = \sqrt{x^2 - a^2} \]
+
+    \textbf{3. Despeje Algebraico de la otra variable ($q$)}
+    Ahora que hemos determinado $p(x,a)$ gracias a la integral primera, sustituimos este valor en nuestra ecuación original $F=0$ para aislar $q$:
+    \[ p^2 + q^2 = x^2 \implies (x^2 - a^2) + q^2 = x^2 \]
+    Cancelamos $x^2$ en ambos miembros:
+    \[ -a^2 + q^2 = 0 \implies q^2 = a^2 \implies q = a \] (Tomamos el valor positivo de $q$ aunque en general podríamos considerar ambas ramas).
+
+    \textbf{4. Integración de la Ecuación de Pfaff}
+    Con $p$ y $q$ conocidos, reconstruimos la diferencial total de la superficie:
+    \[ du = p \, dx + q \, dy \]
+    \[ du = \sqrt{x^2 - a^2} \, dx + a \, dy \]
+    
+    Integramos término a término (dado que la condición cruzada $p_y = q_x = 0$ se cumple de forma inmediata):
+    \[ u(x,y) = \int \sqrt{x^2 - a^2} \, dx + \int a \, dy \]
+    
+    Utilizando la integral estándar para funciones irracionales cuadráticas:
+    \[ \int \sqrt{x^2 - a^2} \, dx = \frac{x}{2}\sqrt{x^2 - a^2} - \frac{a^2}{2}\ln\left| x + \sqrt{x^2 - a^2} \right| \]
+    
+    Añadimos el resultado de la integral en $y$ y la segunda constante arbitraria $b$ para formalizar la \textbf{integral completa}:
+    \[ \boxed{ u(x,y) = \frac{x}{2}\sqrt{x^2 - a^2} - \frac{a^2}{2}\ln\left| x + \sqrt{x^2 - a^2} \right| + ay + b } \]
+\end{ejemplo}
 
 
 
